@@ -20,6 +20,9 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& module_node);
 
+	// Called each loop iteration
+	bool Update(float dt);
+
 	// Called before quitting
 	bool CleanUp();
 
@@ -34,8 +37,14 @@ public:
 
 private:
 
-	_Mix_Music*			music;
-	p2List<Mix_Chunk*>	fx;
+	_Mix_Music* music;
+	p2List<Mix_Chunk*> fx;
+
+public:
+
+	uint base_volume = 50;
+	uint max_volume = 100;
+	uint min_volume = 0;
 };
 
 #endif // __j1AUDIO_H__

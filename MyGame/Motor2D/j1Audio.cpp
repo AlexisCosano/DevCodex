@@ -25,6 +25,10 @@ bool j1Audio::Awake(pugi::xml_node& module_node)
 	bool ret = true;
 	SDL_Init(0);
 
+	base_volume = module_node.child("volume").attribute("base_volume").as_uint();
+	max_volume = module_node.child("volume").attribute("max_volume").as_uint();
+	min_volume = module_node.child("volume").attribute("min_volume").as_uint();
+
 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
 		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -51,6 +55,13 @@ bool j1Audio::Awake(pugi::xml_node& module_node)
 	}
 
 	return ret;
+}
+
+// Called each loop iteration
+bool j1Audio::Update(float dt)
+{
+	Mix_VolumeMusic(base_volume);
+	return true;
 }
 
 // Called before quitting
@@ -130,6 +141,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 	}
 
 	LOG("Successfully playing %s", path);
+	Mix_VolumeMusic(base_volume);
 	return ret;
 }
 

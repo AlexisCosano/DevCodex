@@ -7,7 +7,7 @@
 	</window>
 
 	<audio>
-
+		<volume base_volume="10" max_volume="100" min_volume="0"/>
 	</audio>
 
 	<input>
@@ -21,5 +21,9 @@
 	<textures>
 
 	</textures>
+
+	<scene>
+
+	</scene>
 	
 </config>
