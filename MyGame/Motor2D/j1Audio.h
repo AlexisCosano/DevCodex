@@ -42,9 +42,13 @@ private:
 
 public:
 
-	uint base_volume = 50;
-	uint max_volume = 100;
-	uint min_volume = 0;
+	uint mbase_volume = 50;
+	uint mmax_volume = 100;
+	uint mmin_volume = 0;
+
+	uint fbase_volume = 50;
+	uint fmax_volume = 100;
+	uint fmin_volume = 0;
 };
 
 #endif // __j1AUDIO_H__
