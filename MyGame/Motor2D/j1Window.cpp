@@ -34,6 +34,10 @@ bool j1Window::Awake(pugi::xml_node& module_node)
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
 
+		// TODO 4: Read the title from the config file
+		// and set the window title using win->SetTitle()
+		game_title = module_node.child("title").attribute("game_title").value();
+
 		width = WIDTH;
 		height = HEIGHT;
 		scale = SCALE;
@@ -61,7 +65,7 @@ bool j1Window::Awake(pugi::xml_node& module_node)
 
 		//TODO 7: Move "Todo 4" code to the awake method on the window module
 		//Pass the title as a variable when creating the window
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(game_title.GetString(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{

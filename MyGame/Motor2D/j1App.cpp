@@ -113,13 +113,6 @@ bool j1App::Awake()
 
 		item = item->next; 
 	}
-	 
-	// TODO 4: Read the title from the config file
-	// and set the window title using win->SetTitle()
-	if (loading_result == true)
-	{
-		win->SetTitle(config_parent_node.child("window").child("title").attribute("game_title").value());
-	}
 
 	return ret;
 }

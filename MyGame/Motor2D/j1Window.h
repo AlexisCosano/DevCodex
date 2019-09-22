@@ -38,6 +38,9 @@ public:
 	SDL_Surface* screen_surface;
 
 private:
+
+	p2SString game_title = "If you see this, something's wrong";
+
 	uint		width;
 	uint		height;
 	uint		scale;
