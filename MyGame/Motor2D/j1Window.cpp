@@ -37,27 +37,32 @@ bool j1Window::Awake(pugi::xml_node& module_node)
 		// TODO 4: Read the title from the config file
 		// and set the window title using win->SetTitle()
 		game_title = module_node.child("title").attribute("game_title").value();
+		
+		width = module_node.child("dimensions").attribute("width").as_uint();
+		height = module_node.child("dimensions").attribute("height").as_uint();
+		scale = module_node.child("dimensions").attribute("scale").as_uint();
 
-		width = WIDTH;
-		height = HEIGHT;
-		scale = SCALE;
+		full_screen = module_node.child("options").attribute("full_screen").as_bool();
+		borderless = module_node.child("options").attribute("borderless").as_bool();
+		resizable = module_node.child("options").attribute("resizable").as_bool();
+		full_screen_windowed = module_node.child("options").attribute("full_screen_windowed").as_bool();
 
-		if(FULLSCREEN)
+		if(full_screen)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(BORDERLESS)
+		if(borderless)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(RESIZABLE)
+		if(resizable)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(FULLSCREEN_WINDOW)
+		if(full_screen_windowed)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}

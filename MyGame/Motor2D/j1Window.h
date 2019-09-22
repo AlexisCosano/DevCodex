@@ -41,9 +41,14 @@ private:
 
 	p2SString game_title = "If you see this, something's wrong";
 
-	uint		width;
-	uint		height;
-	uint		scale;
+	uint width = 1024;
+	uint height = 768;
+	uint scale = 1;
+
+	bool full_screen = false;
+	bool borderless = false;
+	bool resizable = true;
+	bool full_screen_windowed = false;
 };
 
 #endif // __j1WINDOW_H__
