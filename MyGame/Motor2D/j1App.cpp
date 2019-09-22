@@ -88,8 +88,29 @@ bool j1App::Awake()
 		// If the section with the module name exists in config.xml, fill the pointer with the valid xml_node
 		// that can be used to read all variables for that module.
 		// Send nullptr if the node does not exist in config.xml
+		ret = item->data->Awake(config_parent_node.child(item->data->name.GetString()));
 
-		ret = item->data->Awake();
+		/*
+		This is roughly what that line above does by itself
+		for (pugi::xml_node_iterator iterator = config_parent_node.begin(); iterator != config_parent_node.end(); ++iterator)
+		{
+			LOG("|////////////////////////////////////////////////////|");
+			if (item->data->name.GetString() == iterator->name())
+			{
+				LOG("Iterator is now: %s", iterator->name());
+				LOG("Module is now: %s", item->data->name.GetString());
+				LOG("The module %s is inside config.xml", item->data->name.GetString());
+				ret = item->data->Awake(config_parent_node.child(item->data->name.GetString()));
+			}
+			else
+			{
+				LOG("The module %s is not inside config.xml", item->data->name.GetString());
+				ret = item->data->Awake(nullptr);
+			}
+			LOG("|////////////////////////////////////////////////////|");
+		}	
+		*/
+
 		item = item->next; 
 	}
 	 
@@ -97,7 +118,7 @@ bool j1App::Awake()
 	// and set the window title using win->SetTitle()
 	if (loading_result == true)
 	{
-		win->SetTitle(config_parent_node.child("title").child_value());
+		win->SetTitle(config_parent_node.child("window").child("title").attribute("game_title").value());
 	}
 
 	return ret;

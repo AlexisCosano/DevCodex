@@ -18,13 +18,13 @@ j1Textures::~j1Textures()
 {}
 
 // Called before render is available
-bool j1Textures::Awake()
+bool j1Textures::Awake(pugi::xml_node& module_node)
 {
 	LOG("Init Image library");
 	bool ret = true;
 	// load support for the PNG image format
 	int flags = IMG_INIT_PNG;
-	int init = IMG_Init(flags);
+	int init = IMG_Init(flags);	
 
 	if((init & flags) != flags)
 	{

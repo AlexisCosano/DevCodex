@@ -1,3 +1,25 @@
 <config>
-	<title>This is a test</title>
+
+	<window>
+		<title game_title="This is a test"/>
+		<options full_screen="false" borderless="false" resizable="true" full_screen_windowed="false"/>
+		<dimensions width="1024" height="768" scale="1"/>
+	</window>
+
+	<audio>
+
+	</audio>
+
+	<input>
+
+	</input>
+
+	<renderer>
+
+	</renderer>
+
+	<textures>
+
+	</textures>
+	
 </config>
