@@ -64,7 +64,6 @@ bool j1Audio::Awake(pugi::xml_node& module_node)
 // Called each loop iteration
 bool j1Audio::Update(float dt)
 {
-	Mix_VolumeMusic(mbase_volume);
 	return true;
 }
 
