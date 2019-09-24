@@ -11,18 +11,18 @@ public:
 
 	//--------------------------------------------------------||
 	//--------------------------------------------------------||
-	Vector3(const VALUE_TYPE given_x, const VALUE_TYPE given_y, const VALUE_TYPE given_z)
+	Vector3(const VALUE_TYPE& given_x, const VALUE_TYPE& given_y, const VALUE_TYPE& given_z)
 	{
-		x = given_x;
-		y = given_y;
-		z = given_z;
+		this->x = given_x;
+		this->y = given_y;
+		this->z = given_z;
 	}
 
-	Vector3(const Vector3<VALUE_TYPE> given_vector)
+	Vector3(const Vector3<VALUE_TYPE>& given_vector)
 	{
-		x = given_vector.x;
-		y = given_vector.y;
-		z = given_vector.z;
+		this->x = given_vector.x;
+		this->y = given_vector.y;
+		this->z = given_vector.z;
 	}
 	
 	Vector3() 
@@ -31,35 +31,35 @@ public:
 	};
 	//--------------------------------------------------------||
 	//--------------------------------------------------------||
-	bool operator==(const Vector3<VALUE_TYPE> given_vector) const
+	bool operator==(const Vector3<VALUE_TYPE> &given_vector) const
 	{
 		return(x == given_vector.x && y == given_vector.y && z == given_vector.z);
 	}
 
-	bool operator!=(const Vector3<VALUE_TYPE> given_vector) const
+	bool operator!=(const Vector3<VALUE_TYPE> &given_vector) const
 	{
 		return(x != given_vector.x || y != given_vector.y || z != given_vector.z);
 	}
 
-	Vector3 operator+=(const Vector3<VALUE_TYPE> given_vector)
+	Vector3& operator+=(const Vector3<VALUE_TYPE> &given_vector)
 	{
 		x += given_vector.x;
 		y += given_vector.y;
 		z += given_vector.z;
 
-		return(this);
+		return(*this);
 	}
 
-	Vector3 operator-=(const Vector3<VALUE_TYPE> given_vector)
+	Vector3& operator-=(const Vector3<VALUE_TYPE> &given_vector)
 	{
 		x -= given_vector.x;
 		y -= given_vector.y;
 		z -= given_vector.z;
 
-		return(this);
+		return(*this);
 	}
 
-	Vector3 operator+(const Vector3<VALUE_TYPE> given_vector)
+	Vector3 operator+(const Vector3<VALUE_TYPE> &given_vector)
 	{
 		Vector3<VALUE_TYPE> resulting_vector;
 
@@ -70,7 +70,7 @@ public:
 		return(resulting_vector);
 	}
 
-	Vector3 operator-(const Vector3<VALUE_TYPE> given_vector)
+	Vector3 operator-(const Vector3<VALUE_TYPE> &given_vector)
 	{
 		Vector3<VALUE_TYPE> resulting_vector;
 
@@ -82,7 +82,7 @@ public:
 	}
 	//--------------------------------------------------------||
 	//--------------------------------------------------------||
-	VALUE_TYPE DistanceTo(const Vector3<VALUE_TYPE> vector_origin, const Vector3<VALUE_TYPE> vector_extreme) const
+	VALUE_TYPE DistanceTo(const Vector3<VALUE_TYPE> &vector_origin, const Vector3<VALUE_TYPE> &vector_extreme) const
 	{
 		VALUE_TYPE distance;
 		Vector3<VALUE_TYPE> distance_vector;
@@ -104,21 +104,17 @@ public:
 		y = y / vectors_normal;
 		z = z / vectors_normal;
 
-		return(this);
+		return(*this);
 	}
 
 	bool IsZero() const
 	{
-		return(x == 0 && y == 0 && z == 0);
+		return(x == 0.0f && y == 0.0f && z == 0.0f);
 	}
 
-	Vector3 Zero()
+	void Zero()
 	{
-		x = y = z = 0;
-
-		return(this);
+		x = y = z = 0.0f;
 	}
 };
-
-
 #endif
