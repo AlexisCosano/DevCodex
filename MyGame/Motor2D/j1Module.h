@@ -59,6 +59,8 @@ public:
 		return true;
 	}
 
+	// TODO 3: Create new virtual methods to Load and Save
+
 public:
 
 	p2SString	name;

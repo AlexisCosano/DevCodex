@@ -46,6 +46,7 @@ j1App::~j1App()
 	}
 
 	modules.clear();
+	config_file.reset();
 }
 
 void j1App::AddModule(j1Module* module)
@@ -163,6 +164,7 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
+	// TODO 2: This is a good place to call Load / Save functions
 }
 
 // Call modules before each loop iteration
@@ -260,3 +262,24 @@ const char* j1App::GetArgv(int index) const
 	else
 		return NULL;
 }
+
+// ---------------------------------------
+const char* j1App::GetTitle() const
+{
+	return title.GetString();
+}
+
+// ---------------------------------------
+const char* j1App::GetOrganization() const
+{
+	return organization.GetString();
+}
+
+// TODO 5: Fill the application load function
+// Start by opening the file as an xml_document (as with config file)
+
+
+// TODO 7: Fill the application save function
+// Generate a new pugi::xml_document and create a node for each module.
+// Call each module's save function and then save the file using pugi::xml_document::save_file()
+

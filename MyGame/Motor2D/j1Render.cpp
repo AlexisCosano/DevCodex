@@ -40,8 +40,10 @@ bool j1Render::Awake(pugi::xml_node& module_node)
 	{
 		camera.w = App->win->screen_surface->w;
 		camera.h = App->win->screen_surface->h;
-		camera.x = module_node.child("camera").attribute("x").as_uint();
-		camera.y = module_node.child("camera").attribute("y").as_uint();
+		camera.x = 0;
+		camera.y = 0;
+		//camera.x = module_node.child("camera").attribute("x").as_uint();
+		//camera.y = module_node.child("camera").attribute("y").as_uint();
 	}
 
 	return ret;
@@ -82,6 +84,11 @@ bool j1Render::CleanUp()
 	SDL_DestroyRenderer(renderer);
 	return true;
 }
+
+// TODO 6: Create the load method on the renderer. For now load camera's x and y
+
+// TODO 8: Create the save method on the renderer. Fill the camera's data
+// using append_child and append_attribute
 
 void j1Render::SetBackgroundColor(SDL_Color color)
 {

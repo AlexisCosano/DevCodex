@@ -41,6 +41,8 @@ public:
 	// Exposing some properties for reading
 	int GetArgc() const;
 	const char* GetArgv(int index) const;
+	const char* GetTitle() const;
+	const char* GetOrganization() const;
 
 private:
 
@@ -58,6 +60,8 @@ private:
 
 	// Call modules after each loop iteration
 	bool PostUpdate();
+
+	// TODO 2: Create the functions for Loading / Saving the game state (leave those empty for now)
 
 public:
 
@@ -85,6 +89,8 @@ private:
 
 	int					argc;
 	char**				args;
+	p2SString			title;
+	p2SString			organization;
 };
 
 extern j1App* App; 
