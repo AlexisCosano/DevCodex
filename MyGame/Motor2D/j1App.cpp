@@ -285,6 +285,8 @@ const char* j1App::GetOrganization() const
 }
 
 // ---------------------------------------
+// TODO 5: Fill the application load function
+// Start by opening the file as an xml_document (as with config file)
 bool j1App::Load()
 {
 	LOG("Loading...");
@@ -323,6 +325,10 @@ bool j1App::Load()
 }
 
 // ---------------------------------------
+// TODO 7: Fill the application save function
+// Generate a new pugi::xml_document and create a node for each module.
+// Call each module's save function and then save the file using pugi::xml_document::save_file()
+
 bool j1App::Save() const
 {
 	LOG("Saving...");
@@ -346,12 +352,3 @@ bool j1App::Save() const
 
 	return(true);
 }
-
-// TODO 5: Fill the application load function
-// Start by opening the file as an xml_document (as with config file)
-
-
-// TODO 7: Fill the application save function
-// Generate a new pugi::xml_document and create a node for each module.
-// Call each module's save function and then save the file using pugi::xml_document::save_file()
-
