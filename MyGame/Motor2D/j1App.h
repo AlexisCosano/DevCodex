@@ -62,6 +62,9 @@ private:
 	bool PostUpdate();
 
 	// TODO 2: Create the functions for Loading / Saving the game state (leave those empty for now)
+	void Save() const;
+	void Load();
+
 
 public:
 
@@ -73,7 +76,7 @@ public:
 	j1Audio* audio;
 	j1Scene* scene;
 
-	bool request_save = false;
+	mutable bool request_save = false;
 	bool request_load = false;
 
 

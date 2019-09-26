@@ -58,9 +58,6 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
-	request_save = false;
-	request_load = false;
-
 	// TODO 3: Load config.xml file using load_file() method from the xml_document class.
 	// If everything goes well, load the top tag inside the xml_node property
 	// created in the last TODO
@@ -168,6 +165,15 @@ void j1App::PrepareUpdate()
 void j1App::FinishUpdate()
 {
 	// TODO 2: This is a good place to call Load / Save functions
+	if (request_save == true)
+	{
+		Save();
+	}
+
+	if (request_load == true)
+	{
+		Load();
+	}
 }
 
 // Call modules before each loop iteration
@@ -276,6 +282,30 @@ const char* j1App::GetTitle() const
 const char* j1App::GetOrganization() const
 {
 	return organization.GetString();
+}
+
+// ---------------------------------------
+void j1App::Save() const
+{
+	LOG("Saving...");
+	LOG("|////////////////////////////////////////////////////|");
+
+	request_save = false;
+
+	LOG("Game saved. | request_save = %d", request_save);
+	LOG("|////////////////////////////////////////////////////|");
+}
+
+// ---------------------------------------
+void j1App::Load()
+{
+	LOG("Loading...");
+	LOG("|////////////////////////////////////////////////////|");
+
+	request_load = false;
+
+	LOG("Game loaded. | request_load = %d", request_load);
+	LOG("|////////////////////////////////////////////////////|");
 }
 
 // TODO 5: Fill the application load function
