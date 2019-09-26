@@ -66,19 +66,22 @@ private:
 public:
 
 	// Modules
-	j1Window*			win;
-	j1Input*			input;
-	j1Render*			render;
-	j1Textures*			tex;
-	j1Audio*			audio;
-	j1Scene*			scene;
+	j1Window* win;
+	j1Input* input;
+	j1Render* render;
+	j1Textures* tex;
+	j1Audio* audio;
+	j1Scene* scene;
+
+	bool request_save = false;
+	bool request_load = false;
 
 
 private:
 
-	p2List<j1Module*>	modules;
-	uint				frames;
-	float				dt;
+	p2List<j1Module*> modules;
+	uint frames;
+	float dt;
 
 	// TODO 2: Create two new variables from pugui namespace:
 	// a xml_document to store the while config file and
@@ -87,10 +90,10 @@ private:
 	pugi::xml_node config_parent_node;
 
 
-	int					argc;
-	char**				args;
-	p2SString			title;
-	p2SString			organization;
+	int	argc;
+	char** args;
+	p2SString title;
+	p2SString organization;
 };
 
 extern j1App* App; 
