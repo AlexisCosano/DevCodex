@@ -290,12 +290,25 @@ bool j1App::Load()
 	LOG("Loading...");
 	LOG("|////////////////////////////////////////////////////|");
 
-	bool ret = true;
+	pugi::xml_parse_result loading_result = save_file.load_file("save_file");
+
+	if (loading_result == true)
+	{
+		LOG("Loading result: %s", loading_result.description());
+		save_file_parent_node = save_file.first_child();
+		LOG("Config parent node: %s", save_file_parent_node.name());
+		LOG("|////////////////////////////////////////////////////|");
+	}
+	else
+	{
+		LOG("Loading result: %s", loading_result.description());
+		LOG("|////////////////////////////////////////////////////|");
+	}
 
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 
-	while (item != NULL && ret == true)
+	while (item != NULL && loading_result == true)
 	{
 		item->data->Load(save_file_parent_node.child(item->data->name.GetString()));
 		item = item->next;
@@ -306,7 +319,7 @@ bool j1App::Load()
 	LOG("Game loaded. | request_load = %d", request_load);
 	LOG("|////////////////////////////////////////////////////|");
 
-	return(true);
+	return(loading_result);
 }
 
 // ---------------------------------------
