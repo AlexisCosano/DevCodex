@@ -5,5 +5,7 @@
 	<textures />
 	<audio />
 	<scene />
-	<renderer />
+	<renderer>
+		<camera x="230" y="140" />
+	</renderer>
 </save_file>

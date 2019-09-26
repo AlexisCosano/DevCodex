@@ -235,5 +235,10 @@ bool j1Render::Load(pugi::xml_node& module_node)
 // using append_child and append_attribute
 bool j1Render::Save(pugi::xml_node& module_node) const
 {
+	pugi::xml_node child_camera = module_node.append_child("camera");
+
+	child_camera.append_attribute("x").set_value(camera.x);
+	child_camera.append_attribute("y").set_value(camera.y);
+
 	return(true);
 }
