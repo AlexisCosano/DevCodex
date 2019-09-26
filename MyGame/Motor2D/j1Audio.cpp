@@ -26,12 +26,10 @@ bool j1Audio::Awake(pugi::xml_node& module_node)
 	SDL_Init(0);
 
 	mbase_volume = module_node.child("music").attribute("base_volume").as_uint();
-	mmax_volume = module_node.child("music").attribute("max_volume").as_uint();
-	mmin_volume = module_node.child("music").attribute("min_volume").as_uint();
-
 	fbase_volume = module_node.child("fx").attribute("base_volume").as_uint();
-	fmax_volume = module_node.child("fx").attribute("max_volume").as_uint();
-	fmin_volume = module_node.child("fx").attribute("min_volume").as_uint();
+
+	LOG("////////////////////////////////////////////////");
+	LOG("Music volume: %i", mbase_volume);
 
 	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
 	{
@@ -64,6 +62,8 @@ bool j1Audio::Awake(pugi::xml_node& module_node)
 // Called each loop iteration
 bool j1Audio::Update(float dt)
 {
+	Mix_VolumeMusic(mbase_volume);
+
 	return true;
 }
 
@@ -190,10 +190,19 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 bool j1Audio::Load(pugi::xml_node& module_node)
 {
+	mbase_volume = module_node.child("music").attribute("base_volume").as_uint();
+	fbase_volume = module_node.child("fx").attribute("base_volume").as_uint();
+
 	return(true);
 }
 
 bool j1Audio::Save(pugi::xml_node& module_node) const
 {
+	pugi::xml_node child_music = module_node.append_child("music");
+	pugi::xml_node child_fx = module_node.append_child("fx");
+
+	child_music.append_attribute("base_volume").set_value(mbase_volume);
+	child_fx.append_attribute("base_volume").set_value(fbase_volume);
+
 	return(true);
 }

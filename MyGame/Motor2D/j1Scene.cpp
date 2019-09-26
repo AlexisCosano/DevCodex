@@ -75,6 +75,25 @@ bool j1Scene::Update(float dt)
 		LOG("|////////////////////////////////////////////////////|");
 	}
 		
+	if (App->input->GetKey(SDL_SCANCODE_PAGEUP) == KEY_DOWN)
+	{
+		if (App->audio->mbase_volume >= App->audio->mmin_volume && App->audio->mbase_volume < App->audio->mmax_volume)
+			App->audio->mbase_volume++;
+
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("Volume is now: %i", App->audio->mbase_volume);
+		LOG("|////////////////////////////////////////////////////|");
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_PAGEDOWN) == KEY_DOWN)
+	{
+		if (App->audio->mbase_volume > App->audio->mmin_volume && App->audio->mbase_volume <= App->audio->mmax_volume)
+			App->audio->mbase_volume--;
+
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("Volume is now: %i", App->audio->mbase_volume);
+		LOG("|////////////////////////////////////////////////////|");
+	}
 
 	App->render->Blit(img, 0, 0);
 	return true;
