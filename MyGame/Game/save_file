@@ -1,27 +1,9 @@
+<?xml version="1.0"?>
 <save_file>
-
-	<window>
-		
-	</window>
-
-	<audio>
-		
-	</audio>
-
-	<input>
-
-	</input>
-
-	<renderer>
-		<camera x="0" y="0"/>
-	</renderer>
-
-	<textures>
-
-	</textures>
-
-	<scene>
-
-	</scene>
-	
+	<input />
+	<window />
+	<textures />
+	<audio />
+	<scene />
+	<renderer />
 </save_file>

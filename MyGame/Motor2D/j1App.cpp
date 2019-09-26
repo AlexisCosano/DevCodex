@@ -328,11 +328,15 @@ bool j1App::Load()
 // TODO 7: Fill the application save function
 // Generate a new pugi::xml_document and create a node for each module.
 // Call each module's save function and then save the file using pugi::xml_document::save_file()
-
 bool j1App::Save() const
 {
 	LOG("Saving...");
 	LOG("|////////////////////////////////////////////////////|");
+
+	pugi::xml_document new_save_file;
+	pugi::xml_node new_save_file_parent_node;
+
+	new_save_file_parent_node = new_save_file.append_child("save_file");
 
 	bool ret = true;
 
@@ -341,9 +345,11 @@ bool j1App::Save() const
 
 	while (item != NULL && ret == true)
 	{
-		item->data->Save(save_file_parent_node.child(item->data->name.GetString()));
+		item->data->Save(new_save_file_parent_node.append_child(item->data->name.GetString()));
 		item = item->next;
 	}
+
+	new_save_file.save_file("./save_file");
 
 	request_save = false;
 
