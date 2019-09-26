@@ -26,14 +26,17 @@ public:
 	bool CleanUp();
 
 	// Load Texture
-	SDL_Texture* const	Load(const char* path);
-	bool				UnLoad(SDL_Texture* texture);
-	SDL_Texture* const	LoadSurface(SDL_Surface* surface);
-	void				GetSize(const SDL_Texture* texture, uint& width, uint& height) const;
+	SDL_Texture* const Load(const char* path);
+	bool UnLoad(SDL_Texture* texture);
+	SDL_Texture* const LoadSurface(SDL_Surface* surface);
+	void GetSize(const SDL_Texture* texture, uint& width, uint& height) const;
+
+	bool Load(pugi::xml_node& module_node);
+	bool Save(pugi::xml_node& module_node) const;
 
 public:
 
-	p2List<SDL_Texture*>	textures;
+	p2List<SDL_Texture*> textures;
 };
 
 

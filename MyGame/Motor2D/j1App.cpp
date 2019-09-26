@@ -285,27 +285,53 @@ const char* j1App::GetOrganization() const
 }
 
 // ---------------------------------------
-void j1App::Save() const
-{
-	LOG("Saving...");
-	LOG("|////////////////////////////////////////////////////|");
-
-	request_save = false;
-
-	LOG("Game saved. | request_save = %d", request_save);
-	LOG("|////////////////////////////////////////////////////|");
-}
-
-// ---------------------------------------
-void j1App::Load()
+bool j1App::Load()
 {
 	LOG("Loading...");
 	LOG("|////////////////////////////////////////////////////|");
+
+	bool ret = true;
+
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		item->data->Load(save_file_parent_node.child(item->data->name.GetString()));
+		item = item->next;
+	}
 
 	request_load = false;
 
 	LOG("Game loaded. | request_load = %d", request_load);
 	LOG("|////////////////////////////////////////////////////|");
+
+	return(true);
+}
+
+// ---------------------------------------
+bool j1App::Save() const
+{
+	LOG("Saving...");
+	LOG("|////////////////////////////////////////////////////|");
+
+	bool ret = true;
+
+	p2List_item<j1Module*>* item;
+	item = modules.start;
+
+	while (item != NULL && ret == true)
+	{
+		item->data->Save(save_file_parent_node.child(item->data->name.GetString()));
+		item = item->next;
+	}
+
+	request_save = false;
+
+	LOG("Game saved. | request_save = %d", request_save);
+	LOG("|////////////////////////////////////////////////////|");
+
+	return(true);
 }
 
 // TODO 5: Fill the application load function

@@ -32,6 +32,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	bool Load(pugi::xml_node& module_node);
+	bool Save(pugi::xml_node& module_node) const;
+
 private:
 	SDL_Texture* img;
 };

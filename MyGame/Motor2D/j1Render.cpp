@@ -228,3 +228,13 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 
 	return ret;
 }
+
+bool j1Render::Load(pugi::xml_node& module_node)
+{
+	return(true);
+}
+
+bool j1Render::Save(pugi::xml_node& module_node) const
+{
+	return(true);
+}

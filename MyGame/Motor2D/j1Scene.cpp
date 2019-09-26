@@ -98,3 +98,13 @@ bool j1Scene::CleanUp()
 
 	return true;
 }
+
+bool j1Scene::Load(pugi::xml_node& module_node)
+{
+	return(true);
+}
+
+bool j1Scene::Save(pugi::xml_node& module_node) const
+{
+	return(true);
+}

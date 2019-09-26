@@ -62,8 +62,8 @@ private:
 	bool PostUpdate();
 
 	// TODO 2: Create the functions for Loading / Saving the game state (leave those empty for now)
-	void Save() const;
-	void Load();
+	bool Load();
+	bool Save() const;
 
 
 public:
@@ -91,6 +91,9 @@ private:
 	// a xml_node to read specific branches of the xml
 	pugi::xml_document config_file;
 	pugi::xml_node config_parent_node;
+
+	pugi::xml_document save_file;
+	pugi::xml_node save_file_parent_node;
 
 
 	int	argc;

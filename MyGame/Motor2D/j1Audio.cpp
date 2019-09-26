@@ -187,3 +187,13 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 	return ret;
 }
+
+bool j1Audio::Load(pugi::xml_node& module_node)
+{
+	return(true);
+}
+
+bool j1Audio::Save(pugi::xml_node& module_node) const
+{
+	return(true);
+}
