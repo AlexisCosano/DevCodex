@@ -41,7 +41,34 @@ private:
 
 public:
 
+	enum MapType
+	{
+		UNKNOWN = 0,
+		ORTHOGONAL,
+		ISOMETRIC,
+		STAGGERED
+	};
+
+	enum RenderOrder
+	{
+		UNKNOWN = 0,
+		RIGHTDOWN,
+		RIGHTUP,
+		LEFTDOWN,
+		LEFTUP
+	};
+
 	// TODO 1: Add your struct for map info as public for now
+	struct MapData
+	{
+		MapType map_type;
+		RenderOrder render_order;
+		uint width;
+		uint height;
+		uint tile_width;
+		uint tile_height;
+		uint next_object_id;
+	};
 
 private:
 
