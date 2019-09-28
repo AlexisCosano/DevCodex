@@ -9,12 +9,24 @@
 // TODO 2: Create a struct to hold information for a TileSet
 // Ignore Terrain Types and Tile Types for now, but we want the image!
 // ----------------------------------------------------
-
+struct TileSet
+{
+	p2SString map_name;
+	uint tile_height;
+	uint tile_width;
+	uint first_gid;	
+	uint spacing;
+	uint margin;
+	
+	p2SString image_source;
+	uint image_height;
+	uint image_width;
+};
 
 // TODO 1: Create a struct needed to hold the information to Map node
 enum MapType
 {
-	UNKNOWN = 0,
+	MAP_TYPE_UNKNOWN = 0,
 	ORTHOGONAL,
 	ISOMETRIC,
 	STAGGERED
@@ -22,22 +34,23 @@ enum MapType
 
 enum RenderOrder
 {
-	UNKNOWN = 0,
-	RIGHTDOWN,
-	RIGHTUP,
-	LEFTDOWN,
-	LEFTUP
+	RENDER_ORDER_UNKNOWN = 0,
+	RIGHT_DOWN,
+	LEFT_DOWN,
+	RIGHT_UP,
+	LEFT_UP
 };
 
 struct MapNode
 {
-	MapType map_type;
 	RenderOrder render_order;
-	uint width;
-	uint height;
-	uint tile_width;
-	uint tile_height;
+	MapType map_type;
+	
 	uint next_object_id;
+	uint tile_height;
+	uint tile_width;
+	uint height;
+	uint width;
 };
 
 // ----------------------------------------------------
