@@ -59,7 +59,7 @@ public:
 		return true;
 	}
 
-	// TODO 3: Create new virtual methods to Load and Save
+	// Load and Save
 	virtual bool Load(pugi::xml_node& module_node)
 	{
 		return(true);

@@ -61,7 +61,7 @@ private:
 	// Call modules after each loop iteration
 	bool PostUpdate();
 
-	// TODO 2: Create the functions for Loading / Saving the game state (leave those empty for now)
+	// Load and Save
 	bool Load();
 	bool Save() const;
 
@@ -86,9 +86,6 @@ private:
 	uint frames;
 	float dt;
 
-	// TODO 2: Create two new variables from pugui namespace:
-	// a xml_document to store the while config file and
-	// a xml_node to read specific branches of the xml
 	pugi::xml_document config_file;
 	pugi::xml_node config_parent_node;
 

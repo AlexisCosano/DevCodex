@@ -56,7 +56,6 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 10;
 
-	// TODO 1: Request Load / Save on application when pressing L/S
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
 		App->request_load = true;

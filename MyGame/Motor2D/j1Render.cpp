@@ -222,7 +222,6 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	return ret;
 }
 
-// TODO 6: Create the load method on the renderer. For now load camera's x and y
 bool j1Render::Load(pugi::xml_node& module_node)
 {
 	camera.x = module_node.child("camera").attribute("x").as_uint();
@@ -231,8 +230,6 @@ bool j1Render::Load(pugi::xml_node& module_node)
 	return(true);
 }
 
-// TODO 8: Create the save method on the renderer. Fill the camera's data
-// using append_child and append_attribute
 bool j1Render::Save(pugi::xml_node& module_node) const
 {
 	pugi::xml_node child_camera = module_node.append_child("camera");

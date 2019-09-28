@@ -58,9 +58,6 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
-	// TODO 3: Load config.xml file using load_file() method from the xml_document class.
-	// If everything goes well, load the top tag inside the xml_node property
-	// created in the last TODO
 	pugi::xml_parse_result loading_result = config_file.load_file("config");
 
 	if (loading_result == true)
@@ -85,33 +82,7 @@ bool j1App::Awake()
 
 	while(item != NULL && ret == true)
 	{
-		// TODO 6: Add a new argument to the Awake method to receive a pointer to an xml node.
-		// If the section with the module name exists in config.xml, fill the pointer with the valid xml_node
-		// that can be used to read all variables for that module.
-		// Send nullptr if the node does not exist in config.xml
 		ret = item->data->Awake(config_parent_node.child(item->data->name.GetString()));
-
-		/*
-		This is roughly what that line above does by itself
-		for (pugi::xml_node_iterator iterator = config_parent_node.begin(); iterator != config_parent_node.end(); ++iterator)
-		{
-			LOG("|////////////////////////////////////////////////////|");
-			if (item->data->name.GetString() == iterator->name())
-			{
-				LOG("Iterator is now: %s", iterator->name());
-				LOG("Module is now: %s", item->data->name.GetString());
-				LOG("The module %s is inside config.xml", item->data->name.GetString());
-				ret = item->data->Awake(config_parent_node.child(item->data->name.GetString()));
-			}
-			else
-			{
-				LOG("The module %s is not inside config.xml", item->data->name.GetString());
-				ret = item->data->Awake(nullptr);
-			}
-			LOG("|////////////////////////////////////////////////////|");
-		}	
-		*/
-
 		item = item->next; 
 	}
 
@@ -164,7 +135,6 @@ void j1App::PrepareUpdate()
 // ---------------------------------------------
 void j1App::FinishUpdate()
 {
-	// TODO 2: This is a good place to call Load / Save functions
 	if (request_save == true)
 	{
 		Save();
@@ -285,8 +255,6 @@ const char* j1App::GetOrganization() const
 }
 
 // ---------------------------------------
-// TODO 5: Fill the application load function
-// Start by opening the file as an xml_document (as with config file)
 bool j1App::Load()
 {
 	LOG("Loading...");
@@ -325,9 +293,6 @@ bool j1App::Load()
 }
 
 // ---------------------------------------
-// TODO 7: Fill the application save function
-// Generate a new pugi::xml_document and create a node for each module.
-// Call each module's save function and then save the file using pugi::xml_document::save_file()
 bool j1App::Save() const
 {
 	LOG("Saving...");
