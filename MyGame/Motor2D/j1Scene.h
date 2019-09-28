@@ -36,7 +36,7 @@ public:
 	bool Save(pugi::xml_node& module_node) const;
 
 private:
-	SDL_Texture* img;
+	//SDL_Texture* img;
 };
 
 #endif // __j1SCENE_H__

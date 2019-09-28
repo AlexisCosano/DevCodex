@@ -6,6 +6,7 @@
 #include "j1Audio.h"
 #include "j1Render.h"
 #include "j1Window.h"
+#include "j1Map.h"
 #include "j1Scene.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -29,8 +30,10 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	img = App->tex->Load("textures/test.png");
-	App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
+	//img = App->tex->Load("textures/test.png");
+	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
+	App->map->Load("hello2.tmx");
+	
 	return true;
 }
 
@@ -94,7 +97,18 @@ bool j1Scene::Update(float dt)
 		LOG("|////////////////////////////////////////////////////|");
 	}
 
-	App->render->Blit(img, 0, 0);
+	//App->render->Blit(img, 0, 0);
+	App->map->Draw();
+
+	// TODO 7: Set the window title like
+	// "Map:%dx%d Tiles:%dx%d Tilesets:%d"
+	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
+		0, 0,
+		0, 0,
+		0);
+	
+	App->win->SetTitle(title.GetString());
+
 	return true;
 }
 
