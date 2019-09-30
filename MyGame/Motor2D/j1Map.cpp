@@ -33,7 +33,11 @@ void j1Map::Draw()
 
 	// TODO 6: Iterate all tilesets and draw all their 
 	// images in 0,0 (you should have only one tileset for now)
-
+	for (p2List_item<Tileset*>* iterator = loaded_map.map_tilesets.start; iterator != nullptr; iterator = iterator->next)
+	{
+		//App->render->Blit(App->tex->Load(iterator->data->image_source.GetString()), 0, 0);
+		App->render->Blit(App->tex->Load("maps/tmw_desert_spacing.png"), 0, 0);
+	}
 }
 
 // Called before quitting
@@ -43,8 +47,12 @@ bool j1Map::CleanUp()
 
 	// TODO 2: Make sure you clean up any memory allocated
 	// from tilesets / map
+	for (p2List_item<Tileset*>* iterator = loaded_map.map_tilesets.start; iterator != nullptr; iterator = iterator->next)
+	{
+		RELEASE(iterator->data);
+	}
 
-
+	loaded_map.map_tilesets.clear();
 	map_file.reset();
 
 	return true;
@@ -65,6 +73,7 @@ bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
 	else
 	{
 		tileset->tileset_name = tileset_node.attribute("name").as_string();
+		tileset->image_source = tileset_node.child("image").attribute("source").as_string();
 
 		tileset->tile_height = tileset_node.attribute("tileheight").as_int();
 		tileset->tile_width = tileset_node.attribute("tilewidth").as_int();
