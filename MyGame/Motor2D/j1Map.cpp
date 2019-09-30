@@ -52,10 +52,39 @@ bool j1Map::CleanUp()
 		RELEASE(iterator->data);
 	}
 
+	for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
+	{
+		RELEASE(iterator->data);
+	}
+
 	loaded_map.map_tilesets.clear();
+	loaded_map.map_layers.clear();
 	map_file.reset();
 
 	return true;
+}
+
+bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
+{
+	bool ret = true;
+
+	if (layer_node == nullptr)
+	{
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("ERROR: layer tag is nullptr.");
+		LOG("|////////////////////////////////////////////////////|");
+
+		ret = false;
+	}
+	else
+	{
+		layer->layer_name = layer_node.attribute("name").as_string();
+
+		layer->height = layer_node.attribute("height").as_int();
+		layer->width = layer_node.attribute("width").as_int();
+	}
+
+	return(ret);
 }
 
 bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
@@ -168,7 +197,7 @@ bool j1Map::Load(const char* file_name)
 		if (ret == false)
 		{
 			LOG("|////////////////////////////////////////////////////|");
-			LOG("Tileset %s could not be loaded.", actual_tileset.attribute("name").as_string());
+			LOG("Tileset '%s' could not be loaded.", actual_tileset.attribute("name").as_string());
 			LOG("|////////////////////////////////////////////////////|");
 		}
 		else
@@ -188,6 +217,32 @@ bool j1Map::Load(const char* file_name)
 			LOG("Tileset's name: %s    firstgid: %d", iterator->data->tileset_name.GetString(), iterator->data->first_gid);
 			LOG("Tiles' area: %dx%d", iterator->data->tile_width, iterator->data->tile_height);
 			LOG("Spacing: %d    Margin: %d", iterator->data->spacing, iterator->data->margin);
+			LOG("|////////////////////////////////////////////////////|");
+		}
+	}
+
+	for (pugi::xml_node actual_layer = map_file.child("map").child("layer"); actual_layer; actual_layer = actual_layer.next_sibling("layer"))
+	{
+		Layer* layer_to_load = new Layer();
+
+		if (ret == true)
+			ret = LoadLayers(actual_layer, layer_to_load);
+
+		if (ret == false)
+		{
+			LOG("|////////////////////////////////////////////////////|");
+			LOG("Layer '%s' could not be loaded.", actual_layer.attribute("name").as_string());
+			LOG("|////////////////////////////////////////////////////|");
+		}
+		else
+			loaded_map.map_layers.add(layer_to_load);
+	}
+
+	if (ret == true)
+	{
+		for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
+		{
+			LOG("Layer's name: %s     %dx%d", iterator->data->layer_name.GetString(), iterator->data->width, iterator->data->height);
 			LOG("|////////////////////////////////////////////////////|");
 		}
 	}

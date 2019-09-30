@@ -8,6 +8,13 @@
 
 
 // ----------------------------------------------------
+struct Layer
+{
+	p2SString layer_name;
+	uint width;
+	uint height;
+};
+
 struct Tileset
 {
 	p2SString tileset_name;
@@ -47,6 +54,7 @@ struct MapNode
 	Orientation map_orientation;
 
 	p2List<Tileset*> map_tilesets;
+	p2List<Layer*> map_layers;
 	
 	uint next_object_id;
 	uint tile_height;
@@ -76,6 +84,8 @@ public:
 
 	// Load new map
 	bool Load(const char* path);
+
+	bool LoadLayers(pugi::xml_node& layer_node, Layer* layer);
 
 	bool LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset);
 	
