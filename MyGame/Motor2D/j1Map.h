@@ -41,6 +41,8 @@ enum RenderOrder
 
 struct MapNode
 {
+	p2SString map_name;
+
 	RenderOrder render_order;
 	Orientation map_orientation;
 

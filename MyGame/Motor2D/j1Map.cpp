@@ -170,6 +170,17 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 5: LOG all the data loaded
 		// iterate all tilesets and LOG everything
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("Succesfully parsed map file: %s", file_name);
+		LOG("Map width: %d    Map height: %d", loaded_map.width, loaded_map.height);
+		LOG("|////////////////////////////////////////////////////|");
+		for (p2List_item<Tileset*>* iterator = loaded_map.map_tilesets.start; iterator != nullptr; iterator = iterator->next)
+		{
+			LOG("Tileset's name: %s    firstgid: %d", iterator->data->tileset_name.GetString(), iterator->data->first_gid);
+			LOG("Tiles' area: %dx%d", iterator->data->tile_width, iterator->data->tile_height);
+			LOG("Spacing: %d    Margin: %d", iterator->data->spacing, iterator->data->margin);
+			LOG("|////////////////////////////////////////////////////|");
+		}
 	}
 
 	map_loaded = ret;
