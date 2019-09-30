@@ -81,9 +81,10 @@ public:
 	
 	bool LoadMap();
 
-private:
-
+public:
 	MapNode loaded_map;
+
+private:
 	pugi::xml_document map_file;
 	p2SString folder;
 	bool map_loaded;
