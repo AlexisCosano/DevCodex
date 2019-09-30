@@ -50,6 +50,56 @@ bool j1Map::CleanUp()
 	return true;
 }
 
+bool j1Map::LoadMap()
+{
+	bool ret = true;
+
+	pugi::xml_node map_parent_node = map_file.child("map");
+
+	if (map_parent_node == nullptr)
+	{
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("ERROR: map tag is nullptr.");
+		LOG("|////////////////////////////////////////////////////|");
+
+		ret = false;
+	}
+	else
+	{
+		loaded_map.next_object_id = map_parent_node.attribute("nextobjectid").as_int();
+		loaded_map.tile_height = map_parent_node.attribute("tileheight").as_int();
+		loaded_map.tile_width = map_parent_node.attribute("tilewidth").as_int();
+		loaded_map.height = map_parent_node.attribute("height").as_int();
+		loaded_map.width = map_parent_node.attribute("width").as_int();
+
+		p2SString orientation = map_parent_node.attribute("orientation").as_string();
+
+		if (orientation == "orthogonal")
+			loaded_map.map_orientation = ORTHOGONAL;
+		else if (orientation == "isometric")
+			loaded_map.map_orientation = ISOMETRIC;
+		else if (orientation == "staggered")
+			loaded_map.map_orientation = STAGGERED;
+		else
+			loaded_map.map_orientation = ORIENTATION_UNKNOWN;
+
+		p2SString rendering_order = map_parent_node.attribute("renderorder").as_string();
+
+		if (rendering_order == "right-down")
+			loaded_map.render_order = RIGHT_DOWN;
+		else if (rendering_order == "left-down")
+			loaded_map.render_order = LEFT_DOWN;
+		else if (rendering_order == "right-up")
+			loaded_map.render_order = RIGHT_UP;
+		else if (rendering_order == "left-up")
+			loaded_map.render_order = LEFT_UP;
+		else
+			loaded_map.render_order = RENDER_ORDER_UNKNOWN;
+	}
+
+	return(ret);
+}
+
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
@@ -68,6 +118,7 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
+
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
