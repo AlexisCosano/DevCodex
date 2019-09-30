@@ -50,6 +50,32 @@ bool j1Map::CleanUp()
 	return true;
 }
 
+bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
+{
+	bool ret = true;
+
+	if (tileset_node == nullptr)
+	{
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("ERROR: tileset tag is nullptr.");
+		LOG("|////////////////////////////////////////////////////|");
+
+		ret = false;
+	}
+	else
+	{
+		tileset->tileset_name = tileset_node.attribute("name").as_string();
+
+		tileset->tile_height = tileset_node.attribute("tileheight").as_int();
+		tileset->tile_width = tileset_node.attribute("tilewidth").as_int();
+		tileset->first_gid = tileset_node.attribute("firstgid").as_int();
+		tileset->spacing = tileset_node.attribute("spacing").as_int();
+		tileset->margin = tileset_node.attribute("margin").as_int();
+	}
+
+	return(ret);
+}
+
 bool j1Map::LoadMap()
 {
 	bool ret = true;
@@ -118,12 +144,27 @@ bool j1Map::Load(const char* file_name)
 	{
 		// TODO 3: Create and call a private function to load and fill
 		// all your map data
-
+		ret = LoadMap();
 	}
 
 	// TODO 4: Create and call a private function to load a tileset
 	// remember to support more any number of tilesets!
+	for (pugi::xml_node actual_tileset = map_file.child("map").child("tileset"); actual_tileset; actual_tileset = actual_tileset.next_sibling("tileset"))
+	{
+		Tileset* tileset_to_load = new Tileset();
 
+		if (ret == true)
+			ret = LoadTilesets(actual_tileset, tileset_to_load);
+
+		if (ret == false)
+		{
+			LOG("|////////////////////////////////////////////////////|");
+			LOG("Tileset %s could not be loaded.", actual_tileset.attribute("name").as_string());
+			LOG("|////////////////////////////////////////////////////|");
+		}
+		else
+			loaded_map.map_tilesets.add(tileset_to_load);
+	}
 
 	if (ret == true)
 	{

@@ -8,9 +8,9 @@
 
 
 // ----------------------------------------------------
-struct TileSet
+struct Tileset
 {
-	p2SString map_name;
+	p2SString tileset_name;
 	uint tile_height;
 	uint tile_width;
 	uint first_gid;	
@@ -43,6 +43,8 @@ struct MapNode
 {
 	RenderOrder render_order;
 	Orientation map_orientation;
+
+	p2List<Tileset*> map_tilesets;
 	
 	uint next_object_id;
 	uint tile_height;
@@ -73,6 +75,8 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
+	bool LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset);
+	
 	bool LoadMap();
 
 private:
