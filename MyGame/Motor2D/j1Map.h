@@ -8,15 +8,21 @@
 
 
 // ----------------------------------------------------
+// TODO 1: Create a struct for the map layer
 struct Layer
 {
 	p2SString layer_name;
 	uint width;
 	uint height;
+
+	// TODO 6: Short function to get the value of x,y
+
 };
 
 struct Tileset
 {
+	// TODO 7: Create a method that receives a tile id and returns it's Rect
+
 	p2SString tileset_name;
 	uint tile_height;
 	uint tile_width;
@@ -54,6 +60,8 @@ struct MapNode
 	Orientation map_orientation;
 
 	p2List<Tileset*> map_tilesets;
+
+	// TODO 2: Add a list/array of layers to the map!
 	p2List<Layer*> map_layers;
 	
 	uint next_object_id;
@@ -85,11 +93,15 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
+	// TODO 3: Create a method that loads a single layer
 	bool LoadLayers(pugi::xml_node& layer_node, Layer* layer);
 
 	bool LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset);
 	
 	bool LoadMap();
+
+	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
+
 
 public:
 	MapNode loaded_map;

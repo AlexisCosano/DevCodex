@@ -31,13 +31,10 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 6: Iterate all tilesets and draw all their 
-	// images in 0,0 (you should have only one tileset for now)
-	for (p2List_item<Tileset*>* iterator = loaded_map.map_tilesets.start; iterator != nullptr; iterator = iterator->next)
-	{
-		//App->render->Blit(App->tex->Load(iterator->data->image_source.GetString()), 0, 0);
-		App->render->Blit(App->tex->Load("maps/tmw_desert_spacing.png"), 0, 0);
-	}
+	// TODO 5: Prepare the loop to iterate all the tiles in a layer
+
+	// TODO 9: Complete the draw function
+
 }
 
 // Called before quitting
@@ -45,13 +42,13 @@ bool j1Map::CleanUp()
 {
 	LOG("Unloading map");
 
-	// TODO 2: Make sure you clean up any memory allocated
-	// from tilesets / map
 	for (p2List_item<Tileset*>* iterator = loaded_map.map_tilesets.start; iterator != nullptr; iterator = iterator->next)
 	{
 		RELEASE(iterator->data);
 	}
 
+	// TODO 2: clean up all layer data
+	// Remove all layers
 	for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
 	{
 		RELEASE(iterator->data);
@@ -64,6 +61,7 @@ bool j1Map::CleanUp()
 	return true;
 }
 
+// TODO 3: Create the definition for a function that loads a single layer
 bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 {
 	bool ret = true;
@@ -179,14 +177,8 @@ bool j1Map::Load(const char* file_name)
 	}
 
 	if (ret == true)
-	{
-		// TODO 3: Create and call a private function to load and fill
-		// all your map data
 		ret = LoadMap();
-	}
 
-	// TODO 4: Create and call a private function to load a tileset
-	// remember to support more any number of tilesets!
 	for (pugi::xml_node actual_tileset = map_file.child("map").child("tileset"); actual_tileset; actual_tileset = actual_tileset.next_sibling("tileset"))
 	{
 		Tileset* tileset_to_load = new Tileset();
@@ -206,8 +198,6 @@ bool j1Map::Load(const char* file_name)
 
 	if (ret == true)
 	{
-		// TODO 5: LOG all the data loaded
-		// iterate all tilesets and LOG everything
 		LOG("|////////////////////////////////////////////////////|");
 		LOG("Succesfully parsed map file: %s", file_name);
 		LOG("Map width: %d    Map height: %d", loaded_map.width, loaded_map.height);
@@ -221,6 +211,7 @@ bool j1Map::Load(const char* file_name)
 		}
 	}
 
+	// TODO 4: Iterate all layers and load each of them
 	for (pugi::xml_node actual_layer = map_file.child("map").child("layer"); actual_layer; actual_layer = actual_layer.next_sibling("layer"))
 	{
 		Layer* layer_to_load = new Layer();
@@ -240,6 +231,7 @@ bool j1Map::Load(const char* file_name)
 
 	if (ret == true)
 	{
+		// TODO 4: Add info here about your loaded layers
 		for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
 		{
 			LOG("Layer's name: %s     %dx%d", iterator->data->layer_name.GetString(), iterator->data->width, iterator->data->height);
