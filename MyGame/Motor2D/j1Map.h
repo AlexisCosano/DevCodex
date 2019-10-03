@@ -18,15 +18,11 @@ struct Layer
 
 	p2List<uint*> gids;
 
-	// TODO 6: Short function to get the value of x,y
 	inline uint Get(int x, int y) const;
-
 };
 
 struct Tileset
 {
-	// TODO 7: Create a method that receives a tile id and returns it's Rect
-
 	p2SString tileset_name;
 	uint tile_height;
 	uint tile_width;
@@ -103,8 +99,7 @@ public:
 	
 	bool LoadMap();
 
-	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
-
+	iPoint MapToWorld(uint x, uint y) const;
 
 public:
 	MapNode loaded_map;
