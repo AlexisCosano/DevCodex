@@ -29,7 +29,7 @@ struct Tileset
 	uint first_gid;	
 	uint spacing;
 	uint margin;
-	
+
 	p2SString image_source;
 	uint image_height;
 	uint image_width;

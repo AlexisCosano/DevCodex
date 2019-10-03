@@ -73,16 +73,16 @@ void j1Map::Draw()
 			{
 				uint tile_gid = layer_to_draw->Get(x, y);
 
-				if (tile_gid != 0)
+				if (tile_gid > 0)
 				{
-					//Draw
+					SDL_Rect tile_rect = loaded_map.map_tilesets.start->data->GetRect(tile_gid);
+					iPoint world_position = MapToWorld(x, y);
+
+					App->render->Blit(App->tex->Load("maps/tmw_desert_spacing"), world_position.x, world_position.y, &tile_rect);
 				}
 			}
 		}
 	}
-
-	// TODO 9: Complete the draw function
-
 }
 
 // Called before quitting
