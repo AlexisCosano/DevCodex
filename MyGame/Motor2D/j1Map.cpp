@@ -6,6 +6,12 @@
 #include "j1Map.h"
 #include <math.h>
 
+
+inline uint Layer::Get(int x, int y) const
+{
+	return(gid[y*width + x]);
+}
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -31,15 +37,23 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 5: Prepare the loop to iterate all the tiles in a layer
 	for (p2List_item<Layer*>* layer_iterator = loaded_map.map_layers.start; layer_iterator != loaded_map.map_layers.end; layer_iterator = layer_iterator->next)
 	{
-		for (p2List_item<uint*>* gid_iterator = layer_iterator->data->gids.start; gid_iterator != layer_iterator->data->gids.end; gid_iterator = gid_iterator->next)
+		Layer* layer_to_draw = layer_iterator->data;
+
+		for (int y = 0; y < loaded_map.height; y++)
 		{
-			//Blit
+			for (int x = 0; x < loaded_map.width; x++)
+			{
+				uint tile_gid = layer_to_draw->Get(x, y);
+
+				if (tile_gid != 0)
+				{
+					//Draw
+				}
+			}
 		}
 	}
-
 
 	// TODO 9: Complete the draw function
 
