@@ -8,12 +8,13 @@
 
 
 // ----------------------------------------------------
-// TODO 1: Create a struct for the map layer
 struct Layer
 {
 	p2SString layer_name;
 	uint width;
 	uint height;
+
+	unsigned int* gid;
 
 	// TODO 6: Short function to get the value of x,y
 
@@ -60,8 +61,6 @@ struct MapNode
 	Orientation map_orientation;
 
 	p2List<Tileset*> map_tilesets;
-
-	// TODO 2: Add a list/array of layers to the map!
 	p2List<Layer*> map_layers;
 	
 	uint next_object_id;

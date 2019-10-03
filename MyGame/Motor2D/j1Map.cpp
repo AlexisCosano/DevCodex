@@ -47,8 +47,6 @@ bool j1Map::CleanUp()
 		RELEASE(iterator->data);
 	}
 
-	// TODO 2: clean up all layer data
-	// Remove all layers
 	for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
 	{
 		RELEASE(iterator->data);
@@ -80,6 +78,20 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 
 		layer->height = layer_node.attribute("height").as_int();
 		layer->width = layer_node.attribute("width").as_int();
+
+		layer->gid = new uint[layer->height*layer->width];
+		memset(layer->gid, 0, sizeof(uint)*(layer->height*layer->width));
+
+		int iterator = 0;
+
+		pugi::xml_node current_tile = layer_node.child("data").child("tile");
+
+		while (current_tile != nullptr)
+		{
+			layer->gid[iterator] = current_tile.attribute("gid").as_uint();
+			current_tile = current_tile.next_sibling("tile");
+			iterator++;
+		}
 	}
 
 	return(ret);
