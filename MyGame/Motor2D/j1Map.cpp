@@ -32,6 +32,14 @@ void j1Map::Draw()
 		return;
 
 	// TODO 5: Prepare the loop to iterate all the tiles in a layer
+	for (p2List_item<Layer*>* layer_iterator = loaded_map.map_layers.start; layer_iterator != loaded_map.map_layers.end; layer_iterator = layer_iterator->next)
+	{
+		for (p2List_item<uint*>* gid_iterator = layer_iterator->data->gids.start; gid_iterator != layer_iterator->data->gids.end; gid_iterator = gid_iterator->next)
+		{
+			//Blit
+		}
+	}
+
 
 	// TODO 9: Complete the draw function
 
@@ -59,7 +67,6 @@ bool j1Map::CleanUp()
 	return true;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
 bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 {
 	bool ret = true;
@@ -89,6 +96,7 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 		while (current_tile != nullptr)
 		{
 			layer->gid[iterator] = current_tile.attribute("gid").as_uint();
+			layer->gids.add(&layer->gid[iterator]);
 			current_tile = current_tile.next_sibling("tile");
 			iterator++;
 		}
@@ -223,7 +231,6 @@ bool j1Map::Load(const char* file_name)
 		}
 	}
 
-	// TODO 4: Iterate all layers and load each of them
 	for (pugi::xml_node actual_layer = map_file.child("map").child("layer"); actual_layer; actual_layer = actual_layer.next_sibling("layer"))
 	{
 		Layer* layer_to_load = new Layer();
@@ -243,7 +250,6 @@ bool j1Map::Load(const char* file_name)
 
 	if (ret == true)
 	{
-		// TODO 4: Add info here about your loaded layers
 		for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
 		{
 			LOG("Layer's name: %s     %dx%d", iterator->data->layer_name.GetString(), iterator->data->width, iterator->data->height);

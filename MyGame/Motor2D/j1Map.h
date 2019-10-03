@@ -16,6 +16,8 @@ struct Layer
 
 	unsigned int* gid;
 
+	p2List<uint*> gids;
+
 	// TODO 6: Short function to get the value of x,y
 
 };
@@ -92,7 +94,6 @@ public:
 	// Load new map
 	bool Load(const char* path);
 
-	// TODO 3: Create a method that loads a single layer
 	bool LoadLayers(pugi::xml_node& layer_node, Layer* layer);
 
 	bool LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset);
