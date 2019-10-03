@@ -78,7 +78,7 @@ void j1Map::Draw()
 					SDL_Rect tile_rect = loaded_map.map_tilesets.start->data->GetRect(tile_gid);
 					iPoint world_position = MapToWorld(x, y);
 
-					App->render->Blit(App->tex->Load("maps/tmw_desert_spacing"), world_position.x, world_position.y, &tile_rect);
+					App->render->Blit(loaded_map.map_tilesets.At(0)->data->tileset_texture, world_position.x, world_position.y, &tile_rect);
 				}
 			}
 		}
@@ -170,6 +170,42 @@ bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
 	}
 
 	return(ret);
+}
+
+bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
+{
+	bool ret = true;
+	pugi::xml_node image_node = tileset_node.child("image");
+
+	if (image_node == NULL)
+	{
+		LOG("Error parsing tileset xml file: Cannot find 'image' tag.");
+		ret = false;
+	}
+	else
+	{
+		tileset->tileset_texture = App->tex->Load(PATH(folder.GetString(), image_node.attribute("source").as_string()));
+		int w, h;
+		SDL_QueryTexture(tileset->tileset_texture, NULL, NULL, &w, &h);
+		tileset->image_width = image_node.attribute("width").as_int();
+
+		if (tileset->image_width <= 0)
+		{
+			tileset->image_width = w;
+		}
+
+		tileset->image_height = image_node.attribute("height").as_int();
+
+		if (tileset->image_height <= 0)
+		{
+			tileset->image_height = h;
+		}
+
+		tileset->num_tiles_width = tileset->image_width / tileset->tile_width;
+		tileset->num_tiles_height = tileset->image_height / tileset->tile_height;
+	}
+
+	return ret;
 }
 
 bool j1Map::LoadMap()

@@ -30,7 +30,10 @@ struct Tileset
 	uint spacing;
 	uint margin;
 
+	SDL_Texture* tileset_texture;
 	p2SString image_source;
+	uint num_tiles_height;
+	uint num_tiles_width;
 	uint image_height;
 	uint image_width;
 
@@ -96,6 +99,8 @@ public:
 	bool LoadLayers(pugi::xml_node& layer_node, Layer* layer);
 
 	bool LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset);
+
+	bool LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset);
 	
 	bool LoadMap();
 
