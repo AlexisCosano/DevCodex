@@ -37,6 +37,8 @@ struct Tileset
 	p2SString image_source;
 	uint image_height;
 	uint image_width;
+
+	SDL_Rect GetRect(uint gid) const;
 };
 
 enum Orientation

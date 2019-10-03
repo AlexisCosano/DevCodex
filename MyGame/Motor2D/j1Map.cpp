@@ -12,6 +12,22 @@ inline uint Layer::Get(int x, int y) const
 	return(gid[y*width + x]);
 }
 
+SDL_Rect Tileset::GetRect(uint gid) const
+{
+	uint tile_id = gid - first_gid;
+	SDL_Rect* rect = nullptr;
+
+	uint tileset_width = image_width / tile_width;
+	
+	rect->x = margin + ((rect->w + spacing) * (tile_id - tileset_width * (tile_id / tileset_width)));
+	rect->y = margin + ((rect->h + spacing) * (tile_id / tileset_width));
+	
+	rect->h = tile_height;
+	rect->w = tile_width;
+
+	return(*rect);
+}
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
@@ -41,9 +57,9 @@ void j1Map::Draw()
 	{
 		Layer* layer_to_draw = layer_iterator->data;
 
-		for (int y = 0; y < loaded_map.height; y++)
+		for (uint y = 0; y < loaded_map.height; y++)
 		{
-			for (int x = 0; x < loaded_map.width; x++)
+			for (uint x = 0; x < loaded_map.width; x++)
 			{
 				uint tile_gid = layer_to_draw->Get(x, y);
 
