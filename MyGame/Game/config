@@ -26,5 +26,11 @@
 	<scene>
 
 	</scene>
+
+	<map>
+
+		<folder>maps/</folder>
+
+	</map>
 	
 </config>

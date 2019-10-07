@@ -9,23 +9,21 @@
 
 inline uint Layer::Get(int x, int y) const
 {
-	return(gid[y*width + x]);
+	return(gid[(y*width) + x]);
 }
 
 SDL_Rect Tileset::GetRect(uint gid) const
 {
 	uint tile_id = gid - first_gid;
-	SDL_Rect* rect = nullptr;
-
-	uint tileset_width = image_width / tile_width;
+	SDL_Rect rect;
 	
-	rect->x = margin + ((rect->w + spacing) * (tile_id - tileset_width * (tile_id / tileset_width)));
-	rect->y = margin + ((rect->h + spacing) * (tile_id / tileset_width));
-	
-	rect->h = tile_height;
-	rect->w = tile_width;
+	rect.h = tile_height;
+	rect.w = tile_width;
 
-	return(*rect);
+	rect.x = margin + ((rect.w + spacing) * (tile_id - num_tiles_width * (tile_id / num_tiles_width)));
+	rect.y = margin + ((rect.h + spacing) * (tile_id / num_tiles_width));
+
+	return(rect);
 }
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -63,7 +61,7 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	for (p2List_item<Layer*>* layer_iterator = loaded_map.map_layers.start; layer_iterator != loaded_map.map_layers.end; layer_iterator = layer_iterator->next)
+	for (p2List_item<Layer*>* layer_iterator = loaded_map.map_layers.start; layer_iterator != nullptr; layer_iterator = layer_iterator->next)
 	{
 		Layer* layer_to_draw = layer_iterator->data;
 
@@ -72,13 +70,15 @@ void j1Map::Draw()
 			for (uint x = 0; x < loaded_map.width; x++)
 			{
 				uint tile_gid = layer_to_draw->Get(x, y);
-
+				
 				if (tile_gid > 0)
 				{
-					SDL_Rect tile_rect = loaded_map.map_tilesets.start->data->GetRect(tile_gid);
-					iPoint world_position = MapToWorld(x, y);
+					Tileset* tileset_used = loaded_map.map_tilesets.start->data;
 
-					App->render->Blit(loaded_map.map_tilesets.At(0)->data->tileset_texture, world_position.x, world_position.y, &tile_rect);
+					SDL_Rect tile_rect = tileset_used->GetRect(tile_gid);
+					iPoint world_position = MapToWorld(x, y);
+					
+					App->render->Blit(tileset_used->tileset_texture, world_position.x, world_position.y, &tile_rect);
 				}
 			}
 		}
@@ -168,7 +168,7 @@ bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
 		tileset->spacing = tileset_node.attribute("spacing").as_int();
 		tileset->margin = tileset_node.attribute("margin").as_int();
 	}
-
+	
 	return(ret);
 }
 
@@ -185,6 +185,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
 	else
 	{
 		tileset->tileset_texture = App->tex->Load(PATH(folder.GetString(), image_node.attribute("source").as_string()));
+		
 		int w, h;
 		SDL_QueryTexture(tileset->tileset_texture, NULL, NULL, &w, &h);
 		tileset->image_width = image_node.attribute("width").as_int();
@@ -281,6 +282,9 @@ bool j1Map::Load(const char* file_name)
 
 		if (ret == true)
 			ret = LoadTilesets(actual_tileset, tileset_to_load);
+
+		if (ret == true)
+			ret = LoadTilesetImage(actual_tileset, tileset_to_load);
 
 		if (ret == false)
 		{
