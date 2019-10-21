@@ -119,7 +119,7 @@ public:
 	iPoint MapToWorld(uint x, uint y) const;
 	iPoint WorldToMap(uint x, uint y) const;
 
-	Tileset* GetTilesetFromTileId(int id) const;
+	Tileset* GetTilesetFromTileId(uint given_id) const;
 
 public:
 	MapNode loaded_map;

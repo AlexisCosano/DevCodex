@@ -9,7 +9,7 @@
 
 inline uint Layer::Get(int x, int y) const
 {
-	return(gid[(y*width) + x]);
+	return(gid[(y * width) + x]);
 }
 
 SDL_Rect Tileset::GetRect(uint gid) const
@@ -122,8 +122,7 @@ void j1Map::Draw()
 				
 				if (tile_gid > 0)
 				{
-					Tileset* tileset_used = loaded_map.map_tilesets.start->data;
-
+					Tileset* tileset_used = GetTilesetFromTileId(tile_gid);
 					SDL_Rect tile_rect = tileset_used->GetRect(tile_gid);
 					iPoint world_position = MapToWorld(x, y);
 					
@@ -269,12 +268,22 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
 	return ret;
 }
 
-Tileset* j1Map::GetTilesetFromTileId(int id) const
+Tileset* j1Map::GetTilesetFromTileId(uint given_id) const
 {
 	// TODO 3: Complete this method so we pick the right
 	// Tileset based on a tile id
 
-	return loaded_map.map_tilesets.start->data;
+	Tileset* tileset_to_use = new Tileset();
+
+	for (p2List_item<Tileset*>* tileset_iterator = loaded_map.map_tilesets.start; tileset_iterator != nullptr; tileset_iterator = tileset_iterator->next)
+	{
+		if (given_id < tileset_iterator->data->first_gid)
+			break;
+		else
+			tileset_to_use = tileset_iterator->data;
+	}
+
+	return(tileset_to_use);
 }
 
 bool j1Map::LoadMap()
