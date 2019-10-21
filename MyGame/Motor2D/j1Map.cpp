@@ -177,6 +177,8 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 		layer->gid = new uint[layer->height*layer->width];
 		memset(layer->gid, 0, sizeof(uint)*(layer->height*layer->width));
 
+		LoadProperties(layer_node.child("properties"), layer->layer_properties);
+
 		int iterator = 0;
 
 		pugi::xml_node current_tile = layer_node.child("data").child("tile");
@@ -200,6 +202,31 @@ bool j1Map::LoadProperties(pugi::xml_node& properties_node, Properties& properti
 
 	// TODO 6: Fill in the method to fill the custom properties from 
 	// an xml_node
+	if (properties_node == nullptr)
+	{
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("ERROR: properties tag is nullptr.");
+		LOG("|////////////////////////////////////////////////////|");
+
+		ret = false;
+	}
+	else
+	{
+		for (pugi::xml_node properties_iterator = properties_node.child("property"); properties_iterator != nullptr; properties_iterator = properties_iterator.next_sibling())
+		{
+			p2SString property_name = properties_iterator.attribute("name").as_string();
+
+			if (property_name == "Nodraw")
+			{
+				properties.not_drawn = properties_iterator.attribute("value").as_float();
+			}
+
+			if (property_name == "Navigation")
+			{
+				properties.navigation = properties_iterator.attribute("value").as_float();
+			}
+		}
+	}
 
 	return ret;
 }
@@ -410,6 +437,7 @@ bool j1Map::Load(const char* file_name)
 		for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
 		{
 			LOG("Layer's name: %s     %dx%d", iterator->data->layer_name.GetString(), iterator->data->width, iterator->data->height);
+			LOG("Is layer drawn?: %d", iterator->data->layer_properties.not_drawn);
 			LOG("|////////////////////////////////////////////////////|");
 		}
 	}
