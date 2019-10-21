@@ -53,7 +53,18 @@ iPoint j1Map::MapToWorld(uint x, uint y) const
 	world_position.x = x * loaded_map.tile_width;
 	world_position.y = y * loaded_map.tile_height;
 
+	// TODO 1: Add isometric map to world coordinates
+
 	return(world_position);
+}
+
+iPoint j1Map::WorldToMap(uint x, uint y) const
+{
+	iPoint ret(0, 0);
+	// TODO 2: Add orthographic world to map coordinates
+
+	// TODO 3: Add the case for isometric maps to WorldToMap
+	return ret;
 }
 
 void j1Map::Draw()

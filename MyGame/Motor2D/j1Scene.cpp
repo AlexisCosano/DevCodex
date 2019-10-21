@@ -33,6 +33,7 @@ bool j1Scene::Start()
 	//img = App->tex->Load("textures/test.png");
 	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 	App->map->Load("hello2.tmx");
+	//App->map->Load("iso.tmx");
 	
 	return true;
 }
@@ -98,11 +99,16 @@ bool j1Scene::Update(float dt)
 	}
 
 	App->map->Draw();
+	
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
 
-	p2SString title("Map: %dx%d  Tiles: %dx%d  Tilesets: %d  Layers: %d",
+	p2SString title("Map: %dx%d  Tiles: %dx%d  Tilesets: %d  Layers: %d  Tile%d,%d",
 		App->map->loaded_map.width, App->map->loaded_map.height,
 		App->map->loaded_map.tile_height, App->map->loaded_map.tile_width,
-		App->map->loaded_map.map_tilesets.count(), App->map->loaded_map.map_layers.count());
+		App->map->loaded_map.map_tilesets.count(), App->map->loaded_map.map_layers.count(),
+		map_coordinates.x, map_coordinates.y);
 	
 	App->win->SetTitle(title.GetString());
 

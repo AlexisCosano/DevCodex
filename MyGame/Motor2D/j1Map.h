@@ -105,6 +105,7 @@ public:
 	bool LoadMap();
 
 	iPoint MapToWorld(uint x, uint y) const;
+	iPoint WorldToMap(uint x, uint y) const;
 
 public:
 	MapNode loaded_map;
