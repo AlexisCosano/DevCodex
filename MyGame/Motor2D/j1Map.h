@@ -7,6 +7,14 @@
 #include "j1Module.h"
 
 
+// TODO 5: Create a generic structure to hold properties
+// TODO 7: Our custom properties should have one method
+// to ask for the value of a custom property
+// ----------------------------------------------------
+struct Properties
+{
+};
+
 // ----------------------------------------------------
 struct Layer
 {
@@ -17,6 +25,8 @@ struct Layer
 	unsigned int* gid;
 
 	p2List<uint*> gids;
+
+	Properties layer_properties;
 
 	inline uint Get(int x, int y) const;
 };
@@ -101,11 +111,15 @@ public:
 	bool LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset);
 
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset);
+
+	bool LoadProperties(pugi::xml_node& properties_node, Properties& properties);
 	
 	bool LoadMap();
 
 	iPoint MapToWorld(uint x, uint y) const;
 	iPoint WorldToMap(uint x, uint y) const;
+
+	Tileset* GetTilesetFromTileId(int id) const;
 
 public:
 	MapNode loaded_map;

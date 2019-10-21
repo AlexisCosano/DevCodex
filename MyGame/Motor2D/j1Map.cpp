@@ -55,8 +55,7 @@ iPoint j1Map::MapToWorld(uint x, uint y) const
 		world_position.x = x * loaded_map.tile_width;
 		world_position.y = y * loaded_map.tile_height;
 	}
-	
-	// TODO 1: Add isometric map to world coordinates
+
 	else if (loaded_map.map_orientation == ISOMETRIC)
 	{
 		world_position.x = (x - y) * (loaded_map.tile_width * 0.5f);
@@ -80,14 +79,12 @@ iPoint j1Map::WorldToMap(uint x, uint y) const
 {
 	iPoint map_position;
 
-	// TODO 2: Add orthographic world to map coordinates
 	if (loaded_map.map_orientation == ORTHOGONAL)
 	{
 		map_position.x = x / loaded_map.tile_width;
 		map_position.y = y / loaded_map.tile_height;
 	}
 
-	// TODO 3: Add the case for isometric maps to WorldToMap
 	else if (loaded_map.map_orientation == ISOMETRIC)
 	{
 		map_position.x = uint(((x / (loaded_map.tile_width * 0.5f)) + (y / (loaded_map.tile_height * 0.5f)))) / 2;
@@ -112,6 +109,7 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
+	// TODO 4: Make sure we draw all the layers and not just the first one
 	for (p2List_item<Layer*>* layer_iterator = loaded_map.map_layers.start; layer_iterator != nullptr; layer_iterator = layer_iterator->next)
 	{
 		Layer* layer_to_draw = layer_iterator->data;
@@ -196,6 +194,17 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 	return(ret);
 }
 
+// Load a group of properties from a node and fill a list with it
+bool j1Map::LoadProperties(pugi::xml_node& properties_node, Properties& properties)
+{
+	bool ret = false;
+
+	// TODO 6: Fill in the method to fill the custom properties from 
+	// an xml_node
+
+	return ret;
+}
+
 bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
 {
 	bool ret = true;
@@ -258,6 +267,14 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
 	}
 
 	return ret;
+}
+
+Tileset* j1Map::GetTilesetFromTileId(int id) const
+{
+	// TODO 3: Complete this method so we pick the right
+	// Tileset based on a tile id
+
+	return loaded_map.map_tilesets.start->data;
 }
 
 bool j1Map::LoadMap()
