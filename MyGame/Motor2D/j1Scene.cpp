@@ -30,8 +30,6 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	//img = App->tex->Load("textures/test.png");
-	//App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 	App->map->Load("hello2.tmx");
 	//App->map->Load("iso.tmx");
 	

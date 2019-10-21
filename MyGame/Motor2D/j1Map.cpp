@@ -50,21 +50,61 @@ iPoint j1Map::MapToWorld(uint x, uint y) const
 {
 	iPoint world_position;
 
-	world_position.x = x * loaded_map.tile_width;
-	world_position.y = y * loaded_map.tile_height;
-
+	if(loaded_map.map_orientation == ORTHOGONAL)
+	{ 
+		world_position.x = x * loaded_map.tile_width;
+		world_position.y = y * loaded_map.tile_height;
+	}
+	
 	// TODO 1: Add isometric map to world coordinates
+	else if (loaded_map.map_orientation == ISOMETRIC)
+	{
+		world_position.x = (x - y) * (loaded_map.tile_width * 0.5f);
+		world_position.y = (x + y) * (loaded_map.tile_height * 0.5f);
+	}
+
+	else
+	{
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("ERROR: invalid map orientation: %d", loaded_map.map_orientation);
+		LOG("|////////////////////////////////////////////////////|");
+
+		world_position.x = x;
+		world_position.y = y;
+	}
 
 	return(world_position);
 }
 
 iPoint j1Map::WorldToMap(uint x, uint y) const
 {
-	iPoint ret(0, 0);
+	iPoint map_position;
+
 	// TODO 2: Add orthographic world to map coordinates
+	if (loaded_map.map_orientation == ORTHOGONAL)
+	{
+		map_position.x = x / loaded_map.tile_width;
+		map_position.y = y / loaded_map.tile_height;
+	}
 
 	// TODO 3: Add the case for isometric maps to WorldToMap
-	return ret;
+	else if (loaded_map.map_orientation == ISOMETRIC)
+	{
+		map_position.x = uint(((x / (loaded_map.tile_width * 0.5f)) + (y / (loaded_map.tile_height * 0.5f)))) / 2;
+		map_position.y = uint(((y / (loaded_map.tile_height * 0.5f)) - (x / (loaded_map.tile_width * 0.5f)))) / 2;
+	}
+
+	else
+	{
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("ERROR: invalid map orientation: %d", loaded_map.map_orientation);
+		LOG("|////////////////////////////////////////////////////|");
+
+		map_position.x = x;
+		map_position.y = y;
+	}
+	
+	return(map_position);
 }
 
 void j1Map::Draw()
