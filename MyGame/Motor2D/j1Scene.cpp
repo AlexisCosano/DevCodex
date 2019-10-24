@@ -7,6 +7,7 @@
 #include "j1Render.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Player.h"
 #include "j1Scene.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -31,7 +32,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	App->map->Load("TestMap1.tmx");
-	//App->map->Load("Hello2.tmx");
+
 	return true;
 }
 
@@ -100,6 +101,7 @@ bool j1Scene::Update(float dt)
 		App->map->debug_mode_active = !App->map->debug_mode_active;
 
 	App->map->Draw();
+	App->player->Draw();
 	
 	int x, y;
 	App->input->GetMousePosition(x, y);

@@ -36,12 +36,12 @@ j1Map::~j1Map()
 {}
 
 // Called before render is available
-bool j1Map::Awake(pugi::xml_node& config)
+bool j1Map::Awake(pugi::xml_node& module_node)
 {
 	LOG("Loading Map Parser");
 	bool ret = true;
 
-	folder.create(config.child("folder").child_value());
+	folder.create(module_node.child("folder").child_value());
 
 	return ret;
 }

@@ -18,6 +18,9 @@ public:
 	// Destructor
 	virtual ~j1Player();
 
+	// Called before the first frame
+	bool Start();
+
 	// Called before render is available
 	bool Awake(pugi::xml_node& module_node);
 
@@ -31,11 +34,19 @@ public:
 	bool Save(pugi::xml_node& module_node) const;
 	bool Load(pugi::xml_node& module_node);
 
-public:
+	void ApplyGravity();
 
+	void Draw();
+
+public:
 	p2Point<float> player_position;
 
+	float gravity = 9.8f;
+	p2Point<float> player_speed;
+	
 private:
-
+	p2SString player_folder;
+	SDL_Texture* player_texture;
+	SDL_Rect player_rect;
 };
 #endif //__j1PLAYER_H__

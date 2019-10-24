@@ -32,5 +32,11 @@
 		<folder>maps/</folder>
 
 	</map>
+
+	<player>
+
+		<folder>textures/</folder>
+
+	</player>
 	
 </config>

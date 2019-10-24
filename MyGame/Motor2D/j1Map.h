@@ -115,7 +115,7 @@ public:
 	virtual ~j1Map();
 
 	// Called before render is available
-	bool Awake(pugi::xml_node& conf);
+	bool Awake(pugi::xml_node& module_node);
 
 	// Called each loop iteration
 	void Draw();
