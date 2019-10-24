@@ -144,6 +144,8 @@ public:
 public:
 	MapNode loaded_map;
 
+	bool debug_mode_active = false;
+
 private:
 	pugi::xml_document map_file;
 	p2SString folder;

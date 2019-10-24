@@ -113,7 +113,7 @@ void j1Map::Draw()
 	{
 		Layer* layer_to_draw = layer_iterator->data;
 
-		if (layer_to_draw->layer_properties.Get("NoDraw") != 0)
+		if (layer_to_draw->layer_properties.Get("NoDraw") != 0 && debug_mode_active == false)
 			continue;
 
 		for (uint y = 0; y < loaded_map.height; y++)

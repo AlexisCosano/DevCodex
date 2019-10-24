@@ -56,24 +56,6 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-	{
-		App->request_load = true;
-
-		LOG("|////////////////////////////////////////////////////|");
-		LOG("User requests to load | request_load = %d", App->request_load);
-		LOG("|////////////////////////////////////////////////////|");
-	}
-		
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-	{
-		App->request_save = true;
-
-		LOG("|////////////////////////////////////////////////////|");
-		LOG("User requests to save | request_save = %d", App->request_save);
-		LOG("|////////////////////////////////////////////////////|");
-	}
 		
 	if (App->input->GetKey(SDL_SCANCODE_PAGEUP) == KEY_DOWN)
 	{
@@ -94,6 +76,28 @@ bool j1Scene::Update(float dt)
 		LOG("Volume is now: %i", App->audio->mbase_volume);
 		LOG("|////////////////////////////////////////////////////|");
 	}
+
+	//Debug
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		App->request_save = true;
+
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("User requests to save | request_save = %d", App->request_save);
+		LOG("|////////////////////////////////////////////////////|");
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	{
+		App->request_load = true;
+
+		LOG("|////////////////////////////////////////////////////|");
+		LOG("User requests to load | request_load = %d", App->request_load);
+		LOG("|////////////////////////////////////////////////////|");
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+		App->map->debug_mode_active = !App->map->debug_mode_active;
 
 	App->map->Draw();
 	
