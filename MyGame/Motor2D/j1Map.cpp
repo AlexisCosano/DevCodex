@@ -109,10 +109,12 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 4: Make sure we draw all the layers and not just the first one
 	for (p2List_item<Layer*>* layer_iterator = loaded_map.map_layers.start; layer_iterator != nullptr; layer_iterator = layer_iterator->next)
 	{
 		Layer* layer_to_draw = layer_iterator->data;
+
+		if (layer_to_draw->layer_properties.Get("Nodraw") != 0)
+			continue;
 
 		for (uint y = 0; y < loaded_map.height; y++)
 		{
@@ -195,13 +197,25 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 	return(ret);
 }
 
-// Load a group of properties from a node and fill a list with it
+int Properties::Get(const char* given_name, int given_value) const
+{
+	p2List_item<Property*>* property_to_check = properties_list.start;
+
+	while (property_to_check)
+	{
+		if (property_to_check->data->property_name == given_name)
+			return property_to_check->data->bool_value;
+
+		property_to_check = property_to_check->next;
+	}
+
+	return(given_value);
+}
+
 bool j1Map::LoadProperties(pugi::xml_node& properties_node, Properties& properties)
 {
 	bool ret = false;
 
-	// TODO 6: Fill in the method to fill the custom properties from 
-	// an xml_node
 	if (properties_node == nullptr)
 	{
 		LOG("|////////////////////////////////////////////////////|");
@@ -212,23 +226,18 @@ bool j1Map::LoadProperties(pugi::xml_node& properties_node, Properties& properti
 	}
 	else
 	{
-		for (pugi::xml_node properties_iterator = properties_node.child("property"); properties_iterator != nullptr; properties_iterator = properties_iterator.next_sibling())
+		for (pugi::xml_node properties_iterator = properties_node.child("property"); properties_iterator != nullptr; properties_iterator = properties_iterator.next_sibling("property"))
 		{
-			p2SString property_name = properties_iterator.attribute("name").as_string();
+			Properties::Property* property_to_load = new Properties::Property();
 
-			if (property_name == "Nodraw")
-			{
-				properties.not_drawn = properties_iterator.attribute("value").as_float();
-			}
+			property_to_load->property_name = properties_iterator.attribute("name").as_string();
+			property_to_load->bool_value = properties_iterator.attribute("value").as_int();
 
-			if (property_name == "Navigation")
-			{
-				properties.navigation = properties_iterator.attribute("value").as_float();
-			}
+			properties.properties_list.add(property_to_load);
 		}
 	}
 
-	return ret;
+	return(ret);
 }
 
 bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
@@ -297,9 +306,6 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
 
 Tileset* j1Map::GetTilesetFromTileId(uint given_id) const
 {
-	// TODO 3: Complete this method so we pick the right
-	// Tileset based on a tile id
-
 	Tileset* tileset_to_use = new Tileset();
 
 	for (p2List_item<Tileset*>* tileset_iterator = loaded_map.map_tilesets.start; tileset_iterator != nullptr; tileset_iterator = tileset_iterator->next)
@@ -437,7 +443,6 @@ bool j1Map::Load(const char* file_name)
 		for (p2List_item<Layer*>* iterator = loaded_map.map_layers.start; iterator != nullptr; iterator = iterator->next)
 		{
 			LOG("Layer's name: %s     %dx%d", iterator->data->layer_name.GetString(), iterator->data->width, iterator->data->height);
-			LOG("Is layer drawn?: %d", iterator->data->layer_properties.not_drawn);
 			LOG("|////////////////////////////////////////////////////|");
 		}
 	}

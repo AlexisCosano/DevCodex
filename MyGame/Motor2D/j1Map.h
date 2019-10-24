@@ -7,15 +7,32 @@
 #include "j1Module.h"
 
 
-// TODO 5: Create a generic structure to hold properties
 // ----------------------------------------------------
 struct Properties
 {
-	bool not_drawn = false;
-	bool navigation = false;
+	struct Property
+	{
+		p2SString property_name;
+		int bool_value;
+	};
 
-// TODO 7: Our custom properties should have one method
-// to ask for the value of a custom property
+	p2List<Property*> properties_list;
+
+	int Get(const char* given_name, int given_value = 0) const;
+
+	~Properties()
+	{
+		p2List_item<Property*>* item;
+		item = properties_list.start;
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
+
+		properties_list.clear();
+	}
 };
 
 // ----------------------------------------------------
