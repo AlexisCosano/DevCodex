@@ -4,9 +4,11 @@
 	<window />
 	<textures />
 	<audio>
-		<music base_volume="69" />
-		<fx base_volume="10" />
+		<music base_volume="50" />
+		<fx base_volume="50" />
 	</audio>
+	<map />
+	<player />
 	<scene />
 	<renderer>
 		<camera x="0" y="0" />
