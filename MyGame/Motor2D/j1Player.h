@@ -35,14 +35,15 @@ public:
 	bool Load(pugi::xml_node& module_node);
 
 	void ApplyGravity();
+	bool CheckCollisions();
 
 	void Draw();
 
 public:
-	p2Point<float> player_position;
+	iPoint player_position;
 
-	float gravity = 9.8f;
-	p2Point<float> player_speed;
+	int gravity = 9;
+	iPoint player_speed;
 	
 private:
 	p2SString player_folder;

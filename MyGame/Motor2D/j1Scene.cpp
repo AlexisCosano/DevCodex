@@ -32,7 +32,8 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	//App->map->Load("TestMap1.tmx");
-	App->map->Load("newtest.tmx");
+	App->map->Load("Final1.tmx");
+	//App->map->Load("newtest.tmx");
 
 	return true;
 }
@@ -58,6 +59,9 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x += 10;
+
+	App->render->camera.x = ((-App->player->player_position.x * App->win->GetScale()) + (150 * App->win->GetScale()));
+	App->render->camera.y = ((-App->player->player_position.y * App->win->GetScale()) + (150 * App->win->GetScale()));
 		
 	if (App->input->GetKey(SDL_SCANCODE_PAGEUP) == KEY_DOWN)
 	{

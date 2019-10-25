@@ -8,6 +8,7 @@
 		<fx base_volume="50" />
 	</audio>
 	<map />
+	<collisions />
 	<player />
 	<scene />
 	<renderer>

@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
+#include "j1Collisions.h"
 #include "j1Map.h"
 #include <math.h>
 
@@ -126,13 +127,69 @@ void j1Map::Draw()
 				{
 					Tileset* tileset_used = GetTilesetFromTileId(tile_gid);
 					SDL_Rect tile_rect = tileset_used->GetRect(tile_gid);
-					iPoint world_position = MapToWorld(x, y);
+					iPoint world_position = MapToWorld((float)x, (float)y);
 					
 					App->render->Blit(tileset_used->tileset_texture, world_position.x, world_position.y, &tile_rect);
 				}
 			}
 		}
 	}
+}
+
+void j1Map::NoWalkable(Layer* collision_layer)
+{
+	for (int y = 0; y < loaded_map.height; ++y)
+	{
+		for (int x = 0; x < loaded_map.width; ++x)
+		{
+			int tile_id = collision_layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				Tileset* tileset = loaded_map.map_tilesets.start->data;
+
+				SDL_Rect r = tileset->GetRect(tile_id);
+				iPoint pos = MapToWorld(x, y);
+
+				r.x = pos.x;
+				r.y = pos.y;
+
+				App->collisions->NoWalkable(r);
+			}
+		}
+	}
+}
+
+void j1Map::SpawnPoint(Layer* collision_layer)
+{
+	int counter = 0;
+	while (counter < collision_layer->height * collision_layer->width)
+	{
+		int id = collision_layer->gid[counter];
+
+		if (id > 0)
+		{
+			int x = counter;
+			int y = collision_layer->width;
+			collision_layer->Get(x, y);
+
+			Tileset* tileset = loaded_map.map_tilesets.start->data;
+
+			iPoint pos = MapToWorld(x, y);
+
+			current_spawn_point = pos;
+		}
+		counter++;
+	}
+}
+
+void j1Map::Death(Layer* collision_layer)
+{
+
+}
+
+void j1Map::Win(Layer* collision_layer) 
+{
+
 }
 
 // Called before quitting
@@ -191,6 +248,16 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 			layer->gids.add(&layer->gid[iterator]);
 			current_tile = current_tile.next_sibling("tile");
 			iterator++;
+		}
+
+		if (layer->layer_properties.Get("NoWalkable") != 0)
+		{
+			NoWalkable(layer);
+		}
+
+		if (layer->layer_properties.Get("Spawn") != 0)
+		{
+			SpawnPoint(layer);
 		}
 	}
 

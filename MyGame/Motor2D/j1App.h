@@ -13,6 +13,7 @@ class j1Textures;
 class j1Audio;
 class j1Scene;
 class j1Map;
+class j1Collisions;
 class j1Player;
 
 class j1App
@@ -78,6 +79,7 @@ public:
 	j1Audio* audio;
 	j1Scene* scene;
 	j1Map* map;
+	j1Collisions* collisions;
 	j1Player* player;
 
 	mutable bool request_save = false;

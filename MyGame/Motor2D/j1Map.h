@@ -141,9 +141,14 @@ public:
 
 	Tileset* GetTilesetFromTileId(uint given_id) const;
 
+	void NoWalkable(Layer* collision_layer);
+	void SpawnPoint(Layer* collision_layer);
+	void Death(Layer* collision_layer);
+	void Win(Layer* collision_layer);
+
 public:
 	MapNode loaded_map;
-
+	iPoint current_spawn_point;
 	bool debug_mode_active = false;
 
 private:
