@@ -31,7 +31,8 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("TestMap1.tmx");
+	//App->map->Load("TestMap1.tmx");
+	App->map->Load("newtest.tmx");
 
 	return true;
 }

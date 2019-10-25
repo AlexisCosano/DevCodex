@@ -26,9 +26,9 @@ bool j1Player::Start()
 	player_position.x = player_position.y = 0;
 	player_speed.x = 0.0f;
 	player_speed.y = 0.5f;
-	player_texture = App->tex->Load(PATH(player_folder.GetString(), "player.png"));
+	player_texture = App->tex->Load(PATH(player_folder.GetString(), "axolotl.png"));
 	
-	player_rect = { 0, 0, 14, 15 };
+	player_rect = { 23, 0, 15, 34 };
 	
 	return true;
 }
@@ -64,7 +64,7 @@ bool j1Player::Update(float dt)
 {
 	bool ret = true;
 	
-	player_rect.x = player_position.x;
+	player_rect.x = player_position.x + 23;
 	player_rect.y = player_position.y;
 
 	ApplyGravity();
