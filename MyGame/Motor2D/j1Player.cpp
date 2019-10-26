@@ -26,8 +26,8 @@ bool j1Player::Start()
 {
 	player_position.x = 400;
 	player_position.y = 100;
-	player_speed.x = 4;
-	player_speed.y = 1;
+	player_speed.x = 0;
+	player_speed.y = 0;
 	player_texture = App->tex->Load(PATH(player_folder.GetString(), "axolotl.png"));
 	
 	player_rect = { 23, 0, 15, 34 };
@@ -56,9 +56,9 @@ void j1Player::Draw()
 	}
 }
 
-void j1Player::ApplyGravity()
+void j1Player::ApplyGravity(float dt)
 {
-	player_rect.y += gravity;
+	player_rect.y += player_speed.y;
 	SDL_Rect* collider = CheckCollisions(BOTTOM);
 
 	if (collider == nullptr)
@@ -68,6 +68,22 @@ void j1Player::ApplyGravity()
 	else
 	{
 		player_rect.y = player_position.y + (collider->y - (player_position.y + player_rect.h));
+		player_position.y = player_rect.y;
+		player_speed.y = 0.0f;
+	}
+}
+
+void j1Player::Jump(float dt)
+{
+	player_rect.y += player_speed.y;
+	SDL_Rect* collider = CheckCollisions(TOP);
+
+	if (collider == nullptr)
+	{
+		player_position.y = player_rect.y;
+	}
+	else
+	{
 		player_position.y = player_rect.y;
 	}
 }
@@ -122,6 +138,8 @@ bool j1Player::Update(float dt)
 		
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
+		player_speed.x = 3 + gravity * dt;
+
 		player_rect.x -= player_speed.x;
 
 		SDL_Rect* collider = CheckCollisions(LEFT);
@@ -139,6 +157,8 @@ bool j1Player::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
+		player_speed.x = 3 + gravity * dt;
+
 		player_rect.x += player_speed.x;
 
 		SDL_Rect* collider = CheckCollisions(RIGHT);
@@ -154,7 +174,23 @@ bool j1Player::Update(float dt)
 		}
 	}
 
-	ApplyGravity();
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		player_rect.y += 1;
+		SDL_Rect* collider = CheckCollisions(BOTTOM);
+		player_rect.y = player_position.y;
+		if(collider != nullptr)
+		{
+			player_speed.y = -6;
+		}
+	}
+
+	if (player_speed.y < 0)
+		Jump(dt);
+	else
+		ApplyGravity(dt);
+
+	player_speed.y += gravity * dt;
 
 	return ret;
 }
@@ -176,4 +212,8 @@ bool j1Player::Save(pugi::xml_node& node) const
 bool j1Player::Load(pugi::xml_node& node)
 {
 	return(true);
+}
+
+float j1Player::Lerp(float a, float b, float f) {
+	return (a * (1.0f - f)) + (b * f);
 }

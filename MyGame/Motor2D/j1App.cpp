@@ -184,6 +184,8 @@ bool j1App::DoUpdate()
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 	j1Module* pModule = NULL;
+	dt = (SDL_GetTicks() - last_frame_time)/1000.0f;
+	last_frame_time = SDL_GetTicks();
 
 	for(item = modules.start; item != NULL && ret == true; item = item->next)
 	{

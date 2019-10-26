@@ -91,6 +91,7 @@ private:
 	p2List<j1Module*> modules;
 	uint frames;
 	float dt;
+	float last_frame_time;
 
 	pugi::xml_document config_file;
 	pugi::xml_node config_parent_node;

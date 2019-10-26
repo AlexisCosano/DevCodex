@@ -43,22 +43,21 @@ public:
 	bool Save(pugi::xml_node& module_node) const;
 	bool Load(pugi::xml_node& module_node);
 
-	void ApplyGravity();
+	void ApplyGravity(float dt);
+	void Jump(float dt);
 	SDL_Rect* CheckCollisions(CollisionDirection direction);
-
+	float Lerp(float a, float b, float f);
 	void Draw();
 
 public:
 	iPoint player_position;
 
-	float gravity = 9.8f;
-	iPoint player_speed;
+	float gravity = 15.8f;
+	fPoint player_speed;
 	
 private:
 	p2SString player_folder;
 	SDL_Texture* player_texture;
 	SDL_Rect player_rect;
-
-	bool grounded = false;
 };
 #endif //__j1PLAYER_H__
