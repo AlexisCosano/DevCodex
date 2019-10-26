@@ -46,12 +46,14 @@ public:
 	void ApplyGravity(float dt);
 	void Jump(float dt);
 	SDL_Rect* CheckCollisions(CollisionDirection direction);
-	float Lerp(float a, float b, float f);
+	bool HasPlayerDied();
+	bool HasPlayerWon();
 	void Draw();
+	void GodMode(float dt);
 
 public:
 	iPoint player_position;
-
+	bool god_mode = false;
 	float gravity = 15.8f;
 	fPoint player_speed;
 	

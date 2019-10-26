@@ -55,6 +55,48 @@ void j1Player::Draw()
 	}
 }
 
+void j1Player::GodMode(float dt)
+{
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		player_speed.y = 3 + gravity * dt;
+
+		player_rect.y -= player_speed.y;
+
+		SDL_Rect* collider = CheckCollisions(TOP);
+
+		if (collider == nullptr)
+		{
+			player_position.y = player_rect.y;
+		}
+		else
+		{
+			player_rect.y = collider->y + collider->h;
+			player_position.y = player_rect.y;
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		player_speed.y = 3 + gravity * dt;
+
+		player_rect.y += player_speed.y;
+
+		SDL_Rect* collider = CheckCollisions(RIGHT);
+
+		if (collider == nullptr)
+		{
+			player_position.y = player_rect.y;
+		}
+		else
+		{
+			player_rect.y = collider->y - player_rect.h;
+			player_position.y = player_rect.y;
+		}
+	}
+
+}
+
 void j1Player::ApplyGravity(float dt)
 {
 	player_rect.y += player_speed.y;
@@ -77,6 +119,7 @@ void j1Player::Jump(float dt)
 	player_rect.y += player_speed.y;
 	SDL_Rect* collider = CheckCollisions(TOP);
 
+	
 	if (collider == nullptr)
 	{
 		player_position.y = player_rect.y;
@@ -85,6 +128,39 @@ void j1Player::Jump(float dt)
 	{
 		player_position.y = player_rect.y;
 	}
+	
+}
+
+bool j1Player::HasPlayerDied()
+{
+	bool ret = false;
+	p2List_item<SDL_Rect>* item = App->collisions->death_triggers.start;
+
+	for (item; item != App->collisions->death_triggers.end; item = item->next)
+	{
+		ret = App->collisions->CheckCollision(player_rect, item->data);
+
+		if (ret)
+			return ret;
+	}
+
+	return ret;
+}
+
+bool j1Player::HasPlayerWon()
+{
+	bool ret = false;
+	p2List_item<SDL_Rect>* item = App->collisions->win_triggers.start;
+
+	for (item; item != App->collisions->win_triggers.end; item = item->next)
+	{
+		ret = App->collisions->CheckCollision(player_rect, item->data);
+
+		if (ret)
+			return ret;
+	}
+
+	return ret;
 }
 
 SDL_Rect* j1Player::CheckCollisions(CollisionDirection direction)
@@ -121,7 +197,6 @@ SDL_Rect* j1Player::CheckCollisions(CollisionDirection direction)
 				return &item->data;
 			break;
 		}
-
 	}
 
 	return nullptr;
@@ -184,12 +259,31 @@ bool j1Player::Update(float dt)
 		}
 	}
 
+	if (HasPlayerWon() == true)
+	{
+		LOG("UUUUUUUUUUUUUUUUUH");
+		player_speed.y = -10;
+	}
+
 	if (player_speed.y < 0)
 		Jump(dt);
 	else
+	{
+		if (god_mode)
+		{
+			GodMode(dt);
+			return ret;
+		}
 		ApplyGravity(dt);
+	}
 
 	player_speed.y += gravity * dt;
+
+	if (HasPlayerDied() == true)
+	{
+		player_position = App->map->current_spawn_point;
+		player_speed.SetToZero();
+	}
 
 	return ret;
 }
@@ -211,8 +305,4 @@ bool j1Player::Save(pugi::xml_node& node) const
 bool j1Player::Load(pugi::xml_node& node)
 {
 	return(true);
-}
-
-float j1Player::Lerp(float a, float b, float f) {
-	return (a * (1.0f - f)) + (b * f);
 }

@@ -84,6 +84,12 @@ bool j1Scene::Update(float dt)
 	}
 
 	//Debug
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		App->player->player_position = App->map->current_spawn_point;
+		App->player->player_speed.SetToZero();
+	}
+		
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
 		App->request_save = true;
@@ -104,6 +110,11 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 		App->map->debug_mode_active = !App->map->debug_mode_active;
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+	{
+		App->player->god_mode = !App->player->god_mode;
+	}
 
 	App->map->Draw();
 	App->player->Draw();

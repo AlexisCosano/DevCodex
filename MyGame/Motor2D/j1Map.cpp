@@ -196,12 +196,48 @@ void j1Map::SpawnPoint(Layer* collision_layer)
 
 void j1Map::Death(Layer* collision_layer)
 {
+	for (int y = 0; y < loaded_map.height; ++y)
+	{
+		for (int x = 0; x < loaded_map.width; ++x)
+		{
+			int tile_id = collision_layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				Tileset* tileset = loaded_map.map_tilesets.start->data;
 
+				SDL_Rect r = tileset->GetRect(tile_id);
+				iPoint pos = MapToWorld(x, y);
+
+				r.x = pos.x;
+				r.y = pos.y;
+
+				App->collisions->TriggerDeath(r);
+			}
+		}
+	}
 }
 
 void j1Map::Win(Layer* collision_layer) 
 {
+	for (int y = 0; y < loaded_map.height; ++y)
+	{
+		for (int x = 0; x < loaded_map.width; ++x)
+		{
+			int tile_id = collision_layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				Tileset* tileset = loaded_map.map_tilesets.start->data;
 
+				SDL_Rect r = tileset->GetRect(tile_id);
+				iPoint pos = MapToWorld(x, y);
+
+				r.x = pos.x;
+				r.y = pos.y;
+
+				App->collisions->TriggerWin(r);
+			}
+		}
+	}
 }
 
 // Called before quitting
@@ -270,6 +306,16 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 		if (layer->layer_properties.Get("Spawn") != 0)
 		{
 			SpawnPoint(layer);
+		}
+
+		if (layer->layer_properties.Get("Death") != 0)
+		{
+			Death(layer);
+		}
+
+		if (layer->layer_properties.Get("End") != 0)
+		{
+			Win(layer);
 		}
 	}
 
