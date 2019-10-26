@@ -9,9 +9,11 @@
 	</audio>
 	<map />
 	<collisions />
+	<scene>
+		<current_map value="2" />
+	</scene>
 	<player />
-	<scene />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-532" y="-144" />
 	</renderer>
 </save_file>

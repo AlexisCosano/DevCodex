@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Player.h"
+#include "j1Collisions.h"
 #include "j1Scene.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -31,10 +32,7 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	//App->map->Load("TestMap1.tmx");
-	App->map->Load("Final1.tmx");
-	//App->map->Load("newtest.tmx");
-
+	LoadMap(map_to_load);
 	return true;
 }
 
@@ -84,6 +82,21 @@ bool j1Scene::Update(float dt)
 	}
 
 	//Debug
+	
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	{
+		LoadMap(1);
+		App->player->player_position = App->map->current_spawn_point;
+		App->player->player_speed.SetToZero();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
+	{
+		LoadMap(2);
+		App->player->player_position = App->map->current_spawn_point;
+		App->player->player_speed.SetToZero();
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		App->player->player_position = App->map->current_spawn_point;
@@ -153,12 +166,41 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
+void j1Scene::LoadMap(int given_map)
+{
+	if(is_map_loaded == true)
+	{
+		App->map->CleanUp();
+		App->collisions->ClearColliders();
+	}
+
+
+	if (given_map == 1)
+	{
+		App->map->Load("Final1.tmx");
+	}
+
+	if (given_map == 2)
+	{
+		App->map->Load("Final2.tmx");
+	}
+
+	is_map_loaded = true;
+}
+
 bool j1Scene::Load(pugi::xml_node& module_node)
 {
+	map_to_load = module_node.child("current_map").attribute("value").as_uint(1); 
+	LoadMap(map_to_load);
+
 	return(true);
 }
 
 bool j1Scene::Save(pugi::xml_node& module_node) const
 {
+	pugi::xml_node child_map = module_node.append_child("current_map");
+
+	child_map.append_attribute("value").set_value(map_to_load);
+
 	return(true);
 }

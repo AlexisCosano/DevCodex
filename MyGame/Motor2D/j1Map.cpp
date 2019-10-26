@@ -247,6 +247,7 @@ bool j1Map::CleanUp()
 
 	for (p2List_item<Tileset*>* iterator = loaded_map.map_tilesets.start; iterator != nullptr; iterator = iterator->next)
 	{
+		App->tex->UnLoad(iterator->data->tileset_texture);
 		RELEASE(iterator->data);
 	}
 

@@ -33,8 +33,15 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void LoadMap(int given_map);
+
 	bool Load(pugi::xml_node& module_node);
 	bool Save(pugi::xml_node& module_node) const;
+
+	bool is_map_loaded = false;
+
+private:
+	int map_to_load = 1;
 };
 
 #endif // __j1SCENE_H__
