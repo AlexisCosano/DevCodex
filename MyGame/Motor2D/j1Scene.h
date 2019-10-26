@@ -35,6 +35,8 @@ public:
 
 	void LoadMap(int given_map);
 
+	void WinnerWinner();
+
 	bool Load(pugi::xml_node& module_node);
 	bool Save(pugi::xml_node& module_node) const;
 

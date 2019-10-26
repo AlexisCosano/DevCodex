@@ -60,6 +60,26 @@ bool j1Scene::Update(float dt)
 
 	App->render->camera.x = ((-App->player->player_position.x * App->win->GetScale()) + (150 * App->win->GetScale()));
 	App->render->camera.y = ((-App->player->player_position.y * App->win->GetScale()) + (150 * App->win->GetScale()));
+
+	if (App->render->camera.x > 89 * (int)App->win->GetScale())
+	{
+		App->render->camera.x = 89 * (int)App->win->GetScale();
+	}
+
+	if (App->render->camera.x < -2080 * (int)App->win->GetScale())
+	{
+		App->render->camera.x = -2080 * (int)App->win->GetScale();
+	}
+
+	if (App->render->camera.y > 32 * (int)App->win->GetScale())
+	{
+		App->render->camera.y = 32 * (int)App->win->GetScale();
+	}
+
+	if (App->render->camera.y < -195 * (int)App->win->GetScale())
+	{
+		App->render->camera.y = -195 * (int)App->win->GetScale();
+	}
 		
 	if (App->input->GetKey(SDL_SCANCODE_PAGEUP) == KEY_DOWN)
 	{
@@ -130,17 +150,19 @@ bool j1Scene::Update(float dt)
 	}
 
 	App->map->Draw();
-	App->player->Draw();
+	App->player->Draw(dt);
 	
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
 
-	p2SString title("Map: %dx%d  Tiles: %dx%d  Tilesets: %d  Layers: %d  Tile%d,%d",
+	p2SString title("Map: %dx%d  Tiles: %dx%d  Tilesets: %d  Layers: %d  Tile%d,%d FPS: %f",
 		App->map->loaded_map.width, App->map->loaded_map.height,
 		App->map->loaded_map.tile_height, App->map->loaded_map.tile_width,
 		App->map->loaded_map.map_tilesets.count(), App->map->loaded_map.map_layers.count(),
-		map_coordinates.x, map_coordinates.y);
+		map_coordinates.x, map_coordinates.y,
+		1.0f/dt
+	);
 	
 	App->win->SetTitle(title.GetString());
 
@@ -188,12 +210,21 @@ void j1Scene::LoadMap(int given_map)
 	is_map_loaded = true;
 }
 
-bool j1Scene::Load(pugi::xml_node& module_node)
+void j1Scene::WinnerWinner()
 {
-	map_to_load = module_node.child("current_map").attribute("value").as_uint(1); 
-	LoadMap(map_to_load);
+	if (map_to_load == 1)
+	{
+		map_to_load = 2;
+		LoadMap(map_to_load);
+		App->player->player_position = App->map->current_spawn_point;
+		App->player->player_speed.SetToZero();
+		return;
+	}
 
-	return(true);
+	map_to_load = 1;
+	LoadMap(map_to_load);
+	App->player->player_position = App->map->current_spawn_point;
+	App->player->player_speed.SetToZero();
 }
 
 bool j1Scene::Save(pugi::xml_node& module_node) const
@@ -201,6 +232,14 @@ bool j1Scene::Save(pugi::xml_node& module_node) const
 	pugi::xml_node child_map = module_node.append_child("current_map");
 
 	child_map.append_attribute("value").set_value(map_to_load);
+
+	return(true);
+}
+
+bool j1Scene::Load(pugi::xml_node& module_node)
+{
+	map_to_load = module_node.child("current_map").attribute("value").as_uint(1); 
+	LoadMap(map_to_load);
 
 	return(true);
 }

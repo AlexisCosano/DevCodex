@@ -18,6 +18,38 @@ enum CollisionDirection
 	LEFT
 };
 
+struct AnimationStruct
+{
+	p2SString name;
+	SDL_Rect animation_rect[7];
+	int current_frame = 0;
+	int max_frame;
+	bool loop = true;
+	float max_frame_time = 0.14f;
+
+	int GetNextFrame()
+	{
+		current_frame++;
+
+		if (current_frame >= max_frame)
+		{
+			if(loop == false)
+			{
+				current_frame = max_frame - 1;
+				return current_frame;
+			}
+			current_frame = 0;
+		}
+
+		return current_frame;
+	}
+
+	SDL_Rect GetCurrentFrame()
+	{
+		return animation_rect[current_frame];
+	}
+};
+
 class j1Player : public j1Module
 {
 public:
@@ -48,7 +80,7 @@ public:
 	SDL_Rect* CheckCollisions(CollisionDirection direction);
 	bool HasPlayerDied();
 	bool HasPlayerWon();
-	void Draw();
+	void Draw(float dt);
 	void GodMode(float dt);
 
 public:
@@ -60,6 +92,20 @@ public:
 private:
 	p2SString player_folder;
 	SDL_Texture* player_texture;
+	SDL_Texture* die_texture;
 	SDL_Rect player_rect;
+
+	float frame_time = 0.0f;
+	bool flip = true;
+	bool dead = false;
+
+	AnimationStruct idle_animation;
+	AnimationStruct run_animation;
+	AnimationStruct jump_animation;
+	AnimationStruct* current_animation;
+	AnimationStruct die_animation;
+
+	void ChooseAnimation();
 };
+
 #endif //__j1PLAYER_H__

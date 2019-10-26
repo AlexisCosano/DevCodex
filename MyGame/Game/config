@@ -17,6 +17,7 @@
 
 	<renderer>
 		<camera x="0" y="0"/>
+    <vsync value="true"/>
 	</renderer>
 
 	<textures>

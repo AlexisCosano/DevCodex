@@ -10,10 +10,12 @@
 	<map />
 	<collisions />
 	<scene>
-		<current_map value="2" />
+		<current_map value="1" />
 	</scene>
-	<player />
+	<player>
+		<position x="791" y="254" />
+	</player>
 	<renderer>
-		<camera x="-532" y="-144" />
+		<camera x="-1282" y="-208" />
 	</renderer>
 </save_file>
