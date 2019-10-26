@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "j1Collisions.h"
+#include "j1Player.h"
 #include "j1Map.h"
 #include <math.h>
 
@@ -129,7 +130,22 @@ void j1Map::Draw()
 					SDL_Rect tile_rect = tileset_used->GetRect(tile_gid);
 					iPoint world_position = MapToWorld((float)x, (float)y);
 					
-					App->render->Blit(tileset_used->tileset_texture, world_position.x, world_position.y, &tile_rect);
+					if (layer_to_draw->layer_properties.Get("Parallax1") != 0)
+					{
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.3f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+					}
+					else if (layer_to_draw->layer_properties.Get("Parallax2") != 0)
+					{
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.2f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+					}
+					else if (layer_to_draw->layer_properties.Get("Parallax3") != 0)
+					{
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.1f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+					}
+					else
+					{
+						App->render->Blit(tileset_used->tileset_texture, world_position.x, world_position.y, &tile_rect);
+					}
 				}
 			}
 		}
@@ -161,24 +177,20 @@ void j1Map::NoWalkable(Layer* collision_layer)
 
 void j1Map::SpawnPoint(Layer* collision_layer)
 {
-	int counter = 0;
-	while (counter < collision_layer->height * collision_layer->width)
+	for (int y = 0; y < loaded_map.height; ++y)
 	{
-		int id = collision_layer->gid[counter];
-
-		if (id > 0)
+		for (int x = 0; x < loaded_map.width; ++x)
 		{
-			int x = counter;
-			int y = collision_layer->width;
-			collision_layer->Get(x, y);
+			int tile_id = collision_layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				Tileset* tileset = loaded_map.map_tilesets.start->data;
 
-			Tileset* tileset = loaded_map.map_tilesets.start->data;
+				iPoint pos = MapToWorld(x, y);
 
-			iPoint pos = MapToWorld(x, y);
-
-			current_spawn_point = pos;
+				current_spawn_point = pos;
+			}
 		}
-		counter++;
 	}
 }
 

@@ -28,6 +28,7 @@
  <layer name="Sky" width="70" height="20">
   <properties>
    <property name="NoDraw" type="int" value="0"/>
+   <property name="Parallax2" type="int" value="1"/>
   </properties>
   <data>
    <tile gid="45"/>
@@ -1435,6 +1436,7 @@
  <layer name="Clouds" width="70" height="20">
   <properties>
    <property name="NoDraw" type="int" value="0"/>
+   <property name="Parallax3" type="int" value="1"/>
   </properties>
   <data>
    <tile gid="0"/>

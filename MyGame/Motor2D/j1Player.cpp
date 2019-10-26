@@ -24,8 +24,7 @@ j1Player::~j1Player()
 // Called before the first frame
 bool j1Player::Start()
 {
-	player_position.x = 400;
-	player_position.y = 100;
+	player_position = App->map->current_spawn_point;
 	player_speed.x = 0;
 	player_speed.y = 0;
 	player_texture = App->tex->Load(PATH(player_folder.GetString(), "axolotl.png"));
