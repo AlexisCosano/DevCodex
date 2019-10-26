@@ -7,6 +7,7 @@
 struct SDL_Rect;
 
 
+
 class j1Collisions : public j1Module
 {
 public:

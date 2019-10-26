@@ -373,7 +373,7 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
 
 Tileset* j1Map::GetTilesetFromTileId(uint given_id) const
 {
-	Tileset* tileset_to_use = new Tileset();
+	Tileset* tileset_to_use = nullptr;
 
 	for (p2List_item<Tileset*>* tileset_iterator = loaded_map.map_tilesets.start; tileset_iterator != nullptr; tileset_iterator = tileset_iterator->next)
 	{

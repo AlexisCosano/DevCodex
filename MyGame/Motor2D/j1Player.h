@@ -9,6 +9,15 @@
 struct SDL_Texture;
 struct SDL_Rect;
 
+
+enum CollisionDirection
+{
+	BOTTOM = 0,
+	TOP,
+	RIGHT,
+	LEFT
+};
+
 class j1Player : public j1Module
 {
 public:
@@ -35,19 +44,21 @@ public:
 	bool Load(pugi::xml_node& module_node);
 
 	void ApplyGravity();
-	bool CheckCollisions();
+	SDL_Rect* CheckCollisions(CollisionDirection direction);
 
 	void Draw();
 
 public:
 	iPoint player_position;
 
-	int gravity = 9;
+	float gravity = 9.8f;
 	iPoint player_speed;
 	
 private:
 	p2SString player_folder;
 	SDL_Texture* player_texture;
 	SDL_Rect player_rect;
+
+	bool grounded = false;
 };
 #endif //__j1PLAYER_H__

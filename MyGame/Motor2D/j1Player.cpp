@@ -58,10 +58,21 @@ void j1Player::Draw()
 
 void j1Player::ApplyGravity()
 {
-	player_position.y += gravity * player_speed.y;
+	player_rect.y += gravity;
+	SDL_Rect* collider = CheckCollisions(BOTTOM);
+
+	if (collider == nullptr)
+	{
+		player_position.y = player_rect.y;
+	}
+	else
+	{
+		player_rect.y = player_position.y + (collider->y - (player_position.y + player_rect.h));
+		player_position.y = player_rect.y;
+	}
 }
 
-bool j1Player::CheckCollisions()
+SDL_Rect* j1Player::CheckCollisions(CollisionDirection direction)
 {
 	bool ret = false;
 	p2List_item<SDL_Rect>* item = App->collisions->no_walkable_tiles.start;
@@ -70,11 +81,35 @@ bool j1Player::CheckCollisions()
 	{
 		ret = App->collisions->CheckCollision(player_rect, item->data);
 		
-		if (ret)
-			return ret;
+		if (!ret)
+			continue;
+		
+		switch (direction)
+		{
+		case BOTTOM:
+			if (player_rect.y + player_rect.h > item->data.y)
+				return &item->data;
+			break;
+		
+		case TOP:
+			if (player_rect.y < item->data.y + item->data.h)
+				return &item->data;
+			break;
+
+		case RIGHT:
+			if (player_rect.x + player_rect.w > item->data.x)
+				return &item->data;
+			break;
+
+		case LEFT:
+			if (player_rect.x < item->data.x + item->data.w)
+				return &item->data;
+			break;
+		}
+
 	}
 
-	return ret;
+	return nullptr;
 }
 
 // Update ------------------------------------
@@ -84,21 +119,42 @@ bool j1Player::Update(float dt)
 	
 	player_rect.x = player_position.x + 23;
 	player_rect.y = player_position.y;
-
-	if (CheckCollisions() == false)
-		ApplyGravity();
-	else
 		
-	
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		player_position.x -= 1 * player_speed.x;
+		player_rect.x -= player_speed.x;
+
+		SDL_Rect* collider = CheckCollisions(LEFT);
+
+		if (collider == nullptr)
+		{
+			player_position.x = player_rect.x - 23;
+		}
+		else
+		{
+			player_rect.x = collider->x + collider->w;
+			player_position.x = player_rect.x - 23;
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		player_position.x += 1 * player_speed.x;
+		player_rect.x += player_speed.x;
+
+		SDL_Rect* collider = CheckCollisions(RIGHT);
+
+		if (collider == nullptr)
+		{
+			player_position.x = player_rect.x - 23;
+		}
+		else
+		{
+			player_rect.x = collider->x - player_rect.w;
+			player_position.x = player_rect.x - 23;
+		}
 	}
+
+	ApplyGravity();
 
 	return ret;
 }
