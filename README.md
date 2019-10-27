@@ -44,6 +44,7 @@ Known issues:
 - The parallax creates some minor artifacts in some specific cases.
 - There are no sound effects (yet!).
 - You cannot win while using God mode at the moment.
+- It's lacking feedback, but it will improve soon!
 
 ----------------------------------------------------------------------
 
