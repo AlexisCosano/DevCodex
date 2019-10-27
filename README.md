@@ -4,7 +4,10 @@ Made by [Alexis Cosano](https://github.com/AlexisCosano).
 
 Link to the repository: https://github.com/MrAlcoro/DevCodex
 
-Controls
+
+----------------------------------------------------------------------
+
+Controls:
 
 - A = Move left
 - D = Move right
@@ -17,7 +20,10 @@ When in God mode:
 - S = Move down
 - D = Move right
 
-Debug
+----------------------------------------------------------------------
+
+Debug options:
+
 - F1 = Load first map
 - F2 = Load second map
 - F3 = Restart the current map
