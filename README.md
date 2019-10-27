@@ -13,6 +13,9 @@ Controls:
 - D = Move right
 - Space = Jump
 
+- Repag = Increase music's volume
+- Repag = Decrease music's volume
+
 When in God mode:
 
 - A = Move left
