@@ -2,6 +2,10 @@
 2D platform game made with my own 2D game engine.
 Made by [Alexis Cosano](https://github.com/AlexisCosano).
 
+IMPORTANT: in some laptops, they game doesn't display well due to the laptop's resolution (or maybe you feel like you're missing something from the environment). If that's the case, open the config.xml, and under <window> -> <options>, change resizable="false" into resizable="true". Once you open the game, maximize the window, and it should display everything.
+
+Keep in mind that you will see the black background and some more imperfections as the game hasn't been designed to show those parts, but at least it will display everything correctly if the resolution is low.
+
 Link to the repository: https://github.com/MrAlcoro/DevCodex
 
 
