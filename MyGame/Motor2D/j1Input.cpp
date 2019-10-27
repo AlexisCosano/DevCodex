@@ -159,10 +159,10 @@ void j1Input::GetMouseMotion(int& x, int& y)
 
 bool j1Input::Load(pugi::xml_node& module_node)
 {
-	return(true);
+	return true;
 }
 
 bool j1Input::Save(pugi::xml_node& module_node) const
 {
-	return(true);
+	return true;
 }

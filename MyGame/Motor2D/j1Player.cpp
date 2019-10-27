@@ -404,7 +404,7 @@ bool j1Player::Save(pugi::xml_node& module_node) const
 
 	child_player_god_mode.append_attribute("value").set_value(god_mode);
 
-	return(true);
+	return true;
 }
 
 bool j1Player::Load(pugi::xml_node& module_node)
@@ -415,5 +415,5 @@ bool j1Player::Load(pugi::xml_node& module_node)
 	god_mode = module_node.child("god_mode").attribute("value").as_bool();
 
 	player_speed.SetToZero();
-	return(true);
+	return true;
 }

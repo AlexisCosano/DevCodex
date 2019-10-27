@@ -193,7 +193,7 @@ bool j1Audio::Load(pugi::xml_node& module_node)
 	mbase_volume = module_node.child("music").attribute("base_volume").as_uint();
 	fbase_volume = module_node.child("fx").attribute("base_volume").as_uint();
 
-	return(true);
+	return true;
 }
 
 bool j1Audio::Save(pugi::xml_node& module_node) const
@@ -204,5 +204,5 @@ bool j1Audio::Save(pugi::xml_node& module_node) const
 	child_music.append_attribute("base_volume").set_value(mbase_volume);
 	child_fx.append_attribute("base_volume").set_value(fbase_volume);
 
-	return(true);
+	return true;
 }

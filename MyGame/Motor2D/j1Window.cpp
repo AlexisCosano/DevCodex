@@ -118,10 +118,10 @@ uint j1Window::GetScale() const
 
 bool j1Window::Load(pugi::xml_node& module_node)
 {
-	return(true);
+	return true;
 }
 
 bool j1Window::Save(pugi::xml_node& module_node) const
 {
-	return(true);
+	return true;
 }

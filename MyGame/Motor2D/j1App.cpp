@@ -300,7 +300,7 @@ bool j1App::Load()
 	LOG("Game loaded. | request_load = %d", request_load);
 	LOG("|////////////////////////////////////////////////////|");
 
-	return(loading_result);
+	return loading_result;
 }
 
 // ---------------------------------------
@@ -332,5 +332,5 @@ bool j1App::Save() const
 	LOG("Game saved. | request_save = %d", request_save);
 	LOG("|////////////////////////////////////////////////////|");
 
-	return(true);
+	return true;
 }

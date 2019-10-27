@@ -233,7 +233,7 @@ bool j1Render::Load(pugi::xml_node& module_node)
 	camera.x = module_node.child("camera").attribute("x").as_uint();
 	camera.y = module_node.child("camera").attribute("y").as_uint();
 
-	return(true);
+	return true;
 }
 
 bool j1Render::Save(pugi::xml_node& module_node) const
@@ -243,5 +243,5 @@ bool j1Render::Save(pugi::xml_node& module_node) const
 	child_camera.append_attribute("x").set_value(camera.x);
 	child_camera.append_attribute("y").set_value(camera.y);
 
-	return(true);
+	return true;
 }

@@ -36,10 +36,10 @@ bool j1Collisions::CleanUp()
 
 bool j1Collisions::CheckCollision(SDL_Rect r1, SDL_Rect r2) const
 {
-	return (r1.x < r2.x + r2.w &&
+	return r1.x < r2.x + r2.w &&
 			r1.x + r1.w > r2.x &&
 			r1.y < r2.y + r2.h &&
-			r1.h + r1.y > r2.y);
+			r1.h + r1.y > r2.y;
 }
 
 void j1Collisions::NoWalkable(SDL_Rect collider)

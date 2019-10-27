@@ -143,6 +143,7 @@ bool j1Scene::Update(float dt)
 	App->map->Draw();
 	App->player->Draw(dt);
 	
+	/*
 	int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
@@ -151,11 +152,10 @@ bool j1Scene::Update(float dt)
 		App->map->loaded_map.width, App->map->loaded_map.height,
 		App->map->loaded_map.tile_height, App->map->loaded_map.tile_width,
 		App->map->loaded_map.map_tilesets.count(), App->map->loaded_map.map_layers.count(),
-		map_coordinates.x, map_coordinates.y,
-		1.0f/dt
-	);
-	
-	App->win->SetTitle(title.GetString());
+		map_coordinates.x, map_coordinates.y, 1.0f/dt);
+	*/
+	//p2SString title("Map: %dx%d  Tiles: %dx%d  Tilesets: %d  Layers: %d  Tile%d,%d FPS: %f");
+	//App->win->SetTitle(title.GetString());
 
 	return true;
 }
@@ -224,7 +224,7 @@ bool j1Scene::Save(pugi::xml_node& module_node) const
 
 	child_map.append_attribute("value").set_value(map_to_load);
 
-	return(true);
+	return true;
 }
 
 bool j1Scene::Load(pugi::xml_node& module_node)
@@ -232,5 +232,5 @@ bool j1Scene::Load(pugi::xml_node& module_node)
 	map_to_load = module_node.child("current_map").attribute("value").as_uint(1); 
 	LoadMap(map_to_load);
 
-	return(true);
+	return true;
 }

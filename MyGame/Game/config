@@ -1,7 +1,7 @@
 <config>
 
 	<window>
-		<title game_title="This is a test"/>
+		<title game_title="Monster Heights"/>
 		<options full_screen="false" borderless="false" resizable="false" full_screen_windowed="false"/>
 		<dimensions width="900" height="850" scale="2"/>
 	</window>

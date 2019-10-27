@@ -11,7 +11,7 @@
 
 inline uint Layer::Get(int x, int y) const
 {
-	return(gid[(y * width) + x]);
+	return gid[(y * width) + x];
 }
 
 SDL_Rect Tileset::GetRect(uint gid) const
@@ -25,7 +25,7 @@ SDL_Rect Tileset::GetRect(uint gid) const
 	rect.x = margin + ((rect.w + spacing) * (tile_id - num_tiles_width * (tile_id / num_tiles_width)));
 	rect.y = margin + ((rect.h + spacing) * (tile_id / num_tiles_width));
 
-	return(rect);
+	return rect;
 }
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -74,7 +74,7 @@ iPoint j1Map::MapToWorld(uint x, uint y) const
 		world_position.y = y;
 	}
 
-	return(world_position);
+	return world_position;
 }
 
 iPoint j1Map::WorldToMap(uint x, uint y) const
@@ -103,7 +103,7 @@ iPoint j1Map::WorldToMap(uint x, uint y) const
 		map_position.y = y;
 	}
 	
-	return(map_position);
+	return map_position;
 }
 
 void j1Map::Draw()
@@ -320,7 +320,7 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 int Properties::Get(const char* given_name, int given_value) const
@@ -335,7 +335,7 @@ int Properties::Get(const char* given_name, int given_value) const
 		property_to_check = property_to_check->next;
 	}
 
-	return(given_value);
+	return given_value;
 }
 
 bool j1Map::LoadProperties(pugi::xml_node& properties_node, Properties& properties)
@@ -363,7 +363,7 @@ bool j1Map::LoadProperties(pugi::xml_node& properties_node, Properties& properti
 		}
 	}
 
-	return(ret);
+	return ret;
 }
 
 bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
@@ -390,7 +390,7 @@ bool j1Map::LoadTilesets(pugi::xml_node& tileset_node, Tileset* tileset)
 		tileset->margin = tileset_node.attribute("margin").as_int();
 	}
 	
-	return(ret);
+	return ret;
 }
 
 bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, Tileset* tileset)
@@ -442,7 +442,7 @@ Tileset* j1Map::GetTilesetFromTileId(uint given_id) const
 			tileset_to_use = tileset_iterator->data;
 	}
 
-	return(tileset_to_use);
+	return tileset_to_use;
 }
 
 bool j1Map::LoadMap()
@@ -492,7 +492,7 @@ bool j1Map::LoadMap()
 			loaded_map.render_order = RENDER_ORDER_UNKNOWN;
 	}
 
-	return(ret);
+	return ret;
 }
 
 // Load new map
