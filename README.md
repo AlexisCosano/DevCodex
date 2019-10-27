@@ -14,7 +14,7 @@ Controls:
 - Space = Jump
 
 - Repag = Increase music's volume
-- Repag = Decrease music's volume
+- Avpag = Decrease music's volume
 
 When in God mode:
 
