@@ -33,6 +33,7 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	LoadMap(map_to_load);
+	App->audio->PlayMusic("audio/music/Mimiga_Town.mp3");
 	return true;
 }
 

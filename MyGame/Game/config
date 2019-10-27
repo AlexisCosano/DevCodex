@@ -7,8 +7,8 @@
 	</window>
 
 	<audio>
-		<music base_volume="50"/>
-		<fx base_volume="50"/>
+		<music base_volume="20"/>
+		<fx base_volume="20"/>
 	</audio>
 
 	<input>
