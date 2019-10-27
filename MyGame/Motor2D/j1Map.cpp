@@ -132,15 +132,15 @@ void j1Map::Draw()
 					
 					if (layer_to_draw->layer_properties.Get("Parallax1") != 0)
 					{
-						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.3f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.15f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.05f, &tile_rect);
 					}
 					else if (layer_to_draw->layer_properties.Get("Parallax2") != 0)
 					{
-						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.2f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.17f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
 					}
 					else if (layer_to_draw->layer_properties.Get("Parallax3") != 0)
 					{
-						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.1f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.05f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.05f, &tile_rect);
 					}
 					else
 					{

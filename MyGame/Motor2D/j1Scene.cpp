@@ -46,24 +46,12 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x += 10;
-
 	App->render->camera.x = ((-App->player->player_position.x * App->win->GetScale()) + (150 * App->win->GetScale()));
-	App->render->camera.y = ((-App->player->player_position.y * App->win->GetScale()) + (150 * App->win->GetScale()));
+	App->render->camera.y = ((-App->player->player_position.y * App->win->GetScale()) + (240 * App->win->GetScale()));
 
-	if (App->render->camera.x > 89 * (int)App->win->GetScale())
+	if (App->render->camera.x > 0 * (int)App->win->GetScale())
 	{
-		App->render->camera.x = 89 * (int)App->win->GetScale();
+		App->render->camera.x = 0 * (int)App->win->GetScale();
 	}
 
 	if (App->render->camera.x < -2080 * (int)App->win->GetScale())
@@ -76,9 +64,9 @@ bool j1Scene::Update(float dt)
 		App->render->camera.y = 32 * (int)App->win->GetScale();
 	}
 
-	if (App->render->camera.y < -195 * (int)App->win->GetScale())
+	if (App->render->camera.y < -170 * (int)App->win->GetScale())
 	{
-		App->render->camera.y = -195 * (int)App->win->GetScale();
+		App->render->camera.y = -170 * (int)App->win->GetScale();
 	}
 		
 	if (App->input->GetKey(SDL_SCANCODE_PAGEUP) == KEY_DOWN)
@@ -105,14 +93,16 @@ bool j1Scene::Update(float dt)
 	
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 	{
-		LoadMap(1);
+		map_to_load = 1;
+		LoadMap(map_to_load);
 		App->player->player_position = App->map->current_spawn_point;
 		App->player->player_speed.SetToZero();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		LoadMap(2);
+		map_to_load = 2;
+		LoadMap(map_to_load);
 		App->player->player_position = App->map->current_spawn_point;
 		App->player->player_speed.SetToZero();
 	}

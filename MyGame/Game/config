@@ -2,8 +2,8 @@
 
 	<window>
 		<title game_title="This is a test"/>
-		<options full_screen="false" borderless="false" resizable="true" full_screen_windowed="false"/>
-		<dimensions width="992" height="960" scale="2"/>
+		<options full_screen="false" borderless="false" resizable="false" full_screen_windowed="false"/>
+		<dimensions width="900" height="850" scale="2"/>
 	</window>
 
 	<audio>

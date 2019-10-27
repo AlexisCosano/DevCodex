@@ -27,7 +27,7 @@ bool j1Player::Start()
 	player_position = App->map->current_spawn_point;
 	player_speed.x = 0;
 	player_speed.y = 0;
-	player_texture = App->tex->Load(PATH(player_folder.GetString(), "aholote.png"));
+	player_texture = App->tex->Load(PATH(player_folder.GetString(), "axolotl.png"));
 	die_texture = App->tex->Load(PATH(player_folder.GetString(), "death.png"));
 	
 	player_rect = { 0, 0, 36, 35 };
@@ -195,9 +195,9 @@ void j1Player::Jump(float dt)
 	}
 	else
 	{
+		player_rect.y = collider->y + collider->h;
 		player_position.y = player_rect.y;
 	}
-	
 }
 
 bool j1Player::HasPlayerDied()
