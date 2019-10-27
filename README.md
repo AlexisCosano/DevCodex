@@ -45,7 +45,9 @@ Known issues:
 - There are no sound effects (yet!).
 - You cannot win while using God mode at the moment.
 
-Credits --------------------------------------------------------
+----------------------------------------------------------------------
+
+Credits: 
 
 Music used: Mimiga Town, from Cave Story. I do not own this song, Cave Story is owned by Studio Pixel.
 
