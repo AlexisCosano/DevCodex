@@ -4,7 +4,7 @@
 	<window />
 	<textures />
 	<audio>
-		<music base_volume="50" />
+		<music base_volume="20" />
 		<fx base_volume="50" />
 	</audio>
 	<map />
@@ -13,10 +13,10 @@
 		<current_map value="1" />
 	</scene>
 	<player>
-		<position x="202" y="413" />
+		<position x="434" y="413" />
 		<god_mode value="false" />
 	</player>
 	<renderer>
-		<camera x="-104" y="-340" />
+		<camera x="-568" y="-340" />
 	</renderer>
 </save_file>
