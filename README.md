@@ -40,8 +40,9 @@ Known issues:
 
 - The parallax creates some minor artifacts in some specific cases.
 - There are no sound effects (yet!).
+- You cannot win while using God mode at the moment.
 
-----------------------------------------------------------------------
+Credits --------------------------------------------------------
 
 Music used: Mimiga Town, from Cave Story. I do not own this song, Cave Story is owned by Studio Pixel.
 
