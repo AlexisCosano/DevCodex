@@ -17,7 +17,7 @@
 
 	<renderer>
 		<camera x="0" y="0"/>
-    <vsync value="true"/>
+    		<vsync value="true"/>
 	</renderer>
 
 	<textures>
@@ -35,9 +35,10 @@
 	</map>
 
 	<player>
-
 		<folder>textures/</folder>
-
+		<speed x="0" y="0"/>
+		<attributes gravity="15.8" god_mode="false"/>
+		<rect x="0" y="0" w="36" h="35"/>
 	</player>
 	
 </config>

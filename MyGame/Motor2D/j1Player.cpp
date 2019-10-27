@@ -25,12 +25,8 @@ j1Player::~j1Player()
 bool j1Player::Start()
 {
 	player_position = App->map->current_spawn_point;
-	player_speed.x = 0;
-	player_speed.y = 0;
 	player_texture = App->tex->Load(PATH(player_folder.GetString(), "axolotl.png"));
 	die_texture = App->tex->Load(PATH(player_folder.GetString(), "death.png"));
-	
-	player_rect = { 0, 0, 36, 35 };
 	
 	idle_animation.name = "idle";
 	idle_animation.max_frame = 5;
@@ -69,6 +65,8 @@ bool j1Player::Start()
 
 	current_animation = &idle_animation;
 
+	LOG("This second?");
+
 	return true;
 }
 
@@ -79,6 +77,17 @@ bool j1Player::Awake(pugi::xml_node& module_node)
 	bool ret = true;
 
 	player_folder.create(module_node.child("folder").child_value());
+
+	player_speed.x = module_node.child("speed").attribute("x").as_uint();
+	player_speed.y = module_node.child("speed").attribute("y").as_uint();
+
+	gravity = module_node.child("attributes").attribute("gravity").as_float();
+	god_mode = module_node.child("attributes").attribute("god_mode").as_bool();
+
+	player_rect.x = module_node.child("rect").attribute("x").as_uint();
+	player_rect.y = module_node.child("rect").attribute("y").as_uint();
+	player_rect.w = module_node.child("rect").attribute("w").as_uint();
+	player_rect.h = module_node.child("rect").attribute("h").as_uint();
 
 	return ret;
 }
@@ -386,10 +395,14 @@ bool j1Player::CleanUp()
 // Save & Load ------------------------------
 bool j1Player::Save(pugi::xml_node& module_node) const
 {
-	pugi::xml_node child_player = module_node.append_child("position");
+	pugi::xml_node child_player_position = module_node.append_child("position");
 
-	child_player.append_attribute("x").set_value(player_position.x);
-	child_player.append_attribute("y").set_value(player_position.y);
+	child_player_position.append_attribute("x").set_value(player_position.x);
+	child_player_position.append_attribute("y").set_value(player_position.y);
+
+	pugi::xml_node child_player_god_mode = module_node.append_child("god_mode");
+
+	child_player_god_mode.append_attribute("value").set_value(god_mode);
 
 	return(true);
 }
@@ -398,6 +411,8 @@ bool j1Player::Load(pugi::xml_node& module_node)
 {
 	player_position.x = module_node.child("position").attribute("x").as_uint();
 	player_position.y = module_node.child("position").attribute("y").as_uint();
+
+	god_mode = module_node.child("god_mode").attribute("value").as_bool();
 
 	player_speed.SetToZero();
 	return(true);

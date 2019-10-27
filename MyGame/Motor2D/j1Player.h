@@ -85,8 +85,8 @@ public:
 
 public:
 	iPoint player_position;
-	bool god_mode = false;
-	float gravity = 15.8f;
+	bool god_mode;
+	float gravity;
 	fPoint player_speed;
 	
 private:

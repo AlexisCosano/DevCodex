@@ -10,12 +10,13 @@
 	<map />
 	<collisions />
 	<scene>
-		<current_map value="2" />
+		<current_map value="1" />
 	</scene>
 	<player>
-		<position x="500" y="413" />
+		<position x="202" y="413" />
+		<god_mode value="false" />
 	</player>
 	<renderer>
-		<camera x="-700" y="-340" />
+		<camera x="-104" y="-340" />
 	</renderer>
 </save_file>
