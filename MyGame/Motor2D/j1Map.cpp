@@ -44,67 +44,8 @@ bool j1Map::Awake(pugi::xml_node& module_node)
 	bool ret = true;
 
 	folder.create(module_node.child("folder").child_value());
-	ResetBFS();
 
 	return ret;
-}
-
-void j1Map::ResetBFS()
-{
-	frontier.Clear();
-	visited.clear();
-	frontier.Push(iPoint(19, 4));
-	visited.add(iPoint(19, 4));
-}
-
-void j1Map::PropagateBFS()
-{
-	// TODO 1: If frontier queue contains elements
-	// pop the last one and calculate its 4 neighbors
-
-	// TODO 2: For each neighbor, if not visited, add it
-	// to the frontier queue and visited list
-}
-
-void j1Map::DrawBFS()
-{
-	iPoint point;
-
-	// Draw visited
-	p2List_item<iPoint>* item = visited.start;
-
-	while (item)
-	{
-		point = item->data;
-		Tileset* tileset = GetTilesetFromTileId(26);
-
-		SDL_Rect r = tileset->GetRect(26);
-		iPoint pos = MapToWorld(point.x, point.y);
-
-		App->render->Blit(tileset->tileset_texture, pos.x, pos.y, &r);
-
-		item = item->next;
-	}
-
-	// Draw frontier
-	for (uint i = 0; i < frontier.Count(); ++i)
-	{
-		point = *(frontier.Peek(i));
-		Tileset* tileset = GetTilesetFromTileId(25);
-
-		SDL_Rect r = tileset->GetRect(25);
-		iPoint pos = MapToWorld(point.x, point.y);
-
-		App->render->Blit(tileset->tileset_texture, pos.x, pos.y, &r);
-	}
-
-}
-
-bool j1Map::IsBFSWalkable(int x, int y) const
-{
-	// TODO 3: return true only if x and y are within map limits
-	// and the tile is walkable (tile id 0 in the navigation layer)
-	return true;
 }
 
 iPoint j1Map::MapToWorld(uint x, uint y) const
@@ -209,8 +150,6 @@ void j1Map::Draw()
 			}
 		}
 	}
-
-	//DrawBFS();
 }
 
 void j1Map::NoWalkable(Layer* collision_layer)

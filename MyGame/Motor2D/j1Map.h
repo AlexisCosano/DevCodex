@@ -4,7 +4,6 @@
 #include "PugiXml/src/pugixml.hpp"
 #include "p2List.h"
 #include "p2Point.h"
-#include "p2Queue.h"
 #include "j1Module.h"
 
 
@@ -147,12 +146,6 @@ public:
 	void Death(Layer* collision_layer);
 	void Win(Layer* collision_layer);
 
-	// BFS
-	void PropagateBFS();
-	void DrawBFS();
-	bool IsBFSWalkable(int x, int y) const;
-	void ResetBFS();
-
 public:
 	MapNode loaded_map;
 	iPoint current_spawn_point;
@@ -162,9 +155,6 @@ private:
 	pugi::xml_document map_file;
 	p2SString folder;
 	bool map_loaded;
-
-	p2Queue<iPoint> frontier;
-	p2List<iPoint> visited;
 };
 
 #endif // __j1MAP_H__
