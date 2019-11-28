@@ -176,6 +176,12 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
 	// Iterate while we have tile in the open list
+	open_list.add(origin);
+
+	while (open_list.end != NULL)
+	{
+		LOG("Iterating...");
+	}
 
 	// TODO 3: Move the lowest score cell from open list to the closed list
 
@@ -193,4 +199,3 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 	return -1;
 }
-

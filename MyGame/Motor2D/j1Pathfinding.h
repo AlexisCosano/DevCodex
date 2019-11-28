@@ -53,6 +53,9 @@ private:
 	uchar* map;
 	// we store the created path here
 	p2DynArray<iPoint> last_path;
+
+	p2List<iPoint> open_list;
+	p2List<iPoint> closed_list;
 };
 
 // forward declaration
@@ -97,7 +100,4 @@ struct PathList
 	// The list itself, note they are not pointers!
 	p2List<PathNode> list;
 };
-
-
-
 #endif // __j1PATHFINDING_H__
