@@ -79,6 +79,12 @@ bool j1App::Awake()
 		config_parent_node = config_file.first_child();
 		LOG("Config parent node: %s", config_parent_node.name());
 		LOG("|////////////////////////////////////////////////////|");
+
+		app_parent_node = config_parent_node.child("app");
+		LOG("App node: %s", app_parent_node.name());
+
+		max_frame_rate_cap = app_parent_node.child("frames").attribute("frame_rate_cap").as_int();
+		LOG("Framerate cap: %d", max_frame_rate_cap);
 	}
 	else
 	{
@@ -156,6 +162,13 @@ void j1App::FinishUpdate()
 	{
 		Load();
 	}
+
+	/*
+	static char assignment_title[256];
+	sprintf_s(assignment_title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
+	App->win->SetTitle(assignment_title);
+	*/
 }
 
 // Call modules before each loop iteration
@@ -187,9 +200,11 @@ bool j1App::DoUpdate()
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 	j1Module* pModule = NULL;
+
+	SDL_Delay(max_frame_rate_cap);
 	dt = (SDL_GetTicks() - last_frame_time)/1000.0f;
 	last_frame_time = SDL_GetTicks();
-
+	
 	for(item = modules.start; item != NULL && ret == true; item = item->next)
 	{
 		pModule = item->data;

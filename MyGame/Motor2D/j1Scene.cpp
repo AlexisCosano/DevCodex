@@ -142,20 +142,6 @@ bool j1Scene::Update(float dt)
 
 	App->map->Draw();
 	App->player->Draw(dt);
-	
-	
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint map_coordinates = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
-
-	p2SString title("Map: %dx%d  Tiles: %dx%d  Tilesets: %d  Layers: %d  Tile%d,%d FPS: %f",
-		App->map->loaded_map.width, App->map->loaded_map.height,
-		App->map->loaded_map.tile_height, App->map->loaded_map.tile_width,
-		App->map->loaded_map.map_tilesets.count(), App->map->loaded_map.map_layers.count(),
-		map_coordinates.x, map_coordinates.y, 1.0f/dt);
-	
-	
-	App->win->SetTitle(title.GetString());
 
 	return true;
 }

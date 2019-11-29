@@ -2,6 +2,8 @@
 #define __j1APP_H__
 
 #include "p2List.h"
+#include "j1PerfTimer.h"
+#include "j1Timer.h"
 #include "j1Module.h"
 #include "PugiXml\src\pugixml.hpp"
 
@@ -91,6 +93,7 @@ public:
 private:
 
 	p2List<j1Module*> modules;
+	
 	uint frames;
 	float dt;
 	float last_frame_time;
@@ -101,11 +104,24 @@ private:
 	pugi::xml_document save_file;
 	pugi::xml_node save_file_parent_node;
 
+	pugi::xml_node app_parent_node;
+
 
 	int	argc;
 	char** args;
 	p2SString title;
 	p2SString organization;
+
+	// Frame rate
+	int	frames_capped;
+	j1Timer	frame_time;
+	int max_frame_rate_cap;
+	uint64 frame_count = 0;
+	j1PerfTimer perfect_timer;
+	j1Timer last_sec_frame_time;
+	j1Timer	seconds_since_startup;
+	uint32 last_sec_frame_count = 0;
+	uint32 prev_last_sec_frame_count = 0;
 };
 
 extern j1App* App; 
