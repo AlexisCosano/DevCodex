@@ -206,7 +206,9 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		}
 
 		// TODO 5: Fill a list of all adjancent nodes
+		PathList adjacent_tiles;
 
+		closed_nodes_list.pathnodes_list.end->data.FindWalkableAdjacents(adjacent_tiles);
 
 		// TODO 6: Iterate adjancent nodes:
 		// ignore nodes in the closed list
