@@ -215,6 +215,30 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// If it is NOT found, calculate its F and add it to the open list
 		// If it is already in the open list, check if it is a better path (compare G)
 		// If it is a better path, Update the parent
+		for (p2List_item<PathNode>* iterator = adjacent_tiles.pathnodes_list.start; iterator != NULL; iterator = iterator->next)
+		{
+			if (closed_nodes_list.Find(iterator->data.pos))
+			{
+				continue;
+			}
+
+			else if (open_nodes_list.Find(iterator->data.pos))
+			{
+				PathNode tmp = open_nodes_list.Find(iterator->data.pos)->data;
+				iterator->data.CalculateF(tmp.pos);
+
+				if (tmp.g > iterator->data.g)
+				{
+					tmp.parent = iterator->data.parent;
+				}
+			}
+
+			else
+			{
+				iterator->data.CalculateF(iterator->data.pos);
+				open_nodes_list.pathnodes_list.add(iterator->data);
+			}
+		}
 
 	}
 
