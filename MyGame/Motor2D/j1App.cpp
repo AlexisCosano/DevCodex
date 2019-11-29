@@ -189,13 +189,21 @@ void j1App::FinishUpdate()
 		last_sec_frame_count = 0;
 	}
 
-	float avg_fps = float(frame_count) / startup_time.ReadSec();
+	if (are_frames_capped == true)
+	{
+		avg_fps = float(frame_count) / startup_time.ReadSec();
+	}
+	else
+	{
+		avg_fps = avg_fps; //Just for testing purposes
+	}
+
 	float seconds_since_startup = startup_time.ReadSec();
 	uint32 last_frame_ms = frame_time.Read();
 	uint32 frames_on_last_update = prev_last_sec_frame_count;
 
 	static char assignment_title[256];
-	sprintf_s(assignment_title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
+	sprintf_s(assignment_title, 256, "[Monster Heights]   Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
 		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
 	App->win->SetTitle(assignment_title);
 

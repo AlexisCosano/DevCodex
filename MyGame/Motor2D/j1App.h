@@ -89,6 +89,8 @@ public:
 	mutable bool request_save = false;
 	bool request_load = false;
 
+	bool are_frames_capped = true;
+
 
 private:
 
@@ -113,13 +115,14 @@ private:
 	p2SString organization;
 
 	// Frame rate
+	float avg_fps;
 	int	frames_capped;
 	j1Timer	frame_time;
+	j1Timer	startup_time;
 	int max_frame_rate_cap;
 	uint64 frame_count = 0;
 	j1PerfTimer perfect_timer;
 	j1Timer last_sec_frame_time;
-	j1Timer	startup_time;
 	uint32 last_sec_frame_count = 0;
 	uint32 prev_last_sec_frame_count = 0;
 };

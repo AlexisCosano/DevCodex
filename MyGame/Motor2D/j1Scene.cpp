@@ -140,6 +140,11 @@ bool j1Scene::Update(float dt)
 		App->player->god_mode = !App->player->god_mode;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
+	{
+		App->are_frames_capped = !App->are_frames_capped;
+	}
+
 	App->map->Draw();
 	App->player->Draw(dt);
 
