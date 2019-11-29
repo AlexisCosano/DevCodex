@@ -179,27 +179,32 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	PathList open_nodes_list;
 	PathList closed_nodes_list;
 	
-	open_nodes_list.pathnodes_list.add(PathNode(0, 0, origin, nullptr));
+	open_nodes_list.pathnodes_list.add(PathNode(0, origin.DistanceTo(destination), origin, nullptr));
 
-	while (open_nodes_list.pathnodes_list.count != 0)
+	while (open_nodes_list.pathnodes_list.count() != 0)
 	{
 		LOG("Iterating...");
+
+		// TODO 3: Move the lowest score cell from open list to the closed list
+		closed_nodes_list.pathnodes_list.add(open_nodes_list.GetNodeLowestScore()->data);
+
+		open_nodes_list.pathnodes_list.del(open_nodes_list.GetNodeLowestScore());
+
+		// TODO 4: If we just added the destination, we are done!
+		// Backtrack to create the final path
+		// Use the Pathnode::parent and Flip() the path when you are finish
+
+
+		// TODO 5: Fill a list of all adjancent nodes
+
+
+		// TODO 6: Iterate adjancent nodes:
+		// ignore nodes in the closed list
+		// If it is NOT found, calculate its F and add it to the open list
+		// If it is already in the open list, check if it is a better path (compare G)
+		// If it is a better path, Update the parent
+
 	}
-
-	// TODO 3: Move the lowest score cell from open list to the closed list
-	
-
-	// TODO 4: If we just added the destination, we are done!
-	// Backtrack to create the final path
-	// Use the Pathnode::parent and Flip() the path when you are finish
-
-	// TODO 5: Fill a list of all adjancent nodes
-
-	// TODO 6: Iterate adjancent nodes:
-	// ignore nodes in the closed list
-	// If it is NOT found, calculate its F and add it to the open list
-	// If it is already in the open list, check if it is a better path (compare G)
-	// If it is a better path, Update the parent
 
 	return -1;
 }
