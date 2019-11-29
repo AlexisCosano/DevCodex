@@ -1,5 +1,9 @@
 <config>
-
+	
+	<app>
+		<frames frame_rate_cap="30"/>
+	</app>
+	
 	<window>
 		<title game_title="Monster Heights"/>
 		<options full_screen="false" borderless="false" resizable="false" full_screen_windowed="false"/>
@@ -17,7 +21,7 @@
 
 	<renderer>
 		<camera x="0" y="0"/>
-    		<vsync value="true"/>
+    		<vsync value="false"/>
 	</renderer>
 
 	<textures>
@@ -29,9 +33,7 @@
 	</scene>
 
 	<map>
-
 		<folder>maps/</folder>
-
 	</map>
 
 	<player>
