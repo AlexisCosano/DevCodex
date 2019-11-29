@@ -69,7 +69,7 @@ const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
 // ---------------------------------------------------------------------------------
 const p2List_item<PathNode>* PathList::Find(const iPoint& point) const
 {
-	p2List_item<PathNode>* item = list.start;
+	p2List_item<PathNode>* item = pathnodes_list.start;
 	while (item)
 	{
 		if (item->data.pos == point)
@@ -87,7 +87,7 @@ p2List_item<PathNode>* PathList::GetNodeLowestScore() const
 	p2List_item<PathNode>* ret = NULL;
 	int min = 65535;
 
-	p2List_item<PathNode>* item = list.end;
+	p2List_item<PathNode>* item = pathnodes_list.end;
 	while (item)
 	{
 		if (item->data.Score() < min)
@@ -118,29 +118,29 @@ PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), 
 uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
 {
 	iPoint cell;
-	uint before = list_to_fill.list.count();
+	uint before = list_to_fill.pathnodes_list.count();
 
 	// north
 	cell.create(pos.x, pos.y + 1);
 	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	// south
 	cell.create(pos.x, pos.y - 1);
 	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	// east
 	cell.create(pos.x + 1, pos.y);
 	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	// west
 	cell.create(pos.x - 1, pos.y);
 	if (App->pathfinding->IsWalkable(cell))
-		list_to_fill.list.add(PathNode(-1, -1, cell, this));
+		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
-	return list_to_fill.list.count();
+	return list_to_fill.pathnodes_list.count();
 }
 
 // PathNode -------------------------------------------------------------------------
@@ -176,14 +176,18 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	// TODO 2: Create two lists: open, close
 	// Add the origin tile to open
 	// Iterate while we have tile in the open list
-	open_list.add(origin);
+	PathList open_nodes_list;
+	PathList closed_nodes_list;
+	
+	open_nodes_list.pathnodes_list.add(PathNode(0, 0, origin, nullptr));
 
-	while (open_list.end != NULL)
+	while (open_nodes_list.pathnodes_list.count != 0)
 	{
 		LOG("Iterating...");
 	}
 
 	// TODO 3: Move the lowest score cell from open list to the closed list
+	
 
 	// TODO 4: If we just added the destination, we are done!
 	// Backtrack to create the final path

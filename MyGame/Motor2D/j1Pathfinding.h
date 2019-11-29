@@ -14,6 +14,9 @@
 // Details: http://theory.stanford.edu/~amitp/GameProgramming/
 // --------------------------------------------------
 
+// forward declaration
+struct PathList;
+
 class j1PathFinding : public j1Module
 {
 public:
@@ -53,13 +56,7 @@ private:
 	uchar* map;
 	// we store the created path here
 	p2DynArray<iPoint> last_path;
-
-	p2List<iPoint> open_list;
-	p2List<iPoint> closed_list;
 };
-
-// forward declaration
-struct PathList;
 
 // ---------------------------------------------------------------------
 // Pathnode: Helper struct to represent a node in the path creation
@@ -98,6 +95,6 @@ struct PathList
 
 	// -----------
 	// The list itself, note they are not pointers!
-	p2List<PathNode> list;
+	p2List<PathNode> pathnodes_list;
 };
 #endif // __j1PATHFINDING_H__
