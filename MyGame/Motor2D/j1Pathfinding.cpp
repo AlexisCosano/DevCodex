@@ -67,7 +67,7 @@ const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
 // PathList ------------------------------------------------------------------------
 // Looks for a node in this list and returns it's list node or NULL
 // ---------------------------------------------------------------------------------
-const p2List_item<PathNode>* PathList::Find(const iPoint& point) const
+p2List_item<PathNode>* PathList::Find(const iPoint& point) const
 {
 	p2List_item<PathNode>* item = pathnodes_list.start;
 	while (item)
@@ -193,7 +193,17 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 		// TODO 4: If we just added the destination, we are done!
 		// Backtrack to create the final path
 		// Use the Pathnode::parent and Flip() the path when you are finish
-
+		if (open_nodes_list.pathnodes_list.end->data.pos == destination)
+		{
+			for (p2List_item<PathNode>* iterator = closed_nodes_list.pathnodes_list.end; iterator->data.pos != origin; iterator = closed_nodes_list.Find(iterator->data.parent->pos))
+			{
+				last_path.PushBack(iterator->data.pos);
+			}
+			
+			last_path.Flip();
+			
+			return 0;
+		}
 
 		// TODO 5: Fill a list of all adjancent nodes
 
