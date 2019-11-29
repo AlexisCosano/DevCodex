@@ -119,7 +119,7 @@ private:
 	uint64 frame_count = 0;
 	j1PerfTimer perfect_timer;
 	j1Timer last_sec_frame_time;
-	j1Timer	seconds_since_startup;
+	j1Timer	startup_time;
 	uint32 last_sec_frame_count = 0;
 	uint32 prev_last_sec_frame_count = 0;
 };

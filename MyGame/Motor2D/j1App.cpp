@@ -16,6 +16,8 @@
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 {
+	PERF_START(perfect_timer);
+
 	frames = 0;
 
 	input = new j1Input();
@@ -43,6 +45,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 
 	// render last to swap buffer
 	AddModule(render);
+
+	PERF_PEEK(perfect_timer);
 }
 
 // Destructor
@@ -70,6 +74,8 @@ void j1App::AddModule(j1Module* module)
 // Called before render is available
 bool j1App::Awake()
 {
+	PERF_START(perfect_timer);
+
 	pugi::xml_parse_result loading_result = config_file.load_file("config");
 
 	if (loading_result == true)
@@ -85,6 +91,8 @@ bool j1App::Awake()
 
 		max_frame_rate_cap = app_parent_node.child("frames").attribute("frame_rate_cap").as_int();
 		LOG("Framerate cap: %d", max_frame_rate_cap);
+
+		frames_capped = 1000 / max_frame_rate_cap;
 	}
 	else
 	{
@@ -104,12 +112,16 @@ bool j1App::Awake()
 		item = item->next; 
 	}
 
+	PERF_PEEK(perfect_timer);
+
 	return ret;
 }
 
 // Called before the first frame
 bool j1App::Start()
 {
+	PERF_START(perfect_timer);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
@@ -119,6 +131,10 @@ bool j1App::Start()
 		ret = item->data->Start();
 		item = item->next;
 	}
+
+	startup_time.Start();
+
+	PERF_PEEK(perfect_timer);
 
 	return ret;
 }
@@ -148,6 +164,9 @@ bool j1App::Update()
 // ---------------------------------------------
 void j1App::PrepareUpdate()
 {
+	frame_count++;
+	last_sec_frame_count++;
+	frame_time.Start();
 }
 
 // ---------------------------------------------
@@ -163,12 +182,27 @@ void j1App::FinishUpdate()
 		Load();
 	}
 
-	/*
+	if (last_sec_frame_time.Read() > 1000)
+	{
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
+	}
+
+	float avg_fps = float(frame_count) / startup_time.ReadSec();
+	float seconds_since_startup = startup_time.ReadSec();
+	uint32 last_frame_ms = frame_time.Read();
+	uint32 frames_on_last_update = prev_last_sec_frame_count;
+
 	static char assignment_title[256];
 	sprintf_s(assignment_title, 256, "Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Frame Count: %lu ",
 		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, frame_count);
 	App->win->SetTitle(assignment_title);
-	*/
+
+	if (frames_capped > 0 && last_frame_ms < frames_capped)
+	{
+		SDL_Delay(frames_capped - last_frame_ms);
+	}
 }
 
 // Call modules before each loop iteration
@@ -201,7 +235,6 @@ bool j1App::DoUpdate()
 	item = modules.start;
 	j1Module* pModule = NULL;
 
-	SDL_Delay(max_frame_rate_cap);
 	dt = (SDL_GetTicks() - last_frame_time)/1000.0f;
 	last_frame_time = SDL_GetTicks();
 	
@@ -243,6 +276,8 @@ bool j1App::PostUpdate()
 // Called before quitting
 bool j1App::CleanUp()
 {
+	PERF_START(perfect_timer);
+
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.end;
@@ -252,6 +287,8 @@ bool j1App::CleanUp()
 		ret = item->data->CleanUp();
 		item = item->prev;
 	}
+
+	PERF_PEEK(perfect_timer);
 
 	return ret;
 }
