@@ -17,6 +17,7 @@ class j1Scene;
 class j1Map;
 class j1Collisions;
 class j1Player;
+class j1EntityManager;
 class j1PathFinding;
 
 class j1App
@@ -84,6 +85,7 @@ public:
 	j1Map* map;
 	j1Collisions* collisions;
 	j1Player* player;
+	j1EntityManager* entity_manager;
 	j1PathFinding* pathfinding;
 
 	mutable bool request_save = false;

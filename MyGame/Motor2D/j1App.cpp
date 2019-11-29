@@ -10,6 +10,7 @@
 #include "j1Map.h"
 #include "j1Collisions.h"
 #include "j1Player.h"
+#include "j1EntityManager.h"
 #include "j1Pathfinding.h"
 #include "j1App.h"
 
@@ -29,6 +30,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	map = new j1Map();
 	collisions = new j1Collisions();
 	player = new j1Player();
+	entity_manager = new j1EntityManager();
 	pathfinding = new j1PathFinding();
 
 	// Ordered for awake / Start / Update
@@ -42,6 +44,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(scene);
 	AddModule(player);
+	AddModule(entity_manager);
 
 	// render last to swap buffer
 	AddModule(render);
