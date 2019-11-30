@@ -52,6 +52,12 @@
     <ClCompile Include="j1EntityManager.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="j1GroundedEnemy.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1FlyingEnemy.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -128,6 +134,12 @@
     </ClInclude>
     <ClInclude Include="j1Entity.h">
       <Filter>Desenvolupament  ========</Filter>
+    </ClInclude>
+    <ClInclude Include="j1GroundedEnemy.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1FlyingEnemy.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

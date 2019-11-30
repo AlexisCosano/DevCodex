@@ -25,8 +25,8 @@ enum Direction
 enum Type
 {
 	PLAYER,
-	ENEMY_GROUND,
-	ENEMY_FLY
+	GROUNDED_ENEMY,
+	FLYING_ENEMY
 };
 
 class j1Entity
@@ -88,8 +88,9 @@ public:
 public:
 	Type entity_type;
 	State entity_state;
-	iPoint entity_position;
 	fPoint entity_speed;
+	p2SString entity_name;
+	iPoint entity_position;
 	Direction entity_direction;
 };
 

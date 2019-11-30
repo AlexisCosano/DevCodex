@@ -1,9 +1,10 @@
-#ifndef __j1PLAYER_H__
-#define __j1PLAYER_H__
+#ifndef __j1FLYING_ENEMY_H__
+#define __j1FLYING_ENEMY_H__
 
 #include "j1Module.h"
 #include "p2Point.h"
 #include "p2List.h"
+#include "j1Entity.h"
 #include "SDL\include\SDL_rect.h"
 
 struct SDL_Texture;
@@ -12,10 +13,10 @@ struct SDL_Rect;
 
 enum CollisionDirection
 {
-	BOTTOM = 0,
-	TOP,
-	RIGHT,
-	LEFT
+	FE_BOTTOM = 0,
+	FE_TOP,
+	FE_RIGHT,
+	FE_LEFT
 };
 
 struct AnimationStruct
@@ -33,7 +34,7 @@ struct AnimationStruct
 
 		if (current_frame >= max_frame)
 		{
-			if(loop == false)
+			if (loop == false)
 			{
 				current_frame = max_frame - 1;
 				return current_frame;
@@ -50,14 +51,14 @@ struct AnimationStruct
 	}
 };
 
-class j1Player : public j1Module
+class j1FlyingEnemy : public j1Entity
 {
 public:
 
-	j1Player();
+	j1FlyingEnemy();
 
 	// Destructor
-	virtual ~j1Player();
+	virtual ~j1FlyingEnemy();
 
 	// Called before the first frame
 	bool Start();
@@ -76,24 +77,19 @@ public:
 	bool Load(pugi::xml_node& module_node);
 
 	void ApplyGravity(float dt);
-	void Jump(float dt);
 	SDL_Rect* CheckCollisions(CollisionDirection direction);
-	bool HasPlayerDied();
-	bool HasPlayerWon();
 	void Draw(float dt);
-	void GodMode(float dt);
 
 public:
-	iPoint player_position;
-	bool god_mode;
+	iPoint entity_position;
+	fPoint entity_speed;
 	float gravity;
-	fPoint player_speed;
-	
+
 private:
-	p2SString player_folder;
-	SDL_Texture* player_texture;
+	p2SString flying_enemy_folder;
+	SDL_Texture* flying_enemy_texture;
 	SDL_Texture* die_texture;
-	SDL_Rect player_rect;
+	SDL_Rect flying_enemy_rect;
 
 	float frame_time = 0.0f;
 	bool flip = true;
@@ -108,4 +104,4 @@ private:
 	void ChooseAnimation();
 };
 
-#endif __j1PLAYER_H__
+#endif __j1FLYING_ENEMY_H__
