@@ -5,18 +5,20 @@
 	<textures />
 	<audio>
 		<music base_volume="20" />
-		<fx base_volume="50" />
+		<fx base_volume="20" />
 	</audio>
 	<map />
 	<collisions />
+	<pathfinding />
 	<scene>
 		<current_map value="1" />
 	</scene>
 	<player>
-		<position x="434" y="413" />
+		<position x="160" y="413" />
 		<god_mode value="false" />
 	</player>
+	<Criatures />
 	<renderer>
-		<camera x="-568" y="-340" />
+		<camera x="-20" y="-340" />
 	</renderer>
 </save_file>

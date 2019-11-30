@@ -141,6 +141,9 @@
     <ClInclude Include="j1FlyingEnemy.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Brofiler\Brofiler\Brofiler.h">
+      <Filter>Desenvolupament  ========\Tools\Brofiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -160,6 +163,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Tools\Brofiler">
+      <UniqueIdentifier>{57f9d023-4562-445e-9b22-80748503aa85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
