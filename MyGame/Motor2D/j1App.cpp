@@ -192,12 +192,15 @@ void j1App::FinishUpdate()
 
 	if (are_frames_capped == true)
 	{
-		avg_fps = float(frame_count) / startup_time.ReadSec();
+		frames_capped = 1000 / max_frame_rate_cap;
 	}
 	else
 	{
-		avg_fps = avg_fps; //Just for testing purposes
+		frames_capped = 1000 / 60;
 	}
+
+	avg_fps = float(frame_count) / startup_time.ReadSec();
+
 
 	float seconds_since_startup = startup_time.ReadSec();
 	uint32 last_frame_ms = frame_time.Read();

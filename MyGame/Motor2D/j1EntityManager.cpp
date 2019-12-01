@@ -19,14 +19,6 @@ bool j1EntityManager::Awake(pugi::xml_node& module_node)
 {
 	this->module_node = module_node;
 	bool ret = true;
-	p2List_item<j1Entity*>* item;
-	item = entities.start;
-
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Awake(module_node.child(item->data->TypeToString().GetString()));
-		item = item->next;
-	}
 
 	return ret;
 }
@@ -34,14 +26,6 @@ bool j1EntityManager::Awake(pugi::xml_node& module_node)
 bool j1EntityManager::Start()
 {
 	bool ret = true;
-	p2List_item<j1Entity*>* item;
-	item = entities.start;
-
-	while (item != NULL && ret == true)
-	{
-		ret = item->data->Start();
-		item = item->next;
-	}
 
 	return ret;
 }
@@ -174,7 +158,7 @@ j1Entity * j1EntityManager::CreateEntity(Type type)
 		ret = new j1FlyingEnemy();
 		break;
 	}
-
+	ret->type = type;
 	ret->Awake(module_node.child(ret->TypeToString().GetString()));
 	ret->Start();
 

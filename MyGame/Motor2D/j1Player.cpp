@@ -227,7 +227,7 @@ bool j1Player::IsCollidingWithEnemy()
 	bool ret = false;
 	p2List_item<j1Entity*>* item = App->entity_manager->entities.start;
 
-	for (item; item != App->entity_manager->entities.end; item = item->next)
+	for (item; item != NULL; item = item->next)
 	{
 		if (item->data == this)
 		{
@@ -371,7 +371,7 @@ bool j1Player::Update(float dt)
 		if(collider != nullptr)
 		{
 			jump_animation.current_frame = 0;
-			player_speed.y = -280;
+			player_speed.y = -300;
 		}
 	}
 

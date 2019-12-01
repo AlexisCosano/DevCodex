@@ -93,9 +93,9 @@ public:
 		case PLAYER:
 			return "player";
 		case GROUNDED_ENEMY:
-			return"grounded_enemy";
+			return "grounded_enemy";
 		case FLYING_ENEMY:
-			return"flying_enemy";
+			return "flying_enemy";
 		default:
 			return "default";
 		}
