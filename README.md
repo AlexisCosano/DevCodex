@@ -27,7 +27,7 @@ When in God mode:
 - S = Move down
 - D = Move right
 
-To kill the enemies: you need to be falling down on them and you will not bounce off of them, you will fall down as you'do performing a regular jump.
+To kill the enemies: you need to be falling down and you will not bounce off of them, you will fall down as you'd do performing a regular jump.
 
 ----------------------------------------------------------------------
 
