@@ -5,7 +5,7 @@
 
 j1EntityManager::j1EntityManager() : j1Module()
 {
-	name = "Criatures";
+	name = "entities";
 }
 
 j1EntityManager::~j1EntityManager()

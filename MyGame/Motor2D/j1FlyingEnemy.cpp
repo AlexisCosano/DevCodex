@@ -28,15 +28,6 @@ bool j1FlyingEnemy::Start()
 	idle_animation.name = "idle";
 	idle_animation.max_frame = 5;
 
-	for (int i = 0; i < 5; i++)
-	{
-		idle_animation.animation_rect[i] = { 36 * i, 0, 36, 38 };
-	}
-
-	jump_animation.name = "jump";
-	jump_animation.max_frame = 4;
-	jump_animation.loop = false;
-
 	for (int i = 0; i < 4; i++)
 	{
 		jump_animation.animation_rect[i] = { 36 * i, 38, 36, 38 };
@@ -61,8 +52,6 @@ bool j1FlyingEnemy::Start()
 	}
 
 	current_animation = &idle_animation;
-
-	LOG("This second?");
 
 	return true;
 }
