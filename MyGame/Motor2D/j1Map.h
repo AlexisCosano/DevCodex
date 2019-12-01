@@ -6,6 +6,7 @@
 #include "p2Point.h"
 #include "j1Module.h"
 
+class j1Player;
 
 // ----------------------------------------------------
 struct Properties
@@ -150,6 +151,7 @@ public:
 	MapNode loaded_map;
 	iPoint current_spawn_point;
 	bool debug_mode_active = false;
+	j1Player* player;
 
 private:
 	pugi::xml_document map_file;

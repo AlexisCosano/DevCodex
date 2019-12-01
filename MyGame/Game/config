@@ -35,12 +35,14 @@
 	<map>
 		<folder>maps/</folder>
 	</map>
+  
+  <entities>
+    <player>
+      <folder>textures/</folder>
+      <speed x="0" y="0"/>
+      <attributes gravity="15.8" god_mode="false"/>
+      <rect x="0" y="0" w="36" h="35"/>
+    </player>
+	</entities>
 
-	<player>
-		<folder>textures/</folder>
-		<speed x="0" y="0"/>
-		<attributes gravity="15.8" god_mode="false"/>
-		<rect x="0" y="0" w="36" h="35"/>
-	</player>
-	
 </config>

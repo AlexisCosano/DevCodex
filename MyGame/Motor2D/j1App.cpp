@@ -29,7 +29,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	map = new j1Map();
 	collisions = new j1Collisions();
-	player = new j1Player();
 	entity_manager = new j1EntityManager();
 	pathfinding = new j1PathFinding();
 
@@ -43,7 +42,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(collisions);
 	AddModule(pathfinding);
 	AddModule(scene);
-	AddModule(player);
 	AddModule(entity_manager);
 
 	// render last to swap buffer

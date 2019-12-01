@@ -5,21 +5,12 @@
 
 struct SDL_Texture;
 
-enum State
-{
-	IDLE,
-	WALK_RIGHT,
-	WALK_LEFT,
-	FLY_RIGHT,
-	FLY_LEFT
-};
-
 enum Direction
 {
-	E_UP,
-	E_LEFT,
-	E_DOWN,
-	E_RIGHT
+	TOP,
+	LEFT,
+	BOTTOM,
+	RIGHT
 };
 
 enum Type
@@ -39,7 +30,7 @@ public:
 	virtual ~j1Entity() {};
 	
 	// Called before render is available
-	virtual bool Awake()
+	virtual bool Awake(pugi::xml_node& module_node)
 	{
 		return true;
 	}
@@ -85,13 +76,23 @@ public:
 		return true;
 	}
 
+	virtual p2SString TypeToString()
+	{
+		switch (type)
+		{
+		case PLAYER:
+			return "player";
+		case GROUNDED_ENEMY:
+			return"grounded_enemy";
+		case FLYING_ENEMY:
+			return"flying_enemy";
+		default:
+			return "default";
+		}
+	}
+
 public:
-	Type entity_type;
-	State entity_state;
-	fPoint entity_speed;
-	p2SString entity_name;
-	iPoint entity_position;
-	Direction entity_direction;
+	Type type;
 };
 
 #endif __j1ENTITY_H__

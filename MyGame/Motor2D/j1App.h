@@ -85,7 +85,6 @@ public:
 	j1Scene* scene;
 	j1Map* map;
 	j1Collisions* collisions;
-	j1Player* player;
 	j1EntityManager* entity_manager;
 	j1PathFinding* pathfinding;
 

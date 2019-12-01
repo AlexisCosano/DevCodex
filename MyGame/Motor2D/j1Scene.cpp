@@ -47,8 +47,8 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	App->render->camera.x = ((-App->player->player_position.x * App->win->GetScale()) + (150 * App->win->GetScale()));
-	App->render->camera.y = ((-App->player->player_position.y * App->win->GetScale()) + (240 * App->win->GetScale()));
+	App->render->camera.x = ((-App->map->player->player_position.x * App->win->GetScale()) + (150 * App->win->GetScale()));
+	App->render->camera.y = ((-App->map->player->player_position.y * App->win->GetScale()) + (240 * App->win->GetScale()));
 
 	if (App->render->camera.x > 0 * (int)App->win->GetScale())
 	{
@@ -96,22 +96,22 @@ bool j1Scene::Update(float dt)
 	{
 		map_to_load = 1;
 		LoadMap(map_to_load);
-		App->player->player_position = App->map->current_spawn_point;
-		App->player->player_speed.SetToZero();
+		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_speed.SetToZero();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		map_to_load = 2;
 		LoadMap(map_to_load);
-		App->player->player_position = App->map->current_spawn_point;
-		App->player->player_speed.SetToZero();
+		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_speed.SetToZero();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		App->player->player_position = App->map->current_spawn_point;
-		App->player->player_speed.SetToZero();
+		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_speed.SetToZero();
 	}
 		
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
@@ -137,7 +137,7 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
 	{
-		App->player->god_mode = !App->player->god_mode;
+		App->map->player->god_mode = !App->map->player->god_mode;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN)
@@ -146,7 +146,7 @@ bool j1Scene::Update(float dt)
 	}
 
 	App->map->Draw();
-	App->player->Draw(dt);
+	App->map->player->Draw(dt);
 
 	return true;
 }
@@ -198,15 +198,15 @@ void j1Scene::WinnerWinner()
 	{
 		map_to_load = 2;
 		LoadMap(map_to_load);
-		App->player->player_position = App->map->current_spawn_point;
-		App->player->player_speed.SetToZero();
+		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_speed.SetToZero();
 		return;
 	}
 
 	map_to_load = 1;
 	LoadMap(map_to_load);
-	App->player->player_position = App->map->current_spawn_point;
-	App->player->player_speed.SetToZero();
+	App->map->player->player_position = App->map->current_spawn_point;
+	App->map->player->player_speed.SetToZero();
 }
 
 bool j1Scene::Save(pugi::xml_node& module_node) const

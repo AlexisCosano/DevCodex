@@ -3,20 +3,13 @@
 
 #include "j1Module.h"
 #include "p2Point.h"
+#include "j1Entity.h"
 #include "p2List.h"
 #include "SDL\include\SDL_rect.h"
 
 struct SDL_Texture;
 struct SDL_Rect;
 
-
-enum CollisionDirection
-{
-	BOTTOM = 0,
-	TOP,
-	RIGHT,
-	LEFT
-};
 
 struct AnimationStruct
 {
@@ -50,7 +43,7 @@ struct AnimationStruct
 	}
 };
 
-class j1Player : public j1Module
+class j1Player : public j1Entity
 {
 public:
 
@@ -77,7 +70,7 @@ public:
 
 	void ApplyGravity(float dt);
 	void Jump(float dt);
-	SDL_Rect* CheckCollisions(CollisionDirection direction);
+	SDL_Rect* CheckCollisions(Direction direction);
 	bool HasPlayerDied();
 	bool HasPlayerWon();
 	void Draw(float dt);

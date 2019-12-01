@@ -32,8 +32,14 @@ public:
 	bool Load(pugi::xml_node& module_node);
 	bool Save(pugi::xml_node& module_node) const;
 
+	j1Entity* CreateEntity(Type type);
+	bool DestroyEntity(j1Entity* entity);
+
 public:
 	p2List<j1Entity*> entities;
+
+private:
+	pugi::xml_node module_node;
 };
 
 #endif __j1ENTITY_MANAGER_H__

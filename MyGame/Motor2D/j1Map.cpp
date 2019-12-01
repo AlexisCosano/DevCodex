@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Collisions.h"
 #include "j1Player.h"
+#include "j1EntityManager.h"
 #include "j1Map.h"
 #include <math.h>
 
@@ -132,15 +133,15 @@ void j1Map::Draw()
 					
 					if (layer_to_draw->layer_properties.Get("Parallax1") != 0)
 					{
-						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.15f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.05f, &tile_rect);
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(player->player_position.x - current_spawn_point.x) * 0.15f, world_position.y + (float)(player->player_position.y - current_spawn_point.y) * 0.05f, &tile_rect);
 					}
 					else if (layer_to_draw->layer_properties.Get("Parallax2") != 0)
 					{
-						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.17f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(player->player_position.x - current_spawn_point.x) * 0.17f, world_position.y + (float)(player->player_position.y - current_spawn_point.y) * 0.3f, &tile_rect);
 					}
 					else if (layer_to_draw->layer_properties.Get("Parallax3") != 0)
 					{
-						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(App->player->player_position.x - current_spawn_point.x) * 0.05f, world_position.y + (float)(App->player->player_position.y - current_spawn_point.y) * 0.05f, &tile_rect);
+						App->render->Blit(tileset_used->tileset_texture, world_position.x + (float)(player->player_position.x - current_spawn_point.x) * 0.05f, world_position.y + (float)(player->player_position.y - current_spawn_point.y) * 0.05f, &tile_rect);
 					}
 					else
 					{
@@ -189,6 +190,7 @@ void j1Map::SpawnPoint(Layer* collision_layer)
 				iPoint pos = MapToWorld(x, y);
 
 				current_spawn_point = pos;
+				player = (j1Player*)App->entity_manager->CreateEntity(PLAYER);
 			}
 		}
 	}

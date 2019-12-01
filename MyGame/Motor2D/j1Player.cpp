@@ -12,9 +12,8 @@
 #include "j1Scene.h"
 
 
-j1Player::j1Player() : j1Module()
+j1Player::j1Player() : j1Entity()
 {
-	name.create("player");
 }
 
 // Destructor ---------------------------------
@@ -64,8 +63,6 @@ bool j1Player::Start()
 	}
 
 	current_animation = &idle_animation;
-
-	LOG("This second?");
 
 	return true;
 }
@@ -241,7 +238,7 @@ bool j1Player::HasPlayerWon()
 	return ret;
 }
 
-SDL_Rect* j1Player::CheckCollisions(CollisionDirection direction)
+SDL_Rect* j1Player::CheckCollisions(Direction direction)
 {
 	bool ret = false;
 	p2List_item<SDL_Rect>* item = App->collisions->no_walkable_tiles.start;
