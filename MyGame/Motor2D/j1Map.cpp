@@ -5,6 +5,8 @@
 #include "j1Textures.h"
 #include "j1Collisions.h"
 #include "j1Player.h"
+#include "j1FlyingEnemy.h"
+#include "j1Pathfinding.h"
 #include "j1EntityManager.h"
 #include "j1Map.h"
 #include <math.h>
@@ -155,6 +157,8 @@ void j1Map::Draw()
 
 void j1Map::NoWalkable(Layer* collision_layer)
 {
+	uchar* map_data = new uchar[loaded_map.width * loaded_map.height];
+
 	for (int y = 0; y < loaded_map.height; ++y)
 	{
 		for (int x = 0; x < loaded_map.width; ++x)
@@ -162,6 +166,7 @@ void j1Map::NoWalkable(Layer* collision_layer)
 			int tile_id = collision_layer->Get(x, y);
 			if (tile_id > 0)
 			{
+				map_data[(y * loaded_map.width) + x] = 255;
 				Tileset* tileset = loaded_map.map_tilesets.start->data;
 
 				SDL_Rect r = tileset->GetRect(tile_id);
@@ -172,8 +177,14 @@ void j1Map::NoWalkable(Layer* collision_layer)
 
 				App->collisions->NoWalkable(r);
 			}
+			else
+			{
+				map_data[(y * loaded_map.width) + x] = 1;
+			}
 		}
 	}
+	pathfinding = new j1PathFinding();
+	pathfinding->SetMap(loaded_map.width, loaded_map.height, map_data);
 }
 
 void j1Map::SpawnPoint(Layer* collision_layer)
@@ -191,6 +202,26 @@ void j1Map::SpawnPoint(Layer* collision_layer)
 
 				current_spawn_point = pos;
 				player = (j1Player*)App->entity_manager->CreateEntity(PLAYER);
+			}
+		}
+	}
+}
+
+void j1Map::SpawnFlyingEnemy(Layer* collision_layer)
+{
+	for (int y = 0; y < loaded_map.height; ++y)
+	{
+		for (int x = 0; x < loaded_map.width; ++x)
+		{
+			int tile_id = collision_layer->Get(x, y);
+			if (tile_id > 0)
+			{
+				Tileset* tileset = loaded_map.map_tilesets.start->data;
+
+				iPoint pos = MapToWorld(x, y);
+
+				j1FlyingEnemy* enemy = (j1FlyingEnemy*)App->entity_manager->CreateEntity(FLYING_ENEMY);
+				enemy->SetPosition(pos);
 			}
 		}
 	}
@@ -319,6 +350,16 @@ bool j1Map::LoadLayers(pugi::xml_node& layer_node, Layer* layer)
 		if (layer->layer_properties.Get("End") != 0)
 		{
 			Win(layer);
+		}
+
+		if (layer->layer_properties.Get("GroundedEnemySpawn") != 0)
+		{
+			SpawnFlyingEnemy(layer);
+		}	
+		
+		if (layer->layer_properties.Get("FlyingEnemySpawn") != 0)
+		{
+			SpawnFlyingEnemy(layer);
 		}
 	}
 

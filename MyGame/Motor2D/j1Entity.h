@@ -53,10 +53,19 @@ public:
 		return true;
 	}
 
+	virtual bool Draw(float dt)
+	{
+		return true;
+	}
+
 	// Called each loop iteration
 	virtual bool PostUpdate()
 	{
 		return true;
+	}	
+	
+	virtual void Reset()
+	{
 	}
 
 	// Called before quitting

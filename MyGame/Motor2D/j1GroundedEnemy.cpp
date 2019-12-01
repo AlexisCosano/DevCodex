@@ -47,6 +47,7 @@ bool j1GroundedEnemy::Load(pugi::xml_node & module_node)
 	return false;
 }
 
-void j1GroundedEnemy::Draw(float dt)
+bool j1GroundedEnemy::Draw(float dt)
 {
+	return true;
 }

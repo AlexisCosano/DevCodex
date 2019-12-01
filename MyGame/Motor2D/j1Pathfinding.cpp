@@ -59,7 +59,7 @@ uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 }
 
 // To request all tiles involved in the last generated path
-const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
+p2DynArray<iPoint>* j1PathFinding::GetLastPath()
 {
 	return &last_path;
 }
@@ -115,29 +115,29 @@ PathNode::PathNode(const PathNode& node) : g(node.g), h(node.h), pos(node.pos), 
 // PathNode -------------------------------------------------------------------------
 // Fills a list (PathList) of all valid adjacent pathnodes
 // ----------------------------------------------------------------------------------
-uint PathNode::FindWalkableAdjacents(PathList& list_to_fill) const
+uint PathNode::FindWalkableAdjacents(PathList& list_to_fill, j1PathFinding* pathfinding) const
 {
 	iPoint cell;
 	uint before = list_to_fill.pathnodes_list.count();
 
 	// north
 	cell.create(pos.x, pos.y + 1);
-	if (App->pathfinding->IsWalkable(cell))
+	if (pathfinding->IsWalkable(cell))
 		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	// south
 	cell.create(pos.x, pos.y - 1);
-	if (App->pathfinding->IsWalkable(cell))
+	if (pathfinding->IsWalkable(cell))
 		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	// east
 	cell.create(pos.x + 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
+	if (pathfinding->IsWalkable(cell))
 		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	// west
 	cell.create(pos.x - 1, pos.y);
-	if (App->pathfinding->IsWalkable(cell))
+	if (pathfinding->IsWalkable(cell))
 		list_to_fill.pathnodes_list.add(PathNode(-1, -1, cell, this));
 
 	return list_to_fill.pathnodes_list.count();
@@ -167,6 +167,7 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
+	last_path.Clear();
 	if (IsWalkable(origin) == false || IsWalkable(destination) == false)
 	{
 		return -1;
@@ -180,24 +181,20 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	while (open_nodes_list.pathnodes_list.count() != 0)
 	{
 		closed_nodes_list.pathnodes_list.add(open_nodes_list.GetNodeLowestScore()->data);
-
 		open_nodes_list.pathnodes_list.del(open_nodes_list.GetNodeLowestScore());
 
-		if (open_nodes_list.pathnodes_list.end->data.pos == destination)
+		if (closed_nodes_list.pathnodes_list.end->data.pos == destination)
 		{
 			for (p2List_item<PathNode>* iterator = closed_nodes_list.pathnodes_list.end; iterator->data.pos != origin; iterator = closed_nodes_list.Find(iterator->data.parent->pos))
 			{
 				last_path.PushBack(iterator->data.pos);
 			}
-			
-			last_path.Flip();
-			
+						
 			return 0;
 		}
 
 		PathList adjacent_tiles;
-
-		closed_nodes_list.pathnodes_list.end->data.FindWalkableAdjacents(adjacent_tiles);
+		closed_nodes_list.pathnodes_list.end->data.FindWalkableAdjacents(adjacent_tiles, this);
 
 		for (p2List_item<PathNode>* iterator = adjacent_tiles.pathnodes_list.start; iterator != NULL; iterator = iterator->next)
 		{
@@ -205,7 +202,6 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			{
 				continue;
 			}
-
 			else if (open_nodes_list.Find(iterator->data.pos))
 			{
 				PathNode tmp = open_nodes_list.Find(iterator->data.pos)->data;
@@ -216,13 +212,13 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 					tmp.parent = iterator->data.parent;
 				}
 			}
-
 			else
 			{
 				iterator->data.CalculateF(iterator->data.pos);
 				open_nodes_list.pathnodes_list.add(iterator->data);
 			}
 		}
+		adjacent_tiles.pathnodes_list.clear();
 
 	}
 

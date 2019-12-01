@@ -41,7 +41,7 @@ public:
 	bool Save(pugi::xml_node& module_node) const;
 
 	bool is_map_loaded = false;
-
+	bool HasWon = false;
 private:
 	int map_to_load = 1;
 };

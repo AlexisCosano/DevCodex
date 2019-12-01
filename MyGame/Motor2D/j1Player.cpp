@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Collisions.h"
+#include "j1EntityManager.h"
 #include "j1Player.h"
 #include "j1Scene.h"
 
@@ -23,7 +24,8 @@ j1Player::~j1Player()
 // Called before the first frame
 bool j1Player::Start()
 {
-	player_position = App->map->current_spawn_point;
+	player_position.x = App->map->current_spawn_point.x;
+	player_position.y = App->map->current_spawn_point.y;
 	player_texture = App->tex->Load(PATH(player_folder.GetString(), "axolotl.png"));
 	die_texture = App->tex->Load(PATH(player_folder.GetString(), "death.png"));
 	
@@ -89,7 +91,7 @@ bool j1Player::Awake(pugi::xml_node& module_node)
 	return ret;
 }
 
-void j1Player::Draw(float dt)
+bool j1Player::Draw(float dt)
 {
 	SDL_Texture* texture = player_texture;
 	if (dead)
@@ -111,13 +113,15 @@ void j1Player::Draw(float dt)
 		frame_time = 0.0f;
 		current_animation->GetNextFrame();
 	}
+
+	return true;
 }
 
 void j1Player::GodMode(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
-		player_speed.y = 3 + gravity * dt;
+		player_speed.y = 130.0f * dt;
 
 		player_rect.y -= player_speed.y;
 
@@ -136,11 +140,11 @@ void j1Player::GodMode(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		player_speed.y = 3 + gravity * dt;
+		player_speed.y = 130.0f * dt;
 
 		player_rect.y += player_speed.y;
 
-		SDL_Rect* collider = CheckCollisions(RIGHT);
+		SDL_Rect* collider = CheckCollisions(BOTTOM);
 
 		if (collider == nullptr)
 		{
@@ -155,15 +159,15 @@ void j1Player::GodMode(float dt)
 
 }
 
-void j1Player::ChooseAnimation()
+void j1Player::ChooseAnimation(float dt)
 {
-	if (player_speed.y > 1.0f || player_speed.y < -1.0f)
+	if (player_speed.y * dt > 1.0f || player_speed.y * dt < -1.0f)
 	{
 		current_animation = &jump_animation;
 		return;
 	}
 
-	if (player_speed.x > 0.001f || player_speed.x < -0.001f)
+	if (player_speed.x * dt > 0.001f || player_speed.x * dt < -0.001f)
 	{
 		current_animation = &run_animation;
 		return;
@@ -174,16 +178,15 @@ void j1Player::ChooseAnimation()
 
 void j1Player::ApplyGravity(float dt)
 {
-	player_rect.y += player_speed.y;
+	float g = player_speed.y * dt;
+
+	player_position.y += g;
+	player_rect.y = (int)player_position.y;
 	SDL_Rect* collider = CheckCollisions(BOTTOM);
 
-	if (collider == nullptr)
+	if (collider != nullptr)
 	{
-		player_position.y = player_rect.y;
-	}
-	else
-	{
-		player_rect.y = player_position.y + (collider->y - (player_position.y + player_rect.h));
+		player_rect.y = collider->y - player_rect.h;
 		player_position.y = player_rect.y;
 		player_speed.y = 0.0f;
 	}
@@ -191,15 +194,11 @@ void j1Player::ApplyGravity(float dt)
 
 void j1Player::Jump(float dt)
 {
-	player_rect.y += player_speed.y;
+	player_position.y += player_speed.y * dt;
+	player_rect.y = (int)player_position.y;
 	SDL_Rect* collider = CheckCollisions(TOP);
-
-	
-	if (collider == nullptr)
-	{
-		player_position.y = player_rect.y;
-	}
-	else
+		
+	if (collider != nullptr)
 	{
 		player_rect.y = collider->y + collider->h;
 		player_position.y = player_rect.y;
@@ -286,8 +285,10 @@ bool j1Player::Update(float dt)
 	{
 		if (current_animation->current_frame == 6)
 		{
-			player_position = App->map->current_spawn_point;
+			player_position.x = App->map->current_spawn_point.x;
+			player_position.y = App->map->current_spawn_point.y;
 			player_speed.SetToZero();
+			App->entity_manager->ResetEntities();
 			dead = false;
 		}
 
@@ -299,37 +300,32 @@ bool j1Player::Update(float dt)
 		
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		player_speed.x = 3 + gravity * dt;
+		player_speed.x = 130.0f * dt;
 
-		player_rect.x -= player_speed.x;
+		player_position.x -= player_speed.x;
+		player_rect.x = (int)player_position.x;
 
 		SDL_Rect* collider = CheckCollisions(LEFT);
 
-		if (collider == nullptr)
-		{
-			player_position.x = player_rect.x;
-		}
-		else
+		if (collider != nullptr)
 		{
 			player_rect.x = collider->x + collider->w;
 			player_position.x = player_rect.x;
 		}
+
 		flip = false;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		player_speed.x = 3 + gravity * dt;
+		player_speed.x = 130.0f * dt;
 
-		player_rect.x += player_speed.x;
+		player_position.x += player_speed.x;
+		player_rect.x = (int)player_position.x;
 
 		SDL_Rect* collider = CheckCollisions(RIGHT);
 
-		if (collider == nullptr)
-		{
-			player_position.x = player_rect.x;
-		}
-		else
+		if (collider != nullptr)
 		{
 			player_rect.x = collider->x - player_rect.w;
 			player_position.x = player_rect.x;
@@ -345,7 +341,7 @@ bool j1Player::Update(float dt)
 		if(collider != nullptr)
 		{
 			jump_animation.current_frame = 0;
-			player_speed.y = -6;
+			player_speed.y = -280;
 		}
 	}
 
@@ -362,11 +358,12 @@ bool j1Player::Update(float dt)
 		}
 		ApplyGravity(dt);
 	}
-	ChooseAnimation();
+	ChooseAnimation(dt);
 
 	if (HasPlayerWon() == true)
 	{
-		App->scene->WinnerWinner();
+		App->scene->HasWon = true;
+		return true;
 	}
 
 	if (HasPlayerDied() == true)

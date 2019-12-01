@@ -29,6 +29,11 @@ public:
 	// Called before all Updates
 	bool PostUpdate();
 
+	// Called before all Updates
+	bool CleanUp();
+
+	void ResetEntities();
+
 	bool Load(pugi::xml_node& module_node);
 	bool Save(pugi::xml_node& module_node) const;
 

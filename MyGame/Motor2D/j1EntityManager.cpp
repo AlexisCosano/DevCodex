@@ -68,9 +68,16 @@ bool j1EntityManager::Update(float dt)
 	p2List_item<j1Entity*>* item;
 	item = entities.start;
 
-	while (item != NULL && ret == true)
+	while (item != NULL && item->data != NULL && ret == true)
 	{
 		ret = item->data->Update(dt);
+		item = item->next;
+	}
+
+	item = entities.start;
+	while (item != NULL && ret == true)
+	{
+		ret = item->data->Draw(dt);
 		item = item->next;
 	}
 
@@ -90,6 +97,36 @@ bool j1EntityManager::PostUpdate()
 	}
 
 	return ret;
+}
+
+bool j1EntityManager::CleanUp()
+{
+	bool ret = true;
+	p2List_item<j1Entity*>* item;
+	item = entities.start;
+
+	while (item != NULL)
+	{
+		ret = item->data->CleanUp();
+		RELEASE(item->data);
+		item = item->next;
+	}
+
+	entities.clear();
+
+	return ret;
+}
+
+void j1EntityManager::ResetEntities()
+{
+	p2List_item<j1Entity*>* item;
+	item = entities.start;
+
+	while (item != NULL)
+	{
+		item->data->Reset();
+		item = item->next;
+	}
 }
 
 bool j1EntityManager::Load(pugi::xml_node& module_node)
@@ -139,6 +176,7 @@ j1Entity * j1EntityManager::CreateEntity(Type type)
 	}
 
 	ret->Awake(module_node.child(ret->TypeToString().GetString()));
+	ret->Start();
 
 	if (ret != nullptr)
 		entities.add(ret);

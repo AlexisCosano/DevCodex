@@ -73,11 +73,11 @@ public:
 	SDL_Rect* CheckCollisions(Direction direction);
 	bool HasPlayerDied();
 	bool HasPlayerWon();
-	void Draw(float dt);
+	bool Draw(float dt);
 	void GodMode(float dt);
 
 public:
-	iPoint player_position;
+	fPoint player_position;
 	bool god_mode;
 	float gravity;
 	fPoint player_speed;
@@ -98,7 +98,7 @@ private:
 	AnimationStruct* current_animation;
 	AnimationStruct die_animation;
 
-	void ChooseAnimation();
+	void ChooseAnimation(float dt);
 };
 
 #endif __j1PLAYER_H__

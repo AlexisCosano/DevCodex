@@ -7,6 +7,7 @@
 #include "j1Module.h"
 
 class j1Player;
+class j1PathFinding;
 
 // ----------------------------------------------------
 struct Properties
@@ -146,12 +147,14 @@ public:
 	void SpawnPoint(Layer* collision_layer);
 	void Death(Layer* collision_layer);
 	void Win(Layer* collision_layer);
+	void SpawnFlyingEnemy(Layer* collision_layer);
 
 public:
 	MapNode loaded_map;
 	iPoint current_spawn_point;
 	bool debug_mode_active = false;
 	j1Player* player;
+	j1PathFinding* pathfinding;
 
 private:
 	pugi::xml_document map_file;

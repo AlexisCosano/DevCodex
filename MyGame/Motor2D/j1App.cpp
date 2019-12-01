@@ -246,6 +246,11 @@ bool j1App::DoUpdate()
 
 	dt = (SDL_GetTicks() - last_frame_time)/1000.0f;
 	last_frame_time = SDL_GetTicks();
+
+	if (dt > 0.7f)
+	{
+		dt = 0.7f;
+	}
 	
 	for(item = modules.start; item != NULL && ret == true; item = item->next)
 	{

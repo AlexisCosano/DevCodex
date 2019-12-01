@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Player.h"
 #include "j1Collisions.h"
+#include "j1EntityManager.h"
 #include "j1Scene.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -96,7 +97,8 @@ bool j1Scene::Update(float dt)
 	{
 		map_to_load = 1;
 		LoadMap(map_to_load);
-		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_position.x = App->map->current_spawn_point.x;
+		App->map->player->player_position.y = App->map->current_spawn_point.y;
 		App->map->player->player_speed.SetToZero();
 	}
 
@@ -104,13 +106,15 @@ bool j1Scene::Update(float dt)
 	{
 		map_to_load = 2;
 		LoadMap(map_to_load);
-		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_position.x = App->map->current_spawn_point.x;
+		App->map->player->player_position.y = App->map->current_spawn_point.y;
 		App->map->player->player_speed.SetToZero();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_position.x = App->map->current_spawn_point.x;
+		App->map->player->player_position.y = App->map->current_spawn_point.y;
 		App->map->player->player_speed.SetToZero();
 	}
 		
@@ -146,7 +150,6 @@ bool j1Scene::Update(float dt)
 	}
 
 	App->map->Draw();
-	App->map->player->Draw(dt);
 
 	return true;
 }
@@ -158,6 +161,12 @@ bool j1Scene::PostUpdate()
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	if (HasWon)
+	{
+		WinnerWinner(); 
+		HasWon = false;
+	}
 
 	return ret;
 }
@@ -176,6 +185,7 @@ void j1Scene::LoadMap(int given_map)
 	{
 		App->map->CleanUp();
 		App->collisions->ClearColliders();
+		App->entity_manager->CleanUp();
 	}
 
 
@@ -198,14 +208,16 @@ void j1Scene::WinnerWinner()
 	{
 		map_to_load = 2;
 		LoadMap(map_to_load);
-		App->map->player->player_position = App->map->current_spawn_point;
+		App->map->player->player_position.x = App->map->current_spawn_point.x;
+		App->map->player->player_position.y = App->map->current_spawn_point.y;
 		App->map->player->player_speed.SetToZero();
 		return;
 	}
 
 	map_to_load = 1;
 	LoadMap(map_to_load);
-	App->map->player->player_position = App->map->current_spawn_point;
+	App->map->player->player_position.x = App->map->current_spawn_point.x;
+	App->map->player->player_position.y = App->map->current_spawn_point.y;
 	App->map->player->player_speed.SetToZero();
 }
 

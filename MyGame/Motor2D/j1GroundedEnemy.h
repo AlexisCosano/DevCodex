@@ -35,7 +35,7 @@ public:
 	bool Save(pugi::xml_node& module_node) const;
 	bool Load(pugi::xml_node& module_node);
 
-	void Draw(float dt);
+	bool Draw(float dt);
 
 public:
 

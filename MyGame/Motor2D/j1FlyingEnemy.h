@@ -27,6 +27,9 @@ public:
 
 	// Update
 	bool Update(float dt);
+		
+	bool PostUpdate();
+	void Reset();
 
 	// Called before quitting
 	bool CleanUp();
@@ -35,13 +38,18 @@ public:
 	bool Save(pugi::xml_node& module_node) const;
 	bool Load(pugi::xml_node& module_node);
 
-	void Draw(float dt);
+	bool Draw(float dt);
+	void SetPosition(iPoint position);
 
 public:
 
 
 private:
-
+	int range = 0;
+	SDL_Texture* texture;
+	SDL_Rect rect;
+	fPoint position;
+	iPoint spawn_point;
 };
 
 #endif __j1FLYING_ENEMY_H__
