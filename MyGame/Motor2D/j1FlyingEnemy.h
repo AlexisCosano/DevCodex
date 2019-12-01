@@ -47,7 +47,7 @@ public:
 private:
 	int range = 0;
 	SDL_Texture* texture;
-	SDL_Rect rect;
+	SDL_Rect texture_rect;
 	fPoint position;
 	iPoint spawn_point;
 };

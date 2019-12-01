@@ -2,6 +2,7 @@
 #define __j1ENTITY_H__
 
 #include "p2Point.h"
+#include "SDL/include/SDL_rect.h"
 
 struct SDL_Texture;
 
@@ -102,6 +103,7 @@ public:
 
 public:
 	Type type;
+	SDL_Rect rect;
 };
 
 #endif __j1ENTITY_H__

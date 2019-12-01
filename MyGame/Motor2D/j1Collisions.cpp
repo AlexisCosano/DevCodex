@@ -57,6 +57,11 @@ void j1Collisions::TriggerWin(SDL_Rect victory)
 	win_triggers.add(victory);
 }
 
+void j1Collisions::EnemyCollider(SDL_Rect enemy)
+{
+	enemy_colliders.add(enemy);
+}
+
 void j1Collisions::ClearColliders()
 {
 	death_triggers.clear();

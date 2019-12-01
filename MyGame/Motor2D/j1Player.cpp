@@ -15,6 +15,7 @@
 
 j1Player::j1Player() : j1Entity()
 {
+	rect = { 10, 10, 10, 10 };
 }
 
 // Destructor ---------------------------------
@@ -83,10 +84,10 @@ bool j1Player::Awake(pugi::xml_node& module_node)
 	gravity = module_node.child("attributes").attribute("gravity").as_float();
 	god_mode = module_node.child("attributes").attribute("god_mode").as_bool();
 
-	player_rect.x = module_node.child("rect").attribute("x").as_uint();
-	player_rect.y = module_node.child("rect").attribute("y").as_uint();
-	player_rect.w = module_node.child("rect").attribute("w").as_uint();
-	player_rect.h = module_node.child("rect").attribute("h").as_uint();
+	rect.x = module_node.child("rect").attribute("x").as_uint();
+	rect.y = module_node.child("rect").attribute("y").as_uint();
+	rect.w = module_node.child("rect").attribute("w").as_uint();
+	rect.h = module_node.child("rect").attribute("h").as_uint();
 
 	return ret;
 }
@@ -103,7 +104,7 @@ bool j1Player::Draw(float dt)
 
 	if (App->map->debug_mode_active)
 	{
-		App->render->DrawQuad(player_rect, 20, 220, 20, 255, false, true);
+		App->render->DrawQuad(rect, 20, 220, 20, 255, false, true);
 	}
 
 	frame_time += dt;
@@ -123,18 +124,18 @@ void j1Player::GodMode(float dt)
 	{
 		player_speed.y = 130.0f * dt;
 
-		player_rect.y -= player_speed.y;
+		rect.y -= player_speed.y;
 
 		SDL_Rect* collider = CheckCollisions(TOP);
 
 		if (collider == nullptr)
 		{
-			player_position.y = player_rect.y;
+			player_position.y = rect.y;
 		}
 		else
 		{
-			player_rect.y = collider->y + collider->h;
-			player_position.y = player_rect.y;
+			rect.y = collider->y + collider->h;
+			player_position.y = rect.y;
 		}
 	}
 
@@ -142,18 +143,18 @@ void j1Player::GodMode(float dt)
 	{
 		player_speed.y = 130.0f * dt;
 
-		player_rect.y += player_speed.y;
+		rect.y += player_speed.y;
 
 		SDL_Rect* collider = CheckCollisions(BOTTOM);
 
 		if (collider == nullptr)
 		{
-			player_position.y = player_rect.y;
+			player_position.y = rect.y;
 		}
 		else
 		{
-			player_rect.y = collider->y - player_rect.h;
-			player_position.y = player_rect.y;
+			rect.y = collider->y - rect.h;
+			player_position.y = rect.y;
 		}
 	}
 
@@ -181,13 +182,13 @@ void j1Player::ApplyGravity(float dt)
 	float g = player_speed.y * dt;
 
 	player_position.y += g;
-	player_rect.y = (int)player_position.y;
+	rect.y = (int)player_position.y;
 	SDL_Rect* collider = CheckCollisions(BOTTOM);
 
 	if (collider != nullptr)
 	{
-		player_rect.y = collider->y - player_rect.h;
-		player_position.y = player_rect.y;
+		rect.y = collider->y - rect.h;
+		player_position.y = rect.y;
 		player_speed.y = 0.0f;
 	}
 }
@@ -195,13 +196,13 @@ void j1Player::ApplyGravity(float dt)
 void j1Player::Jump(float dt)
 {
 	player_position.y += player_speed.y * dt;
-	player_rect.y = (int)player_position.y;
+	rect.y = (int)player_position.y;
 	SDL_Rect* collider = CheckCollisions(TOP);
 		
 	if (collider != nullptr)
 	{
-		player_rect.y = collider->y + collider->h;
-		player_position.y = player_rect.y;
+		rect.y = collider->y + collider->h;
+		player_position.y = rect.y;
 	}
 }
 
@@ -212,10 +213,39 @@ bool j1Player::HasPlayerDied()
 
 	for (item; item != App->collisions->death_triggers.end; item = item->next)
 	{
-		ret = App->collisions->CheckCollision(player_rect, item->data);
+		ret = App->collisions->CheckCollision(rect, item->data);
 
 		if (ret)
 			return ret;
+	}
+
+	return ret;
+}
+
+bool j1Player::IsCollidingWithEnemy()
+{
+	bool ret = false;
+	p2List_item<j1Entity*>* item = App->entity_manager->entities.start;
+
+	for (item; item != App->entity_manager->entities.end; item = item->next)
+	{
+		if (item->data == this)
+		{
+			continue;
+		}
+
+		ret = App->collisions->CheckCollision(rect, item->data->rect);
+		
+		if (ret)
+		{
+  			if (player_speed.y > 0.01f)
+			{
+				App->entity_manager->DestroyEntity(item->data);
+				return false;
+			}
+
+			return ret;
+		}
 	}
 
 	return ret;
@@ -228,7 +258,7 @@ bool j1Player::HasPlayerWon()
 
 	for (item; item != App->collisions->win_triggers.end; item = item->next)
 	{
-		ret = App->collisions->CheckCollision(player_rect, item->data);
+		ret = App->collisions->CheckCollision(rect, item->data);
 
 		if (ret)
 			return ret;
@@ -244,7 +274,7 @@ SDL_Rect* j1Player::CheckCollisions(Direction direction)
 
 	for (item; item != App->collisions->no_walkable_tiles.end; item = item->next)
 	{
-		ret = App->collisions->CheckCollision(player_rect, item->data);
+		ret = App->collisions->CheckCollision(rect, item->data);
 		
 		if (!ret)
 			continue;
@@ -252,22 +282,22 @@ SDL_Rect* j1Player::CheckCollisions(Direction direction)
 		switch (direction)
 		{
 		case BOTTOM:
-			if (player_rect.y + player_rect.h > item->data.y)
+			if (rect.y + rect.h > item->data.y)
 				return &item->data;
 			break;
 		
 		case TOP:
-			if (player_rect.y < item->data.y + item->data.h)
+			if (rect.y < item->data.y + item->data.h)
 				return &item->data;
 			break;
 
 		case RIGHT:
-			if (player_rect.x + player_rect.w > item->data.x)
+			if (rect.x + rect.w > item->data.x)
 				return &item->data;
 			break;
 
 		case LEFT:
-			if (player_rect.x < item->data.x + item->data.w)
+			if (rect.x < item->data.x + item->data.w)
 				return &item->data;
 			break;
 		}
@@ -295,22 +325,22 @@ bool j1Player::Update(float dt)
 		return ret;
 	}
 	
-	player_rect.x = player_position.x;
-	player_rect.y = player_position.y;
+	rect.x = player_position.x;
+	rect.y = player_position.y;
 		
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		player_speed.x = 130.0f * dt;
 
 		player_position.x -= player_speed.x;
-		player_rect.x = (int)player_position.x;
+		rect.x = (int)player_position.x;
 
 		SDL_Rect* collider = CheckCollisions(LEFT);
 
 		if (collider != nullptr)
 		{
-			player_rect.x = collider->x + collider->w;
-			player_position.x = player_rect.x;
+			rect.x = collider->x + collider->w;
+			player_position.x = rect.x;
 		}
 
 		flip = false;
@@ -321,23 +351,23 @@ bool j1Player::Update(float dt)
 		player_speed.x = 130.0f * dt;
 
 		player_position.x += player_speed.x;
-		player_rect.x = (int)player_position.x;
+		rect.x = (int)player_position.x;
 
 		SDL_Rect* collider = CheckCollisions(RIGHT);
 
 		if (collider != nullptr)
 		{
-			player_rect.x = collider->x - player_rect.w;
-			player_position.x = player_rect.x;
+			rect.x = collider->x - rect.w;
+			player_position.x = rect.x;
 		}
 		flip = true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
-		player_rect.y += 1;
+		rect.y += 1;
 		SDL_Rect* collider = CheckCollisions(BOTTOM);
-		player_rect.y = player_position.y;
+		rect.y = player_position.y;
 		if(collider != nullptr)
 		{
 			jump_animation.current_frame = 0;
@@ -366,7 +396,7 @@ bool j1Player::Update(float dt)
 		return true;
 	}
 
-	if (HasPlayerDied() == true)
+	if (IsCollidingWithEnemy() || HasPlayerDied() == true)
 	{
 		dead = true;
 		die_animation.current_frame = 0;

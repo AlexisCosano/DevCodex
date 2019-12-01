@@ -73,6 +73,7 @@ public:
 	SDL_Rect* CheckCollisions(Direction direction);
 	bool HasPlayerDied();
 	bool HasPlayerWon();
+	bool IsCollidingWithEnemy();
 	bool Draw(float dt);
 	void GodMode(float dt);
 
@@ -86,7 +87,6 @@ private:
 	p2SString player_folder;
 	SDL_Texture* player_texture;
 	SDL_Texture* die_texture;
-	SDL_Rect player_rect;
 
 	float frame_time = 0.0f;
 	bool flip = true;

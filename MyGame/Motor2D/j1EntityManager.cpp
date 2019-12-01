@@ -196,6 +196,8 @@ bool j1EntityManager::DestroyEntity(j1Entity * entity)
 		{
 			ret = item->data->CleanUp();
 			RELEASE(item->data);
+			entities.del(item);
+			return ret;
 		}
 
 		item = item->next;

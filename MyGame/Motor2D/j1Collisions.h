@@ -32,6 +32,7 @@ public:
 	void NoWalkable(SDL_Rect collider);
 	void TriggerDeath(SDL_Rect death);
 	void TriggerWin(SDL_Rect victory);
+	void EnemyCollider(SDL_Rect enemy);
 	void ClearColliders();
 
 	// Save & Load
@@ -42,6 +43,7 @@ public:
 	p2List<SDL_Rect> no_walkable_tiles;
 	p2List<SDL_Rect> death_triggers;
 	p2List<SDL_Rect> win_triggers;
+	p2List<SDL_Rect> enemy_colliders;
 };
 
 #endif // __j1COLLISIONS_H__

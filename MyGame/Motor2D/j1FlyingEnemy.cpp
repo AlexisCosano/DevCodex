@@ -13,7 +13,7 @@
 
 j1FlyingEnemy::j1FlyingEnemy() : j1Entity()
 {
-	rect = { 0, 0, 40, 29 };
+	texture_rect = { 0, 0, 40, 29 };
 }
 
 // Destructor ---------------------------------
@@ -59,7 +59,7 @@ bool j1FlyingEnemy::Update(float dt)
 
 		if (!path->Pop(next_pos))
 		{
-			return true;
+			next_pos = player_pos;
 		}
 		
 
@@ -75,6 +75,10 @@ bool j1FlyingEnemy::Update(float dt)
 		position -= fnext_pos * (80.0f * dt);
 	}
 
+	rect.x = position.x;
+	rect.y = position.y;
+	rect.w = 16;
+	rect.h = 16;
 
 	return true;
 }
@@ -101,7 +105,7 @@ bool j1FlyingEnemy::Load(pugi::xml_node & module_node)
 
 bool j1FlyingEnemy::Draw(float dt)
 {
-	App->render->Blit(texture, position.x, position.y, &rect);
+	App->render->Blit(texture, position.x, position.y, &texture_rect);
 
 	return true;
 }
