@@ -27,6 +27,8 @@ When in God mode:
 - S = Move down
 - D = Move right
 
+To kill the enemies: you need to be falling down on them and you will not bounce off of them, you will fall down as you'do performing a regular jump.
+
 ----------------------------------------------------------------------
 
 Debug options:
@@ -38,6 +40,7 @@ Debug options:
 - F6 = Load saved state
 - F9 = Debug mode
 - F10 = God mode
+- F11 = Alternate between FPS capped at 30 or 60
 
 Goal = get to the end of the level, it's lineal so, you'll eventually find it. (Hint: if you see boxes, it means that the level is coming to an end!)
 
@@ -49,6 +52,12 @@ Known issues:
 - There are no sound effects (yet!).
 - You cannot win while using God mode at the moment.
 - It's lacking feedback, but it will improve soon!
+- The enemies don't respawn when the player dies, only when the level resets.
+- There is no grounded enemy.
+- The flying enemy doesn't have animations.
+- DO NOT resize or move around the game's window. If you do so, the player will fall endlessly and you will have to reset the level.
+- The enemies' states are currently not saved.
+- The enemies and the environment can start vibrating on specific spaces of the level.
 
 ----------------------------------------------------------------------
 
