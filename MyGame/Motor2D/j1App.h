@@ -20,6 +20,7 @@ class j1Collisions;
 class j1Player;
 class j1EntityManager;
 class j1PathFinding;
+class j1GUI;
 
 class j1App
 {
@@ -87,6 +88,7 @@ public:
 	j1Collisions* collisions;
 	j1EntityManager* entity_manager;
 	j1PathFinding* pathfinding;
+	j1GUI* gui;
 
 	mutable bool request_save = false;
 	bool request_load = false;

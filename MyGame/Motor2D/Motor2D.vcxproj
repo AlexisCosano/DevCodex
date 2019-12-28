@@ -14,7 +14,7 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>MyGame</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,6 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="j1GUI.cpp" />
+    <ClCompile Include="j1GUIButton.cpp" />
+    <ClCompile Include="j1GUIElement.cpp" />
+    <ClCompile Include="j1GUIImage.cpp" />
+    <ClCompile Include="j1GUIScrollbar.cpp" />
+    <ClCompile Include="j1GUIText.cpp" />
     <ClCompile Include="j1Collisions.cpp" />
     <ClCompile Include="j1EntityManager.cpp" />
     <ClCompile Include="j1FlyingEnemy.cpp" />
@@ -98,6 +104,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brofiler\Brofiler\Brofiler.h" />
+    <ClInclude Include="j1GUI.h" />
+    <ClInclude Include="j1GUIButton.h" />
+    <ClInclude Include="j1GUIElement.h" />
+    <ClInclude Include="j1GUIImage.h" />
+    <ClInclude Include="j1GUIScrollbar.h" />
+    <ClInclude Include="j1GUIText.h" />
     <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1Collisions.h" />
     <ClInclude Include="j1EntityManager.h" />
